@@ -1,0 +1,118 @@
+package com.alex.mirash.boogietapcounter.settings;
+
+import android.util.Log;
+
+import com.alex.mirash.boogietapcounter.BoogieApp;
+import com.alex.mirash.boogietapcounter.tapper.tool.PreferencesManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Mirash
+ */
+
+public class Settings {
+    public static final String KEY_TAP_MODE = "tap_mode";
+    public static final String KEY_TEMP_UNIT = "unit";
+    public static final String KEY_AUTO_REFRESH_TIME = "refresh_time";
+
+    private SettingTapMode tapMode;
+    private SettingUnit unit;
+    private SettingAutoRefreshTime autoRefreshTime;
+
+    public Settings() {
+        loadFromPreferences();
+    }
+
+    private void loadFromPreferences() {
+        tapMode = PreferencesManager.getTapMode();
+        unit = PreferencesManager.getUnit();
+        autoRefreshTime = PreferencesManager.getAutoRefreshTime();
+    }
+
+    public SettingTapMode getTapMode() {
+        return tapMode;
+    }
+
+    public void setTapMode(SettingTapMode mode) {
+        tapMode = mode;
+        PreferencesManager.setTapMode(mode);
+        notifySettingChange(mode, tapModeObservers);
+    }
+
+    public SettingUnit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(SettingUnit value) {
+        unit = value;
+        PreferencesManager.setUnit(value);
+        notifySettingChange(value, unitChangeObservers);
+    }
+
+    public SettingAutoRefreshTime getAutoRefreshTime() {
+        return autoRefreshTime;
+    }
+
+    public void setAutoRefreshTime(SettingAutoRefreshTime time) {
+        autoRefreshTime = time;
+        PreferencesManager.setAutoRefreshTime(time);
+        notifySettingChange(time, timeChangeObservers);
+    }
+
+    public static Settings get() {
+        return BoogieApp.getInstance().getSettings();
+    }
+
+
+    //observerable part TODO
+    private List<SettingChangeObserver<SettingTapMode>> tapModeObservers;
+    private List<SettingChangeObserver<SettingUnit>> unitChangeObservers;
+    private List<SettingChangeObserver<SettingAutoRefreshTime>> timeChangeObservers;
+
+    public void addUnitObserver(SettingChangeObserver<SettingUnit> observer) {
+        if (unitChangeObservers == null) {
+            unitChangeObservers = new ArrayList<>();
+        }
+        unitChangeObservers.add(observer);
+    }
+
+    public void addTapModeObserver(SettingChangeObserver<SettingTapMode> observer) {
+        if (tapModeObservers == null) {
+            tapModeObservers = new ArrayList<>();
+        }
+        tapModeObservers.add(observer);
+    }
+
+    public void addTimeObserver(SettingChangeObserver<SettingAutoRefreshTime> observer) {
+        if (timeChangeObservers == null) {
+            timeChangeObservers = new ArrayList<>();
+        }
+        timeChangeObservers.add(observer);
+    }
+
+    public void clearObservers() {
+        if (tapModeObservers != null) {
+            tapModeObservers.clear();
+            tapModeObservers = null;
+        }
+        if (unitChangeObservers != null) {
+            unitChangeObservers.clear();
+            unitChangeObservers = null;
+        }
+        if (timeChangeObservers != null) {
+            timeChangeObservers.clear();
+            timeChangeObservers = null;
+        }
+    }
+
+    private <T> void notifySettingChange(T setting, List<SettingChangeObserver<T>> observers) {
+        if (observers != null) {
+            for (SettingChangeObserver<T> observer : observers) {
+                Log.d("LOL", "notify: " + observer.getClass().getSimpleName() + ", " + setting);
+                observer.onSettingChanged(setting);
+            }
+        }
+    }
+}

@@ -1,0 +1,111 @@
+package com.alex.mirash.boogietapcounter;
+
+import android.graphics.PorterDuff;
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+import com.alex.mirash.boogietapcounter.tapper.controller.TapCountController;
+import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
+import com.alex.mirash.boogietapcounter.tapper.tool.BpmUpdateListener;
+import com.alex.mirash.boogietapcounter.tapper.view.TapCountView;
+import com.alex.mirash.boogietapcounter.tapper.view.setting.SettingsView;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    private TapCountView tapCountView;
+    private TapCountController tapCountController;
+    private View contentView;
+
+    private DrawerLayout drawer;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        contentView = findViewById(R.id.content_main);
+        drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                Log.d("LOL", contentView.getWidth() + ", " + (contentView.getWidth() * 0.3f));
+                contentView.setTranslationX(contentView.getWidth() * 0.25f * slideOffset);
+            }
+        });
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.addHeaderView(new SettingsView(this));
+
+        initTapController();
+    }
+
+    private void initTapController() {
+        tapCountController = new TapCountController();
+        tapCountView = (TapCountView) findViewById(R.id.tap_counter_view);
+        tapCountView.setTapControlListener(tapCountController);
+        tapCountController.addBpmUpdateObserver(new BpmUpdateListener<DataHolder>() {
+            @Override
+            public void onBpmUpdate(DataHolder data) {
+                tapCountView.setData(data);
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem item = menu.findItem(R.id.action_refresh);
+        item.getIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_refresh) {
+            tapCountController.refresh();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.nav_termines:
+                break;
+            case R.id.nav_about:
+                break;
+        }
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+}

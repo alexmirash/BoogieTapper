@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <com.alex.mirash.boogietapcounter.tapper.view.output.OutputCellView
+        android:id="@+id/data_output_temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <com.alex.mirash.boogietapcounter.tapper.view.output.OutputCellView
+        android:id="@+id/data_output_bpm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <com.alex.mirash.boogietapcounter.tapper.view.output.OutputCellSmallView
+        android:id="@+id/data_output_interval_temp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <com.alex.mirash.boogietapcounter.tapper.view.output.OutputCellSmallView
+        android:id="@+id/data_output_interval_bpm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+</LinearLayout>
+

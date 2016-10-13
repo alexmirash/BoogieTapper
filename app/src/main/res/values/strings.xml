@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Буги Тапалка</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="settings_tap_mode_label">Тапать каждый</string>
+    <string-array name="tap_modes">
+        <item>бит</item>
+        <item>2й счёт</item>
+        <item>4й счёт</item>
+        <item>8й счёт</item>
+    </string-array>
+
+    <string name="settings_unit_label">Еденицы темпа</string>
+    <string-array name="temp_units">
+        <item>бит</item>
+        <item>Такт (4 счета)</item>
+        <item>Восьмёрка (8 счетов) </item>
+    </string-array>
+
+    <string name="settings_refresh_time_label">Авто прекращать</string>
+    <string-array name="refresh_times">
+        <item>2 сек</item>
+        <item>3 сек</item>
+        <item>4 сек</item>
+        <item>5 сек</item>
+        <item>никогда</item>
+    </string-array>
+
+    <string name="output_bpm_label">bpm:</string>
+    <string name="output_temp_label">Темп:</string>
+    <string name="output_beat_interval_label">Интервал (такты), сек:</string>
+    <string name="output_temp_interval_label">Интервал (темп), сек:</string>
+
+    <string name="tap_button_label">Тапни меня</string>
+</resources>
