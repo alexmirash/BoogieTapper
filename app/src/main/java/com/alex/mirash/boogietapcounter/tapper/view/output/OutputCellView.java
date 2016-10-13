@@ -1,6 +1,8 @@
 package com.alex.mirash.boogietapcounter.tapper.view.output;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -39,6 +41,10 @@ public class OutputCellView extends FrameLayout {
     }
 
     public void highlight() {
-        setValueText("!" + valueView.getText() + "!");
+        valueView.setPaintFlags(valueView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+    }
+
+    public void clearEffects() {
+        valueView.setPaintFlags(valueView.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
     }
 }

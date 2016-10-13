@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
@@ -48,6 +47,8 @@ public class DataOutputView extends LinearLayout {
         bpmView.setValueText("--");
         bpmIntervalView.setValueText("--");
         tempIntervalView.setValueText("--");
+
+        tempView.clearEffects();
     }
 
     public void highlight() {

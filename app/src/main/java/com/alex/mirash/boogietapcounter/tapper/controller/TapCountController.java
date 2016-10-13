@@ -32,13 +32,23 @@ public class TapCountController implements TapControlListener, BpmStrategyListen
             protected void onIdle() {
                 Log.d("LOL", "onIdle");
                 Toast.makeText(BoogieApp.getInstance(), "IDLEEEE", Toast.LENGTH_SHORT).show();
-                strategy.refresh();
-                idleHandler.clear();
-                if (listener != null) {
-                    listener.onIdle();
-                }
+                stopMeasurementInternal();
             }
         };
+    }
+
+    private void stopMeasurementInternal() {
+        strategy.refresh();
+        idleHandler.clear();
+        if (listener != null) {
+            listener.onIdle();
+        }
+    }
+
+    public void stopMeasurement() {
+        if (strategy.isMeasuring()) {
+            stopMeasurementInternal();
+        }
     }
 
     public void refresh() {

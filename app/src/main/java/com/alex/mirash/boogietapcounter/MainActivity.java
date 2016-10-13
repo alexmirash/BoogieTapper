@@ -52,6 +52,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 contentView.setTranslationX(contentView.getWidth() * DRAWER_PARALLAX_RATIO * slideOffset);
             }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                tapCountController.stopMeasurement();
+            }
         });
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);

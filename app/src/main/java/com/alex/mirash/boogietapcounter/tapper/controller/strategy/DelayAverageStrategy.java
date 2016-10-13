@@ -16,7 +16,6 @@ public class DelayAverageStrategy extends BpmCalculateStrategy {
 
     private long firstTapTime;
 
-
     @Override
     public void refresh() {
         super.refresh();
@@ -33,6 +32,7 @@ public class DelayAverageStrategy extends BpmCalculateStrategy {
             tapTime = curTapTime;
             firstTapTime = curTapTime;
 
+            setIsMeasuring(true);
             notifyNewMeasurementStarted();
         } else {
             long tapInterval = curTapTime - tapTime;
