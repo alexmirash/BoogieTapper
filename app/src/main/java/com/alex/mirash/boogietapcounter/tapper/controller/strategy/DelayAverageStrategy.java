@@ -11,7 +11,7 @@ import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 public class DelayAverageStrategy extends BpmCalculateStrategy {
 
     private long tapTime;
-    private int intevalsCount;
+    private int intervalsCount;
     private float averageTapInterval;
 
     private long firstTapTime;
@@ -20,7 +20,7 @@ public class DelayAverageStrategy extends BpmCalculateStrategy {
     public void refresh() {
         super.refresh();
         tapTime = 0;
-        intevalsCount = 0;
+        intervalsCount = 0;
         averageTapInterval = 0;
         firstTapTime = 0;
     }
@@ -37,12 +37,12 @@ public class DelayAverageStrategy extends BpmCalculateStrategy {
         } else {
             long tapInterval = curTapTime - tapTime;
             tapTime = curTapTime;
-            averageTapInterval = (averageTapInterval * intevalsCount + tapInterval) / (intevalsCount + 1);
+            averageTapInterval = (averageTapInterval * intervalsCount + tapInterval) / (intervalsCount + 1);
 
             data.setBpm(Settings.get().getTapMode().getBeats() * Const.MILLIS_IN_MINUTE / averageTapInterval);
             calcAdditionalStats(tapInterval);
 
-            intevalsCount++;
+            intervalsCount++;
 
             notifyBpmUpdated();
         }
@@ -66,16 +66,16 @@ public class DelayAverageStrategy extends BpmCalculateStrategy {
                 details.setMaxDispersion(dispersion);
             }
             float averageDispersion = details.getAverageDispersion();
-            if (averageDispersion == 0 && intevalsCount == 1) {
+            if (averageDispersion == 0 && intervalsCount == 1) {
                 details.setAverageDispersion(dispersion);
             } else {
-                details.setAverageDispersion((averageDispersion * intevalsCount + dispersion) / (intevalsCount + 1));
+                details.setAverageDispersion((averageDispersion * intervalsCount + dispersion) / (intervalsCount + 1));
             }
         }
 
-        details.setIntervalsCount(intevalsCount + 1);
+        details.setIntervalsCount(intervalsCount + 1);
         details.setTotalTime(tapTime - firstTapTime);
-     /*   if (averageTapInterval > 0 && intevalsCount > 0) {
+     /*   if (averageTapInterval > 0 && intervalsCount > 0) {
             float dispersion;
             if (tapInterval > averageTapInterval) {
                 dispersion = tapInterval / averageTapInterval;

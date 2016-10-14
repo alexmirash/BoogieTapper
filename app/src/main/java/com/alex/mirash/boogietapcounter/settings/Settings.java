@@ -81,6 +81,12 @@ public class Settings {
         unitChangeObservers.add(observer);
     }
 
+    public void removeUnitObserver(SettingChangeObserver<SettingUnit> observer) {
+        if (unitChangeObservers != null) {
+            unitChangeObservers.remove(observer);
+        }
+    }
+
     public void addTapModeObserver(SettingChangeObserver<SettingTapMode> observer) {
         if (tapModeObservers == null) {
             tapModeObservers = new ArrayList<>();
@@ -113,7 +119,7 @@ public class Settings {
     private <T> void notifySettingChange(T setting, List<SettingChangeObserver<T>> observers) {
         if (observers != null) {
             for (SettingChangeObserver<T> observer : observers) {
-                Log.d("LOL", "notify: " + observer.getClass().getSimpleName() + ", " + setting);
+                Log.d("WTF", "notify: " + observer.getClass().getSimpleName() + ", " + setting);
                 observer.onSettingChanged(setting);
             }
         }

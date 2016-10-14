@@ -9,5 +9,5 @@ import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
 public interface EventsListener extends BpmStrategyListener {
     void onRefresh();
 
-    void onIdle(DataHolder resultData);
+    void onMeasurementStopped(DataHolder resultData);
 }

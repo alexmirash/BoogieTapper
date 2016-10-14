@@ -15,33 +15,33 @@ import com.alex.mirash.boogietapcounter.tapper.tool.TapControlListener;
  * @author Mirash
  */
 
-public class TapCountController implements TapControlListener, BpmStrategyListener {
+public class BeatController implements TapControlListener, BpmStrategyListener {
     private BpmCalculateStrategy strategy;
     private IdleHandler idleHandler;
 
     private EventsListener listener;
 
-    private DataHolder previousDataHolder;
+    private DataHolder resultDataHolder;
 
-    public TapCountController() {
+    public BeatController() {
         strategy = new DelayAverageStrategy();
         strategy.setBpmUpdateListener(this);
 
         idleHandler = new IdleHandler() {
             @Override
             protected void onIdle() {
-                Log.d("LOL", "onIdle");
+                Log.d("LOL", "onMeasurementStopped");
                 stopMeasurementInternal();
             }
         };
     }
 
     private void stopMeasurementInternal() {
-        previousDataHolder = strategy.getData();
+        setResultDataHolder(strategy.getData());
         strategy.refresh();
         idleHandler.clear();
         if (listener != null) {
-            listener.onIdle(previousDataHolder);
+            listener.onMeasurementStopped(resultDataHolder);
         }
     }
 
@@ -53,6 +53,7 @@ public class TapCountController implements TapControlListener, BpmStrategyListen
 
     public void refresh() {
         strategy.refresh();
+        setResultDataHolder(strategy.getData());
         idleHandler.clear();
         if (listener != null) {
             listener.onRefresh();
@@ -80,6 +81,7 @@ public class TapCountController implements TapControlListener, BpmStrategyListen
 
     @Override
     public void onNewMeasurementStarted() {
+        setResultDataHolder(strategy.getData());
         if (listener != null) {
             listener.onNewMeasurementStarted();
         }
@@ -87,5 +89,13 @@ public class TapCountController implements TapControlListener, BpmStrategyListen
 
     public void setListener(EventsListener eventsListener) {
         listener = eventsListener;
+    }
+
+    private void setResultDataHolder(DataHolder data) {
+        resultDataHolder = data;
+    }
+
+    public DataHolder getData() {
+        return resultDataHolder;
     }
 }

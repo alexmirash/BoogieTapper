@@ -17,7 +17,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 
-import com.alex.mirash.boogietapcounter.tapper.controller.TapCountController;
+import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
+import com.alex.mirash.boogietapcounter.settings.SettingUnit;
+import com.alex.mirash.boogietapcounter.settings.Settings;
+import com.alex.mirash.boogietapcounter.tapper.controller.BeatController;
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
 import com.alex.mirash.boogietapcounter.tapper.tool.ActivityActionProvider;
 import com.alex.mirash.boogietapcounter.tapper.tool.EventsListener;
@@ -30,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static final float DRAWER_PARALLAX_RATIO = 0.25f;
 
-    private TapCountController tapCountController;
+    private BeatController beatController;
     private View contentContainerView;
     private Button tapButton;
     private DataOutputView outputView;
@@ -41,6 +44,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private Animation refreshAnimation;
     private NavigationView navigationView;
+
+    private final SettingChangeObserver<SettingUnit> unitUpdateForOldDataObserver = new SettingChangeObserver<SettingUnit>() {
+        @Override
+        public void onSettingChanged(SettingUnit setting) {
+            outputView.highlight();
+            outputView.setData(beatController.getData());
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                tapCountController.stopMeasurement();
+                beatController.stopMeasurement();
             }
         });
         toggle.syncState();
@@ -84,13 +95,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initTapElements() {
-        tapCountController = new TapCountController();
-        tapCountController.setListener(this);
+        beatController = new BeatController();
+        beatController.setListener(this);
         tapButton = (Button) findViewById(R.id.tap_button);
         tapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tapCountController.onTap();
+                beatController.onTap();
             }
         });
         outputView = (DataOutputView) findViewById(R.id.data_output_view);
@@ -125,7 +136,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (refreshView != null) {
                 refreshView.startAnimation(refreshAnimation);
             }
-            tapCountController.refresh();
+            Settings.get().removeUnitObserver(unitUpdateForOldDataObserver);
+            beatController.refresh();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -160,6 +172,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onNewMeasurementStarted() {
         outputView.refresh();
+        Settings.get().removeUnitObserver(unitUpdateForOldDataObserver);
+    }
+
+    @Override
+    public void onMeasurementStopped(DataHolder resultData) {
+        if (resultData != null && resultData.getDetails().getIntervalsCount() > 0) {
+            outputView.highlight();
+            Settings.get().addUnitObserver(unitUpdateForOldDataObserver);
+        }
     }
 
     @Override
@@ -170,13 +191,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onRefresh() {
         outputView.refresh();
-    }
-
-    @Override
-    public void onIdle(DataHolder resultData) {
-        if (resultData != null && resultData.getDetails().getIntervalsCount() > 0) {
-            outputView.highlight();
-        }
     }
 
     // ActivityActionsProvider

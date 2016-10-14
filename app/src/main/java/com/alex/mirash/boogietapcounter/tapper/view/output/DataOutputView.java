@@ -6,6 +6,9 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import com.alex.mirash.boogietapcounter.R;
+import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
+import com.alex.mirash.boogietapcounter.settings.SettingUnit;
+import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
 
 /**
@@ -13,13 +16,15 @@ import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
  */
 
 @SuppressLint("DefaultLocale")
-public class DataOutputView extends LinearLayout {
+public class DataOutputView extends LinearLayout implements SettingChangeObserver<SettingUnit> {
     private OutputCellView tempView;
     private OutputCellView bpmView;
     private OutputCellView tempIntervalView;
     private OutputCellView bpmIntervalView;
 
     private String emptyString;
+
+    private boolean isHighlighted;
 
     public DataOutputView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -38,6 +43,10 @@ public class DataOutputView extends LinearLayout {
         tempIntervalView.setLabelText(getResources().getString(R.string.output_temp_interval_label));
 
         refresh();
+
+        if (!isInEditMode()) {
+            Settings.get().addUnitObserver(this);
+        }
     }
 
     public void setData(DataHolder data) {
@@ -48,12 +57,15 @@ public class DataOutputView extends LinearLayout {
     }
 
     public void refresh() {
+        if (isHighlighted) {
+            isHighlighted = false;
+            tempView.clearEffects();
+            bpmView.clearEffects();
+        }
         tempView.setValueText(emptyString);
         bpmView.setValueText(emptyString);
         bpmIntervalView.setValueText(emptyString);
         tempIntervalView.setValueText(emptyString);
-
-        tempView.clearEffects();
     }
 
     public void setTemp(float temp) {
@@ -72,9 +84,30 @@ public class DataOutputView extends LinearLayout {
         tempIntervalView.setValue(interval);
     }
 
-    //TODO
     public void highlight() {
-        tempView.highlight();
+        if (!isHighlighted) {
+            isHighlighted = true;
+            tempView.highlight();
+            if (tempView.getVisibility() != VISIBLE) {
+                bpmView.highlight();
+            }
+        }
     }
 
+    @Override
+    public void onSettingChanged(SettingUnit setting) {
+        if (setting == SettingUnit.BEAT) {
+            tempView.setVisibility(GONE);
+            tempIntervalView.setVisibility(GONE);
+            if (isHighlighted) {
+                bpmView.highlight();
+            }
+        } else {
+            tempView.setVisibility(VISIBLE);
+            tempIntervalView.setVisibility(VISIBLE);
+            if (isHighlighted) {
+                bpmView.clearEffects();
+            }
+        }
+    }
 }
