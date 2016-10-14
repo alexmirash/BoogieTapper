@@ -1,5 +1,6 @@
 package com.alex.mirash.boogietapcounter.tapper.data;
 
+import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 
 /**
@@ -16,7 +17,7 @@ public class DataHolder {
     }
 
     public float getTemp() {
-        return bpm / 4f;
+        return bpm / Settings.get().getUnit().getBeats();
     }
 
     public float getBpm() {
@@ -33,5 +34,9 @@ public class DataHolder {
 
     public ExtendedStats getDetails() {
         return details;
+    }
+
+    public float getTempUnitsInterval() {
+        return getBeatsInterval() * Settings.get().getUnit().getBeats();
     }
 }

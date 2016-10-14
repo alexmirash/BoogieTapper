@@ -1,6 +1,6 @@
 package com.alex.mirash.boogietapcounter.tapper.data;
 
-import com.alex.mirash.boogietapcounter.tapper.tool.ConvertUtils;
+import com.alex.mirash.boogietapcounter.tapper.tool.Utils;
 
 /**
  * @author Mirash
@@ -14,7 +14,7 @@ public class ExtendedStats {
     private float averageDispersion;   //среднее отклонение
     private float maxDispersion;   //максимальное отклонение от среднего значения темпа
 
-    private int tapsCount;  //количество тапов
+    private int intervalsCount;  //количество интервалов между тапами
     private long totalTime; //время от первого до последнего тапа
     private float averageTapInterval;
 
@@ -50,12 +50,12 @@ public class ExtendedStats {
         this.maxDispersion = maxDispersion;
     }
 
-    public int getTapsCount() {
-        return tapsCount;
+    public int getIntervalsCount() {
+        return intervalsCount;
     }
 
-    public void setTapsCount(int tapsCount) {
-        this.tapsCount = tapsCount;
+    public void setIntervalsCount(int tapsCount) {
+        this.intervalsCount = tapsCount;
     }
 
     public long getTotalTime() {
@@ -67,11 +67,11 @@ public class ExtendedStats {
     }
 
     public float getMinTemp() {
-        return ConvertUtils.getTempInUnits(maxTapInterval);
+        return Utils.getTempInUnits(maxTapInterval);
     }
 
     public float getMaxTemp() {
-        return ConvertUtils.getTempInUnits(minTapInterval);
+        return Utils.getTempInUnits(minTapInterval);
     }
 
     public void setAverageTapInterval(float averageTapInterval) {

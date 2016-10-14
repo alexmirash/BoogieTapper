@@ -1,5 +1,7 @@
 package com.alex.mirash.boogietapcounter.tapper.tool;
 
+import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
+
 /**
  * @author Mirash
  */
@@ -7,5 +9,5 @@ package com.alex.mirash.boogietapcounter.tapper.tool;
 public interface EventsListener extends BpmStrategyListener {
     void onRefresh();
 
-    void onIdle();
+    void onIdle(DataHolder resultData);
 }

@@ -1,13 +1,14 @@
 package com.alex.mirash.boogietapcounter.tapper.view.output;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.alex.mirash.boogietapcounter.R;
+import com.alex.mirash.boogietapcounter.tapper.tool.Utils;
 
 /**
  * @author Mirash
@@ -16,6 +17,8 @@ import com.alex.mirash.boogietapcounter.R;
 public class OutputCellView extends FrameLayout {
     protected TextView labelView;
     protected TextView valueView;
+
+    protected int format = 2;
 
     public OutputCellView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -32,8 +35,9 @@ public class OutputCellView extends FrameLayout {
         valueView.setText(valueText);
     }
 
-    public void setValue() {
-
+    @SuppressLint("DefaultLocale")
+    public void setValue(float value) {
+        setValueText(String.valueOf(Utils.round(value, format)));
     }
 
     public void setLabelText(String labelText) {

@@ -13,6 +13,7 @@ public class OutputCellSmallView extends OutputCellView {
 
     public OutputCellSmallView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        format = 3;
     }
 
     protected int getLayoutId() {

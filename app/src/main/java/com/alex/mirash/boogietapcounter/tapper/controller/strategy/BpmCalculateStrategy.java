@@ -53,4 +53,8 @@ public abstract class BpmCalculateStrategy implements TapControlListener {
             dataUpdateListener.onNewMeasurementStarted();
         }
     }
+
+    public DataHolder getData() {
+        return data;
+    }
 }

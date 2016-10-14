@@ -1,9 +1,7 @@
 package com.alex.mirash.boogietapcounter.tapper.controller;
 
 import android.util.Log;
-import android.widget.Toast;
 
-import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.tapper.controller.delay.IdleHandler;
 import com.alex.mirash.boogietapcounter.tapper.controller.strategy.BpmCalculateStrategy;
@@ -23,6 +21,8 @@ public class TapCountController implements TapControlListener, BpmStrategyListen
 
     private EventsListener listener;
 
+    private DataHolder previousDataHolder;
+
     public TapCountController() {
         strategy = new DelayAverageStrategy();
         strategy.setBpmUpdateListener(this);
@@ -31,17 +31,17 @@ public class TapCountController implements TapControlListener, BpmStrategyListen
             @Override
             protected void onIdle() {
                 Log.d("LOL", "onIdle");
-                Toast.makeText(BoogieApp.getInstance(), "IDLEEEE", Toast.LENGTH_SHORT).show();
                 stopMeasurementInternal();
             }
         };
     }
 
     private void stopMeasurementInternal() {
+        previousDataHolder = strategy.getData();
         strategy.refresh();
         idleHandler.clear();
         if (listener != null) {
-            listener.onIdle();
+            listener.onIdle(previousDataHolder);
         }
     }
 
@@ -62,7 +62,7 @@ public class TapCountController implements TapControlListener, BpmStrategyListen
     @Override
     public void onTap() {
         strategy.onTap();
-        if (Settings.get().getIsAutoRefresh()){
+        if (Settings.get().getIsAutoRefresh()) {
             idleHandler.updateHandler();
         }
     }

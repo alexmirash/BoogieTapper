@@ -173,8 +173,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onIdle() {
-        outputView.highlight();
+    public void onIdle(DataHolder resultData) {
+        if (resultData != null && resultData.getDetails().getIntervalsCount() > 0) {
+            outputView.highlight();
+        }
     }
 
     // ActivityActionsProvider
