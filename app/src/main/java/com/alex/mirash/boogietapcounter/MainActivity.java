@@ -1,11 +1,13 @@
 package com.alex.mirash.boogietapcounter;
 
+import android.content.DialogInterface;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,23 +19,28 @@ import android.widget.Button;
 
 import com.alex.mirash.boogietapcounter.tapper.controller.TapCountController;
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
+import com.alex.mirash.boogietapcounter.tapper.tool.ActivityActionProvider;
 import com.alex.mirash.boogietapcounter.tapper.tool.EventsListener;
+import com.alex.mirash.boogietapcounter.tapper.view.info.InfoScreenView;
 import com.alex.mirash.boogietapcounter.tapper.view.output.DataOutputView;
 import com.alex.mirash.boogietapcounter.tapper.view.setting.SettingsView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        EventsListener {
+        EventsListener, ActivityActionProvider {
 
     private static final float DRAWER_PARALLAX_RATIO = 0.25f;
 
     private TapCountController tapCountController;
-    private View contentView;
+    private View contentContainerView;
     private Button tapButton;
     private DataOutputView outputView;
 
     private DrawerLayout drawer;
 
+    private InfoScreenView screenInfo;
+
     private Animation refreshAnimation;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +53,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
-        contentView = findViewById(R.id.content_main);
+        contentContainerView = findViewById(R.id.content_container);
         drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                contentView.setTranslationX(contentView.getWidth() * DRAWER_PARALLAX_RATIO * slideOffset);
+                contentContainerView.setTranslationX(contentContainerView.getWidth() * DRAWER_PARALLAX_RATIO * slideOffset);
             }
 
             @Override
@@ -59,13 +66,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         toggle.syncState();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.addHeaderView(new SettingsView(this));
 
         initTapElements();
 
         refreshAnimation = AnimationUtils.loadAnimation(this, R.anim.refresh_menu_item_anim);
+
+        screenInfo = (InfoScreenView) findViewById(R.id.screen_info);
+        screenInfo.setActionProvider(this);
     }
 
     @Override
@@ -74,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void initTapElements() {
+        tapCountController = new TapCountController();
+        tapCountController.setListener(this);
         tapButton = (Button) findViewById(R.id.tap_button);
         tapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,17 +94,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         outputView = (DataOutputView) findViewById(R.id.data_output_view);
-        tapCountController = new TapCountController();
-        tapCountController.setListener(this);
     }
 
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+            return;
         }
+        if (screenInfo.isVisible()) {
+            screenInfo.hide();
+            return;
+        }
+        super.onBackPressed();
     }
 
     @Override
@@ -107,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            View refreshView = findViewById(R.id.action_refresh);
+            View refreshView = getRefreshButton();
             if (refreshView != null) {
                 refreshView.startAnimation(refreshAnimation);
             }
@@ -123,15 +137,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_termines:
+            case R.id.nav_menu_info:
+                screenInfo.show();
                 break;
-            case R.id.nav_about:
+            case R.id.nav_menu_about:
+                new AlertDialog.Builder(this)
+                        .setTitle("А шо це")
+                        .setView(R.layout.dialog_about_content)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // continue with delete
+                            }
+                        })
+                        .show();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
+    // EventsListener
     @Override
     public void onNewMeasurementStarted() {
         outputView.refresh();
@@ -150,5 +175,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onIdle() {
         outputView.highlight();
+    }
+
+    // ActivityActionsProvider
+    @Override
+    public void onBack() {
+        onBackPressed();
+    }
+
+    @Override
+    public View getRefreshButton() {
+        return findViewById(R.id.action_refresh);
+    }
+
+    @Override
+    public Menu getNavigationMenu() {
+        return navigationView.getMenu();
     }
 }

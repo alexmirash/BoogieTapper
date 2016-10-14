@@ -3,26 +3,29 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_termines"
-            android:icon="@drawable/ic_menu_share"
-            android:title="Шо тут такое написано"/>
-        <item
-            android:id="@+id/nav_about"
-            android:icon="@android:drawable/ic_menu_info_details"
-            android:title="Эбаут"/>
-    </group>
+            android:id="@+id/nav_menu_info"
+            android:icon="@drawable/menu_icon_info"
+            android:title="Шо тут такое написано"
+            />
 
-<!--    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share"/>
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send"/>
-        </menu>
-    </item>-->
+    </group>
+    <item
+        android:id="@+id/nav_menu_about"
+        android:icon="@drawable/menu_icon_dancer"
+        android:title="Эбаут"
+        />
+
+    <!--    <item android:title="Communicate">
+            <menu>
+                <item
+                    android:id="@+id/nav_share"
+                    android:icon="@drawable/ic_menu_share"
+                    android:title="Share"/>
+                <item
+                    android:id="@+id/nav_send"
+                    android:icon="@drawable/ic_menu_send"
+                    android:title="Send"/>
+            </menu>
+        </item>-->
 
 </menu>

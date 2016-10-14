@@ -1,10 +1,10 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
@@ -21,6 +21,11 @@
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="spinBars">true</item>
         <item name="color">@color/colorAccent</item>
+    </style>
+
+    <style name="MenuCheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
+        <item name="colorControlNormal">@color/colorPrimary</item> <!-- border color -->
+        <item name="colorControlActivated">@color/colorPrimary</item> <!-- fill color -->
     </style>
 
     <style name="NavItemStyle">
@@ -44,6 +49,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">end</item>
         <item name="android:textAlignment">textEnd</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <!--<item name="android:overlapAnchor">false</item>-->
     </style>
-
 </resources>

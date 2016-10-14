@@ -18,16 +18,28 @@
         app:titleTextColor="@color/colorAccent"
         />
     <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:openDrawer="start"
         >
-        <include layout="@layout/content_main"/>
-
+        <FrameLayout
+            android:id="@+id/content_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            >
+            <include layout="@layout/content_main"/>
+            <com.alex.mirash.boogietapcounter.tapper.view.info.InfoScreenView
+                android:id="@+id/screen_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                />
+        </FrameLayout>
         <android.support.design.widget.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
@@ -40,9 +52,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginRight="15dp"
                 android:src="@drawable/hbk_logo_small"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/boogie_couple"
+                android:layout_gravity="left|bottom"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
                 />
         </android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>

@@ -13,8 +13,8 @@
             />
         <Spinner
             android:id="@+id/settings_tap_mode_spinner"
-            android:entries="@array/tap_modes"
             style="@style/NavSpinnerStyle"
+            android:entries="@array/tap_modes"
             />
     </LinearLayout>
     <View
@@ -34,8 +34,8 @@
             />
         <Spinner
             android:id="@+id/settings_unit_spinner"
-            android:entries="@array/temp_units"
             style="@style/NavSpinnerStyle"
+            android:entries="@array/temp_units"
             />
     </LinearLayout>
     <View
@@ -51,12 +51,15 @@
         <TextView
             android:id="@+id/settings_refresh_time_label"
             style="@style/NavLabelStyle"
+            android:layout_weight="1"
             android:text="@string/settings_refresh_time_label"
             />
-        <Spinner
-            android:id="@+id/settings_refresh_time_spinner"
-            android:entries="@array/refresh_times"
-            style="@style/NavSpinnerStyle"
+        <CheckBox
+            android:id="@+id/settings_refresh_time_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:theme="@style/MenuCheckBox"
             />
     </LinearLayout>
     <View

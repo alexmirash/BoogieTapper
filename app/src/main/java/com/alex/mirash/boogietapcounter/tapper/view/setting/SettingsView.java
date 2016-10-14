@@ -5,11 +5,12 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.alex.mirash.boogietapcounter.R;
-import com.alex.mirash.boogietapcounter.settings.SettingAutoRefreshTime;
 import com.alex.mirash.boogietapcounter.settings.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.SettingUnit;
 import com.alex.mirash.boogietapcounter.settings.Settings;
@@ -21,7 +22,7 @@ import com.alex.mirash.boogietapcounter.settings.Settings;
 public class SettingsView extends LinearLayout {
     private Spinner tapModeSpinner;
     private Spinner tempUnitSpinner;
-    private Spinner refreshTimeSpinner;
+    private CheckBox refreshTimeCheckbox;
 
     public SettingsView(Context context) {
         super(context);
@@ -33,7 +34,7 @@ public class SettingsView extends LinearLayout {
         inflate(getContext(), R.layout.view_settings, this);
         tapModeSpinner = (Spinner) findViewById(R.id.settings_tap_mode_spinner);
         tempUnitSpinner = (Spinner) findViewById(R.id.settings_unit_spinner);
-        refreshTimeSpinner = (Spinner) findViewById(R.id.settings_refresh_time_spinner);
+        refreshTimeCheckbox = (CheckBox) findViewById(R.id.settings_refresh_time_checkbox);
 
         Settings settings = Settings.get();
         initSettingSpinner(tapModeSpinner, R.id.settings_tap_mode_label, settings.getTapMode().ordinal(),
@@ -52,14 +53,7 @@ public class SettingsView extends LinearLayout {
                         Log.d("LOL", "unit selected: " + Settings.get().getUnit());
                     }
                 });
-        initSettingSpinner(refreshTimeSpinner, R.id.settings_refresh_time_label, settings.getAutoRefreshTime().ordinal(),
-                new OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Settings.get().setAutoRefreshTime(SettingAutoRefreshTime.getValue(position));
-                        Log.d("LOL", "refresh time selected: " + Settings.get().getAutoRefreshTime());
-                    }
-                });
+        initRefreshCheckbox(R.id.settings_refresh_time_label);
     }
 
     private void initSettingSpinner(final Spinner spinner, int labelViewId, int selectedPosition, AdapterView.OnItemSelectedListener listener) {
@@ -73,6 +67,26 @@ public class SettingsView extends LinearLayout {
                 return true;
             }
         });
+    }
+
+    private void initRefreshCheckbox(int labelId) {
+        refreshTimeCheckbox.setChecked(Settings.get().getIsAutoRefresh());
+        refreshTimeCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                Log.d("LOL", "onCheckedChanged " + isChecked);
+                Settings.get().setIsAutoRefresh(isChecked);
+            }
+        });
+        View labelView = findViewById(labelId);
+        labelView.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                refreshTimeCheckbox.onTouchEvent(event);
+                return true;
+            }
+        });
+
     }
 
     private abstract class OnItemSelectedListener implements AdapterView.OnItemSelectedListener {

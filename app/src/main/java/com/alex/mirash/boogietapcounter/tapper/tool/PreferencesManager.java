@@ -4,10 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.alex.mirash.boogietapcounter.BoogieApp;
-import com.alex.mirash.boogietapcounter.settings.Settings;
-import com.alex.mirash.boogietapcounter.settings.SettingAutoRefreshTime;
 import com.alex.mirash.boogietapcounter.settings.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.SettingUnit;
+import com.alex.mirash.boogietapcounter.settings.Settings;
 
 /**
  * @author Mirash
@@ -30,6 +29,14 @@ public class PreferencesManager {
 
     public static int getInt(String key, int defaultValue) {
         return getPreferences().getInt(key, defaultValue);
+    }
+
+    public static void putBool(String key, boolean value) {
+        getPreferences().edit().putBoolean(key, value).apply();
+    }
+
+    public static boolean getBool(String key, boolean defaultValue) {
+        return getPreferences().getBoolean(key, defaultValue);
     }
 
     public static SettingTapMode getTapMode() {
@@ -56,15 +63,11 @@ public class PreferencesManager {
         putInt(Settings.KEY_TEMP_UNIT, unit.ordinal());
     }
 
-    public static SettingAutoRefreshTime getAutoRefreshTime() {
-        int position = getInt(Settings.KEY_AUTO_REFRESH_TIME, -1);
-        if (position == -1) {
-            return SettingAutoRefreshTime.getDefaultValue();
-        }
-        return SettingAutoRefreshTime.values()[position];
+    public static boolean getAutoRefreshValue() {
+        return getBool(Settings.KEY_AUTO_REFRESH, Settings.AUTO_REFRESH_DEFAULT_VALUE);
     }
 
-    public static void setAutoRefreshTime(SettingAutoRefreshTime time) {
-        putInt(Settings.KEY_AUTO_REFRESH_TIME, time.ordinal());
+    public static void setAutoRefresh(boolean isAutoRefresh) {
+        putBool(Settings.KEY_AUTO_REFRESH, isAutoRefresh);
     }
 }

@@ -19,14 +19,7 @@
         <item>Восьмёрка (8 счетов) </item>
     </string-array>
 
-    <string name="settings_refresh_time_label">Авто прекращать</string>
-    <string-array name="refresh_times">
-        <item>2 сек</item>
-        <item>3 сек</item>
-        <item>4 сек</item>
-        <item>5 сек</item>
-        <item>никогда</item>
-    </string-array>
+    <string name="settings_refresh_time_label">Автозавершение</string>
 
     <string name="output_bpm_label">bpm:</string>
     <string name="output_temp_label">Темп:</string>
@@ -34,4 +27,12 @@
     <string name="output_temp_interval_label">Интервал (темп), сек:</string>
 
     <string name="tap_button_label">Тапни меня</string>
+    <string name="empty_value">--</string>
+
+    <string name="info_text">\tВредины-танцоры используют разные системы подсчёта:
+    \n\n\t1) Удары метронома в минуту ("биты", "beats per minute" или "BPM", "количества счетов в минуту"). Эта единица измерения используется, в основном, музыкантами, из-за чего является наиболее популярной. Используется в Линди-хопе
+    \n\n\t2) Такты (4 счета) в минуту. Данная система подсчета используется в буги-вуги, юхууу!
+    \n\n\t3) "Восьмёрки" (8 счетов или 2 такта) в минуту, чаще всего используется теми оригиналами, кто пытается представить сколько восьмёрок придётся сделать за время выступления.
+    </string>
+
 </resources>

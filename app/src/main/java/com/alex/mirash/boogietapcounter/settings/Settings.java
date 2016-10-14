@@ -15,11 +15,14 @@ import java.util.List;
 public class Settings {
     public static final String KEY_TAP_MODE = "tap_mode";
     public static final String KEY_TEMP_UNIT = "unit";
-    public static final String KEY_AUTO_REFRESH_TIME = "refresh_time";
+    public static final String KEY_AUTO_REFRESH = "auto_refresh";
+
+    public static boolean AUTO_REFRESH_DEFAULT_VALUE = true;
+    public static int AUTO_REFRESH_TIME = 2000;
 
     private SettingTapMode tapMode;
     private SettingUnit unit;
-    private SettingAutoRefreshTime autoRefreshTime;
+    private boolean isAutoRefresh;
 
     public Settings() {
         loadFromPreferences();
@@ -28,7 +31,7 @@ public class Settings {
     private void loadFromPreferences() {
         tapMode = PreferencesManager.getTapMode();
         unit = PreferencesManager.getUnit();
-        autoRefreshTime = PreferencesManager.getAutoRefreshTime();
+        isAutoRefresh = PreferencesManager.getAutoRefreshValue();
     }
 
     public SettingTapMode getTapMode() {
@@ -51,14 +54,14 @@ public class Settings {
         notifySettingChange(value, unitChangeObservers);
     }
 
-    public SettingAutoRefreshTime getAutoRefreshTime() {
-        return autoRefreshTime;
+    public boolean getIsAutoRefresh() {
+        return isAutoRefresh;
     }
 
-    public void setAutoRefreshTime(SettingAutoRefreshTime time) {
-        autoRefreshTime = time;
-        PreferencesManager.setAutoRefreshTime(time);
-        notifySettingChange(time, timeChangeObservers);
+    public void setIsAutoRefresh(boolean autoRefresh) {
+        isAutoRefresh = autoRefresh;
+        PreferencesManager.setAutoRefresh(autoRefresh);
+        notifySettingChange(isAutoRefresh, timeChangeObservers);
     }
 
     public static Settings get() {
@@ -69,7 +72,7 @@ public class Settings {
     //observerable part TODO
     private List<SettingChangeObserver<SettingTapMode>> tapModeObservers;
     private List<SettingChangeObserver<SettingUnit>> unitChangeObservers;
-    private List<SettingChangeObserver<SettingAutoRefreshTime>> timeChangeObservers;
+    private List<SettingChangeObserver<Boolean>> timeChangeObservers;
 
     public void addUnitObserver(SettingChangeObserver<SettingUnit> observer) {
         if (unitChangeObservers == null) {
@@ -85,7 +88,7 @@ public class Settings {
         tapModeObservers.add(observer);
     }
 
-    public void addTimeObserver(SettingChangeObserver<SettingAutoRefreshTime> observer) {
+    public void addTimeObserver(SettingChangeObserver<Boolean> observer) {
         if (timeChangeObservers == null) {
             timeChangeObservers = new ArrayList<>();
         }

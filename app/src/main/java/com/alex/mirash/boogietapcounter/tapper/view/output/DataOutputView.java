@@ -18,6 +18,8 @@ public class DataOutputView extends LinearLayout {
     private OutputCellView bpmView;
     private OutputCellView tempIntervalView;
     private OutputCellView bpmIntervalView;
+    
+    private String emptyString;
 
     public DataOutputView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -27,6 +29,8 @@ public class DataOutputView extends LinearLayout {
         bpmView = (OutputCellView) findViewById(R.id.data_output_bpm);
         tempIntervalView = (OutputCellView) findViewById(R.id.data_output_interval_temp);
         bpmIntervalView = (OutputCellView) findViewById(R.id.data_output_interval_bpm);
+        
+        emptyString = getResources().getString(R.string.empty_value);
 
         tempView.setLabelText(getResources().getString(R.string.output_temp_label));
         bpmView.setLabelText(getResources().getString(R.string.output_bpm_label));
@@ -40,13 +44,14 @@ public class DataOutputView extends LinearLayout {
         setBeats(data.getBpm());
         setTemp(data.getTemp());
         setBeatsInterval(data.getBeatsInterval());
+        setTempInterval(data.getBeatsInterval());
     }
 
     public void refresh() {
-        tempView.setValueText("--");
-        bpmView.setValueText("--");
-        bpmIntervalView.setValueText("--");
-        tempIntervalView.setValueText("--");
+        tempView.setValueText(emptyString);
+        bpmView.setValueText(emptyString);
+        bpmIntervalView.setValueText(emptyString);
+        tempIntervalView.setValueText(emptyString);
 
         tempView.clearEffects();
     }
@@ -65,6 +70,10 @@ public class DataOutputView extends LinearLayout {
 
     public void setBeatsInterval(float interval) {
         bpmIntervalView.setValueText(String.format("%.3f", interval));
+    }
+
+    public void setTempInterval(float interval) {
+        tempIntervalView.setValueText(String.format("%.3f", interval));
     }
 
 }

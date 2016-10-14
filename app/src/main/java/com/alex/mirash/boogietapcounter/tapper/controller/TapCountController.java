@@ -62,13 +62,17 @@ public class TapCountController implements TapControlListener, BpmStrategyListen
     @Override
     public void onTap() {
         strategy.onTap();
-        idleHandler.updateHandler();
+        if (Settings.get().getIsAutoRefresh()){
+            idleHandler.updateHandler();
+        }
     }
 
     @Override
     public void onBpmUpdate(DataHolder data) {
         Log.d("LOL", "on Bpm Update " + data.getDetails().getAverageTapInterval());
-        idleHandler.setIdleTime((int) data.getDetails().getAverageTapInterval() + Settings.get().getAutoRefreshTime().getTime());
+        if (Settings.get().getIsAutoRefresh()) {
+            idleHandler.setIdleTime((int) data.getDetails().getAverageTapInterval() + Settings.AUTO_REFRESH_TIME);
+        }
         if (listener != null) {
             listener.onBpmUpdate(data);
         }
