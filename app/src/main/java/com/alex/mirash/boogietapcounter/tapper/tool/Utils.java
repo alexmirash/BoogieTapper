@@ -1,5 +1,6 @@
 package com.alex.mirash.boogietapcounter.tapper.tool;
 
+import com.alex.mirash.boogietapcounter.BuildConfig;
 import com.alex.mirash.boogietapcounter.settings.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.SettingUnit;
 import com.alex.mirash.boogietapcounter.settings.Settings;
@@ -19,5 +20,9 @@ public final class Utils {
     public static float round(float value, int decimalPlaces) {
         double multiplier = Math.pow(10, decimalPlaces);
         return (float) (Math.round(value * multiplier) / multiplier);
+    }
+
+    public static String getAppVersion() {
+        return BuildConfig.VERSION_CODE + "." + BuildConfig.VERSION_NAME;
     }
 }

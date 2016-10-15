@@ -18,13 +18,19 @@ public class OutputCellView extends FrameLayout {
     protected TextView labelView;
     protected TextView valueView;
 
-    protected int format = 2;
+    protected ValueFormat format;
 
     public OutputCellView(Context context, AttributeSet attrs) {
         super(context, attrs);
         inflate(context, getLayoutId(), this);
         labelView = (TextView) findViewById(R.id.output_label);
         valueView = (TextView) findViewById(R.id.output_value);
+
+        format = new ValueFormat(getPrecision());
+    }
+
+    protected int getPrecision() {
+        return 2;
     }
 
     protected int getLayoutId() {
@@ -37,7 +43,7 @@ public class OutputCellView extends FrameLayout {
 
     @SuppressLint("DefaultLocale")
     public void setValue(float value) {
-        setValueText(String.valueOf(Utils.round(value, format)));
+        setValueText(String.format(format.getStrFormat(), Utils.round(value, format.getPrecision())));
     }
 
     public void setLabelText(String labelText) {
@@ -50,5 +56,23 @@ public class OutputCellView extends FrameLayout {
 
     public void clearEffects() {
         valueView.setPaintFlags(valueView.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+    }
+
+    protected static class ValueFormat {
+        private int precision;
+        private String strFormat;
+
+        public ValueFormat(int precision) {
+            this.precision = precision;
+            strFormat = "%." + precision + "f";
+        }
+
+        public int getPrecision() {
+            return precision;
+        }
+
+        public String getStrFormat() {
+            return strFormat;
+        }
     }
 }

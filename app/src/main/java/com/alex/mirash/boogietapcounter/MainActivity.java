@@ -1,6 +1,6 @@
 package com.alex.mirash.boogietapcounter;
 
-import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
 import com.alex.mirash.boogietapcounter.settings.SettingUnit;
@@ -24,6 +25,7 @@ import com.alex.mirash.boogietapcounter.tapper.controller.BeatController;
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
 import com.alex.mirash.boogietapcounter.tapper.tool.ActivityActionProvider;
 import com.alex.mirash.boogietapcounter.tapper.tool.EventsListener;
+import com.alex.mirash.boogietapcounter.tapper.tool.Utils;
 import com.alex.mirash.boogietapcounter.tapper.view.info.InfoScreenView;
 import com.alex.mirash.boogietapcounter.tapper.view.output.DataOutputView;
 import com.alex.mirash.boogietapcounter.tapper.view.setting.SettingsView;
@@ -153,15 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 screenInfo.show();
                 break;
             case R.id.nav_menu_about:
-                new AlertDialog.Builder(this)
-                        .setTitle("А шо це")
-                        .setView(R.layout.dialog_about_content)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // continue with delete
-                            }
-                        })
-                        .show();
+                showAboutDialog();
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -180,6 +174,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (resultData != null && resultData.getDetails().getIntervalsCount() > 0) {
             outputView.highlight();
             Settings.get().addUnitObserver(unitUpdateForOldDataObserver);
+        }
+    }
+
+    private void showAboutDialog() {
+        View content = View.inflate(this, R.layout.dialog_about_content, null);
+        TextView versionValueView = (TextView) content.findViewById(R.id.about_version_value);
+        versionValueView.setText(Utils.getAppVersion());
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.about_dialog_title))
+                .setView(content)
+                .setPositiveButton(android.R.string.yes, null)
+                .show();
+        if (dialog != null && dialog.getButton(AlertDialog.BUTTON_POSITIVE) != null) {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
         }
     }
 

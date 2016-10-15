@@ -4,6 +4,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <string name="menu_item_info">Шо тут происходит</string>
+    <string name="menu_item_about">Хто здесь</string>
+
     <string name="settings_tap_mode_label">Тапать каждый</string>
     <string-array name="tap_modes">
         <item>бит</item>
@@ -29,9 +32,16 @@
     <string name="tap_button_label">Тапни меня</string>
     <string name="empty_value">--</string>
 
-    <string name="info_text">\tВредины-танцоры используют разные системы подсчёта:
+    <string name="info_text">\tВредины-танцоры используют разные системы подсчёта темпа музыки:
     \n\n\t1) Удары метронома в минуту ("биты", "beats per minute" или "BPM", "количества счетов в минуту"). Эта единица измерения используется, в основном, музыкантами, из-за чего является наиболее популярной. Используется в Линди-хопе
     \n\n\t2) Такты (4 счета) в минуту. Данная система подсчета используется в буги-вуги, юхууу!
     \n\n\t3) "Восьмёрки" (8 счетов или 2 такта) в минуту, чаще всего используется теми оригиналами, кто пытается представить сколько восьмёрок придётся сделать за время выступления.
     </string>
+
+    <string name="about_text_author_label">автор:</string>
+    <string name="about_text_author_value">Mirash</string>
+    <string name="about_text_version_label">версия:</string>
+    <string name="about_dialog_title">Френки позишн</string>
+
+
 </resources>

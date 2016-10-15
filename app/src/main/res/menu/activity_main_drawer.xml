@@ -5,13 +5,13 @@
         <item
             android:id="@+id/nav_menu_info"
             android:icon="@drawable/menu_icon_info"
-            android:title="Шо тут такое написано"
+            android:title="@string/menu_item_info"
             />
 
     </group>
     <item
         android:id="@+id/nav_menu_about"
         android:icon="@drawable/menu_icon_dancer"
-        android:title="Эбаут"
+        android:title="@string/menu_item_about"
         />
 </menu>
