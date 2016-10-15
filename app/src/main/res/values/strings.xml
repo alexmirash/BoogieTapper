@@ -30,7 +30,7 @@
     <string name="output_temp_interval_label">Интервал (темп), сек:</string>
 
     <string name="tap_button_label">Тапни меня</string>
-    <string name="empty_value">--</string>
+    <string name="empty_value">--<!--\u2014--></string>
 
     <string name="info_text">\tВредины-танцоры используют разные системы подсчёта темпа музыки:
     \n\n\t1) Удары метронома в минуту ("биты", "beats per minute" или "BPM", "количества счетов в минуту"). Эта единица измерения используется, в основном, музыкантами, из-за чего является наиболее популярной. Используется в Линди-хопе
