@@ -79,15 +79,14 @@ public class SettingsView extends LinearLayout {
             }
         });
         View labelView = findViewById(labelId);
-        labelView.setOnTouchListener(new OnTouchListener() {
+        labelView.setOnClickListener(new OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                refreshTimeCheckbox.onTouchEvent(event);
-                return true;
+            public void onClick(View v) {
+                refreshTimeCheckbox.setChecked(!refreshTimeCheckbox.isChecked());
             }
         });
-
     }
+
 
     private abstract class OnItemSelectedListener implements AdapterView.OnItemSelectedListener {
         @Override

@@ -13,11 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.alex.mirash.boogietapcounter.pashalka.PashalkaHandler;
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
 import com.alex.mirash.boogietapcounter.settings.SettingUnit;
 import com.alex.mirash.boogietapcounter.settings.Settings;
@@ -89,6 +91,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         screenInfo = (InfoScreenView) findViewById(R.id.screen_info);
         screenInfo.setActionProvider(this);
+
+        new PashalkaHandler(navigationView.findViewById(R.id.hbk_logo_image),
+                (ViewStub) navigationView.findViewById(R.id.bezuglyi_stub));
     }
 
     @Override

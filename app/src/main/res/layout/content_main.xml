@@ -25,7 +25,6 @@
         android:layout_height="match_parent"
         android:layout_marginTop="15dp"
         android:text="@string/tap_button_label"
-        android:textColor="@color/colorPrimaryDark"
         android:textSize="25dp"
         />
 </LinearLayout>

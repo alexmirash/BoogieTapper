@@ -49,6 +49,7 @@
             app:menu="@menu/activity_main_drawer"
             >
             <ImageView
+                android:id="@+id/hbk_logo_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
@@ -59,10 +60,17 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/boogie_couple"
                 android:layout_gravity="left|bottom"
                 android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
+                android:src="@drawable/boogie_couple"
+                />
+            <ViewStub
+                android:id="@+id/bezuglyi_stub"
+                android:layout_width="33.67dp"
+                android:layout_height="89dp"
+                android:layout_gravity="bottom"
+                android:layout="@layout/view_bezuglyi"
                 />
         </android.support.design.widget.NavigationView>
     </android.support.v4.widget.DrawerLayout>

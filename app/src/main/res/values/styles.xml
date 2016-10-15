@@ -40,7 +40,8 @@
 
     <style name="NavLabelStyle">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:layout_marginRight">6dp</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">14dp</item>
