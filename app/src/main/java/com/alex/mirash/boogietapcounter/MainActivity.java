@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onDestroy() {
+        Settings.get().clearObservers();
         super.onDestroy();
     }
 

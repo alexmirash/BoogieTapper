@@ -7,4 +7,5 @@
     <color name="white">#ffffff</color>
     <color name="content_background_gradient_color">#edfffa</color>
     <color name="tap_button_text_color">#8a000000</color>
+    <color name="tap_button_text_color_bottom">#70000000</color>
 </resources>

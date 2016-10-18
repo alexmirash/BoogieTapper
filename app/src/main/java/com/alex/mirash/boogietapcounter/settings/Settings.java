@@ -103,14 +103,17 @@ public class Settings {
 
     public void clearObservers() {
         if (tapModeObservers != null) {
+            Log.d("WTF", "clear tap mode " + tapModeObservers.size());
             tapModeObservers.clear();
             tapModeObservers = null;
         }
         if (unitChangeObservers != null) {
+            Log.d("WTF", "clear unit " + unitChangeObservers.size());
             unitChangeObservers.clear();
             unitChangeObservers = null;
         }
         if (timeChangeObservers != null) {
+            Log.d("WTF", "clear time " + timeChangeObservers.size());
             timeChangeObservers.clear();
             timeChangeObservers = null;
         }
