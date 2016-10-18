@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.alex.mirash.boogietapcounter.pashalka.PashalkaHandler;
@@ -39,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private BeatController beatController;
     private View contentContainerView;
-    private Button tapButton;
     private DataOutputView outputView;
 
     private DrawerLayout drawer;
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void initTapElements() {
         beatController = new BeatController();
         beatController.setListener(this);
-        tapButton = (Button) findViewById(R.id.tap_button);
+        View tapButton = findViewById(R.id.tap_button);
         tapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

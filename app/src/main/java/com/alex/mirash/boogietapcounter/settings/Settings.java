@@ -61,7 +61,6 @@ public class Settings {
     public void setIsAutoRefresh(boolean autoRefresh) {
         isAutoRefresh = autoRefresh;
         PreferencesManager.setAutoRefresh(autoRefresh);
-        notifySettingChange(isAutoRefresh, timeChangeObservers);
     }
 
     public static Settings get() {
@@ -72,7 +71,6 @@ public class Settings {
     //observerable part TODO
     private List<SettingChangeObserver<SettingTapMode>> tapModeObservers;
     private List<SettingChangeObserver<SettingUnit>> unitChangeObservers;
-    private List<SettingChangeObserver<Boolean>> timeChangeObservers;
 
     public void addUnitObserver(SettingChangeObserver<SettingUnit> observer) {
         if (unitChangeObservers == null) {
@@ -94,13 +92,6 @@ public class Settings {
         tapModeObservers.add(observer);
     }
 
-    public void addTimeObserver(SettingChangeObserver<Boolean> observer) {
-        if (timeChangeObservers == null) {
-            timeChangeObservers = new ArrayList<>();
-        }
-        timeChangeObservers.add(observer);
-    }
-
     public void clearObservers() {
         if (tapModeObservers != null) {
             Log.d("WTF", "clear tap mode " + tapModeObservers.size());
@@ -111,11 +102,6 @@ public class Settings {
             Log.d("WTF", "clear unit " + unitChangeObservers.size());
             unitChangeObservers.clear();
             unitChangeObservers = null;
-        }
-        if (timeChangeObservers != null) {
-            Log.d("WTF", "clear time " + timeChangeObservers.size());
-            timeChangeObservers.clear();
-            timeChangeObservers = null;
         }
     }
 

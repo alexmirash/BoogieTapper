@@ -7,7 +7,6 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.Button;
 
 import com.alex.mirash.boogietapcounter.R;
@@ -39,16 +38,14 @@ public class TapButton extends Button implements SettingChangeObserver<SettingTa
 
     @Override
     public void onSettingChanged(SettingTapMode setting) {
-        Log.d("WTF", "tap mode changed " + setting);
-
         String upText = getResources().getString(R.string.tap_button_label_main);
-        int n = upText.length();
         String allText = upText + "\n\n" + getResources().getString(setting.getTapButtonResId());
+        int spanStart = upText.length() + 1;
 
         SpannableString buttonText = new SpannableString(allText);
-        buttonText.setSpan(new RelativeSizeSpan(0.66f), n + 1, allText.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE); // set size
+        buttonText.setSpan(new RelativeSizeSpan(0.66f), spanStart, allText.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         buttonText.setSpan(new ForegroundColorSpan(getResources().getColor(
-                R.color.tap_button_text_color_bottom)), n + 1, allText.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);// set color
+                R.color.tap_button_text_color_bottom)), spanStart, allText.length(), Spanned.SPAN_INCLUSIVE_INCLUSIVE);
         setText(buttonText);
     }
 }
