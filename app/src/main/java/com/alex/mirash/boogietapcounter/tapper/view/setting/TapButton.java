@@ -1,6 +1,7 @@
 package com.alex.mirash.boogietapcounter.tapper.view.setting;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -28,6 +29,9 @@ public class TapButton extends Button implements SettingChangeObserver<SettingTa
     private void init() {
         setAllCaps(false);
         Settings.get().addTapModeObserver(this);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            setBackgroundResource(R.drawable.tap_button_selector);
+        }
     }
 
     @Override
