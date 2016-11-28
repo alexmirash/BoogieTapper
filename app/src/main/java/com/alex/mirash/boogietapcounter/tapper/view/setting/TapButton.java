@@ -28,10 +28,13 @@ public class TapButton extends Button implements SettingChangeObserver<SettingTa
 
     private void init() {
         setAllCaps(false);
-        Settings.get().addTapModeObserver(this);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            setBackgroundResource(R.drawable.tap_button_selector);
+        if (!isInEditMode()) {
+            Settings.get().addTapModeObserver(this);
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                setBackgroundResource(R.drawable.tap_button_selector);
+            }
         }
+
     }
 
     @Override

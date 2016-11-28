@@ -48,12 +48,18 @@
             android:background="@color/colorAccent"
             app:menu="@menu/activity_main_drawer"
             >
+            <FrameLayout
+                android:id="@+id/nav_image_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="15dp"
+                >
             <ImageView
                 android:id="@+id/hbk_logo_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|right"
-                android:layout_marginBottom="15dp"
                 android:layout_marginRight="15dp"
                 android:src="@drawable/hbk_logo_small"
                 />
@@ -61,10 +67,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|bottom"
-                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
                 android:src="@drawable/boogie_couple"
                 />
+            </FrameLayout>
             <ViewStub
                 android:id="@+id/bezuglyi_stub"
                 android:layout_width="33.67dp"

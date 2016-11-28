@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         screenInfo = (InfoScreenView) findViewById(R.id.screen_info);
         screenInfo.setActionProvider(this);
 
-        new PashalkaHandler(navigationView.findViewById(R.id.hbk_logo_image),
+        new PashalkaHandler(findViewById(R.id.nav_image_panel), navigationView.findViewById(R.id.hbk_logo_image),
                 (ViewStub) navigationView.findViewById(R.id.bezuglyi_stub));
     }
 
