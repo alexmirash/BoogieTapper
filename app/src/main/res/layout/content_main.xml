@@ -12,7 +12,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.alex.mirash.boogietapcounter.MainActivity"
-    tools:showIn="@layout/app_bar_main"
     >
     <com.alex.mirash.boogietapcounter.tapper.view.output.DataOutputView
         android:id="@+id/data_output_view"
