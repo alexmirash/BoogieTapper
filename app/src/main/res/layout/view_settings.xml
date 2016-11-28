@@ -46,6 +46,7 @@
 
     <!--stop time-->
     <LinearLayout
+        android:id="@+id/settings_refresh_time_item"
         style="@style/NavItemStyle"
         >
         <TextView
@@ -63,6 +64,7 @@
             />
     </LinearLayout>
     <View
+        android:id="@+id/settings_refresh_time_delimiter"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/colorPrimary"
