@@ -23,6 +23,7 @@ public class DataOutputView extends LinearLayout implements SettingChangeObserve
     private OutputCellView bpmIntervalView;
 
     private String emptyString;
+    private String measuringStartedEmptyString;
 
     private boolean isHighlighted;
 
@@ -36,6 +37,7 @@ public class DataOutputView extends LinearLayout implements SettingChangeObserve
         bpmIntervalView = (OutputCellView) findViewById(R.id.data_output_interval_bpm);
 
         emptyString = getResources().getString(R.string.empty_value);
+        measuringStartedEmptyString = getResources().getString(R.string.empty_measurement_started_value);
 
         tempView.setLabelText(getResources().getString(R.string.output_temp_label));
         bpmView.setLabelText(getResources().getString(R.string.output_bpm_label));
@@ -57,15 +59,20 @@ public class DataOutputView extends LinearLayout implements SettingChangeObserve
     }
 
     public void refresh() {
+        refresh(false);
+    }
+
+    public void refresh(boolean isMeasurementStarted) {
         if (isHighlighted) {
             isHighlighted = false;
             tempView.clearEffects();
             bpmView.clearEffects();
         }
-        tempView.setValueText(emptyString);
-        bpmView.setValueText(emptyString);
-        bpmIntervalView.setValueText(emptyString);
-        tempIntervalView.setValueText(emptyString);
+        String emptyValue = isMeasurementStarted ? measuringStartedEmptyString : emptyString;
+        tempView.setValueText(emptyValue);
+        bpmView.setValueText(emptyValue);
+        bpmIntervalView.setValueText(emptyValue);
+        tempIntervalView.setValueText(emptyValue);
     }
 
     public void setTemp(float temp) {

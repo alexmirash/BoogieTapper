@@ -36,7 +36,8 @@
     <string name="tap_button_label_bottom_four_beat">(каждый 4й счёт)</string>
     <string name="tap_button_label_bottom_eight_beat">(каждую восьмёрку)</string>
 
-    <string name="empty_value">--<!--\u2014--></string>
+    <string name="empty_measurement_started_value">--<!--\u2014--></string>
+    <string name="empty_value">\u0020<!--\u2014--></string>
 
     <string name="info_text">\tВредины-танцоры используют разные системы подсчёта темпа музыки:
     \n\n\t1) Удары метронома в минуту ("биты", "beats per minute" или "BPM", "количество счетов в минуту"). Эта единица измерения используется, в основном, музыкантами, из-за чего является наиболее популярной. Используется в линди-хопе

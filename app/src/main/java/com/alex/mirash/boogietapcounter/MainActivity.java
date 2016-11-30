@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // EventsListener
     @Override
     public void onNewMeasurementStarted() {
-        outputView.refresh();
+        outputView.refresh(true);
         Settings.get().removeUnitObserver(unitUpdateForOldDataObserver);
     }
 
