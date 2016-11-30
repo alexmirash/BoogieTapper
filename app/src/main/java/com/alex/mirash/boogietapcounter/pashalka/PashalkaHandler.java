@@ -49,11 +49,6 @@ public class PashalkaHandler {
         runAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                hideImageView.setVisibility(View.INVISIBLE);
-                Animation hide = new AlphaAnimation(1, 0);
-                hide.setDuration(250);
-                hide.setFillAfter(true);
-                hideImageView.startAnimation(hide);
             }
 
             @Override
@@ -68,6 +63,12 @@ public class PashalkaHandler {
             public void onAnimationRepeat(Animation animation) {
             }
         });
+        hideImageView.setVisibility(View.INVISIBLE);
+        Animation hide = new AlphaAnimation(1, 0);
+        hide.setDuration(250);
+        hide.setFillAfter(true);
+        hideImageView.startAnimation(hide);
+
         bezuglyiView.startAnimation(runAnimation);
         bezuglyiView.setVisibility(View.INVISIBLE);
     }
