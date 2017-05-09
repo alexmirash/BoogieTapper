@@ -18,17 +18,21 @@ public class PashalkaHandler {
     private ViewStub bezuglyiStub;
     private int bezuglyiCounter;
 
+    private boolean isBezuglyiTime;
+
     public PashalkaHandler(View imageView, View hbkView, ViewStub bezuglyiView) {
         hideImageView = imageView;
         bezuglyiStub = bezuglyiView;
         hbkView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (bezuglyiCounter == 9) {
-                    bezuglyiCounter = 0;
-                    itsBezuglyiTime();
-                } else {
-                    bezuglyiCounter++;
+                if (!isBezuglyiTime) {
+                    if (bezuglyiCounter == 4) {
+                        bezuglyiCounter = 0;
+                        itsBezuglyiTime();
+                    } else {
+                        bezuglyiCounter++;
+                    }
                 }
             }
         });
@@ -49,6 +53,7 @@ public class PashalkaHandler {
         runAnimation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
+                isBezuglyiTime = true;
             }
 
             @Override
@@ -57,6 +62,7 @@ public class PashalkaHandler {
                 Animation show = new AlphaAnimation(0, 1);
                 show.setDuration(250);
                 hideImageView.startAnimation(show);
+                isBezuglyiTime = false;
             }
 
             @Override
