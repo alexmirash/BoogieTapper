@@ -1,7 +1,6 @@
 package com.alex.mirash.boogietapcounter;
 
 import android.app.Application;
-import android.util.Log;
 
 import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.tapper.tool.PreferencesManager;
@@ -17,7 +16,6 @@ public class BoogieApp extends Application {
 
     @Override
     public void onCreate() {
-        Log.d("LOL", "BoogieApp onCreate");
         super.onCreate();
         instance = this;
         preferences = new PreferencesManager(this);

@@ -1,7 +1,5 @@
 package com.alex.mirash.boogietapcounter.tapper.controller;
 
-import android.util.Log;
-
 import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.tapper.controller.delay.IdleHandler;
 import com.alex.mirash.boogietapcounter.tapper.controller.strategy.BpmCalculateStrategy;
@@ -30,7 +28,6 @@ public class BeatController implements TapControlListener, BpmStrategyListener {
         idleHandler = new IdleHandler() {
             @Override
             protected void onIdle() {
-                Log.d("LOL", "onMeasurementStopped");
                 stopMeasurementInternal();
             }
         };
@@ -70,7 +67,6 @@ public class BeatController implements TapControlListener, BpmStrategyListener {
 
     @Override
     public void onBpmUpdate(DataHolder data) {
-        Log.d("LOL", "on Bpm Update " + data.getDetails().getAverageTapInterval());
         if (Settings.get().getIsAutoRefresh()) {
             idleHandler.setIdleTime((int) data.getDetails().getAverageTapInterval() + Settings.AUTO_REFRESH_TIME);
         }

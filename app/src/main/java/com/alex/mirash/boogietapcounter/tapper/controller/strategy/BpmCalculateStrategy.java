@@ -1,7 +1,6 @@
 package com.alex.mirash.boogietapcounter.tapper.controller.strategy;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
 import com.alex.mirash.boogietapcounter.tapper.tool.BpmStrategyListener;
@@ -30,7 +29,6 @@ public abstract class BpmCalculateStrategy implements TapControlListener {
     }
 
     protected void setIsMeasuring(boolean measuring) {
-        Log.d("LOL", "isMeasuring = " + measuring);
         isMeasuring = measuring;
     }
 

@@ -1,7 +1,6 @@
 package com.alex.mirash.boogietapcounter.tapper.view.setting;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -41,7 +40,6 @@ public class SettingsView extends LinearLayout {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Settings.get().setTapMode(SettingTapMode.getValue(position));
-                        Log.d("LOL", "tap mode selected: " + Settings.get().getTapMode());
                     }
                 });
         initSettingSpinner(tempUnitSpinner, R.id.settings_unit_label, settings.getUnit().ordinal(),
@@ -49,7 +47,6 @@ public class SettingsView extends LinearLayout {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Settings.get().setUnit(SettingUnit.getValue(position));
-                        Log.d("LOL", "unit selected: " + Settings.get().getUnit());
                     }
                 });
         initRefreshCheckbox(R.id.settings_refresh_time_label);
@@ -75,7 +72,6 @@ public class SettingsView extends LinearLayout {
             refreshTimeCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    Log.d("LOL", "onCheckedChanged " + isChecked);
                     Settings.get().setIsAutoRefresh(isChecked);
                 }
             });

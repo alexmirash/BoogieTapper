@@ -1,7 +1,6 @@
 package com.alex.mirash.boogietapcounter.tapper.controller.delay;
 
 import android.os.Handler;
-import android.util.Log;
 
 /**
  * @author Mirash
@@ -19,7 +18,6 @@ public abstract class IdleHandler {
 
     public void updateHandler() {
         if (idleTime == 0) return;
-        Log.d("LOL", "updateHandler " + idleTime);
         if (idleRunnable != null) {
             handler.removeCallbacks(idleRunnable);
         }
