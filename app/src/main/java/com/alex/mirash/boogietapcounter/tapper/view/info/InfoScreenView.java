@@ -22,7 +22,7 @@ public class InfoScreenView extends ScreenView implements View.OnClickListener {
     @Override
     protected void init() {
         inflate(getContext(), R.layout.screen_info, this);
-        TextView textView = (TextView) findViewById(R.id.text_info);
+        TextView textView = findViewById(R.id.text_info);
         textView.setMovementMethod(new ScrollingMovementMethod());
         findViewById(R.id.info_screen_fab_back).setOnClickListener(this);
     }

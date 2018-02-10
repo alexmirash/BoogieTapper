@@ -31,10 +31,10 @@ public class DataOutputView extends LinearLayout implements SettingChangeObserve
         super(context, attrs);
         setOrientation(VERTICAL);
         inflate(context, R.layout.view_data_output, this);
-        tempView = (OutputCellView) findViewById(R.id.data_output_temp);
-        bpmView = (OutputCellView) findViewById(R.id.data_output_bpm);
-        tempIntervalView = (OutputCellView) findViewById(R.id.data_output_interval_temp);
-        bpmIntervalView = (OutputCellView) findViewById(R.id.data_output_interval_bpm);
+        tempView = findViewById(R.id.data_output_temp);
+        bpmView = findViewById(R.id.data_output_bpm);
+        tempIntervalView = findViewById(R.id.data_output_interval_temp);
+        bpmIntervalView = findViewById(R.id.data_output_interval_bpm);
 
         emptyString = getResources().getString(R.string.empty_value);
         measuringStartedEmptyString = getResources().getString(R.string.empty_measurement_started_value);

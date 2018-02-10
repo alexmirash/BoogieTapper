@@ -23,8 +23,8 @@ public class OutputCellView extends FrameLayout {
     public OutputCellView(Context context, AttributeSet attrs) {
         super(context, attrs);
         inflate(context, getLayoutId(), this);
-        labelView = (TextView) findViewById(R.id.output_label);
-        valueView = (TextView) findViewById(R.id.output_value);
+        labelView = findViewById(R.id.output_label);
+        valueView = findViewById(R.id.output_value);
 
         format = new ValueFormat(getPrecision());
     }

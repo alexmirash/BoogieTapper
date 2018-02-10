@@ -31,8 +31,8 @@ public class SettingsView extends LinearLayout {
     private void init() {
         setOrientation(VERTICAL);
         inflate(getContext(), R.layout.view_settings, this);
-        tapModeSpinner = (Spinner) findViewById(R.id.settings_tap_mode_spinner);
-        tempUnitSpinner = (Spinner) findViewById(R.id.settings_unit_spinner);
+        tapModeSpinner = findViewById(R.id.settings_tap_mode_spinner);
+        tempUnitSpinner = findViewById(R.id.settings_unit_spinner);
 
         Settings settings = Settings.get();
         initSettingSpinner(tapModeSpinner, R.id.settings_tap_mode_label, settings.getTapMode().ordinal(),
@@ -67,7 +67,7 @@ public class SettingsView extends LinearLayout {
 
     private void initRefreshCheckbox(int labelId) {
         if (Config.IS_AUTO_REFRESH_OPTION_ENABLED) {
-            final CheckBox refreshTimeCheckbox = (CheckBox) findViewById(R.id.settings_refresh_time_checkbox);
+            final CheckBox refreshTimeCheckbox = findViewById(R.id.settings_refresh_time_checkbox);
             refreshTimeCheckbox.setChecked(Settings.get().getIsAutoRefresh());
             refreshTimeCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

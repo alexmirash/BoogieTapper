@@ -22,7 +22,6 @@
         android:layout_height="1px"
         android:background="@color/colorPrimary"
         />
-
     <!--unit-->
     <LinearLayout
         style="@style/NavItemStyle"

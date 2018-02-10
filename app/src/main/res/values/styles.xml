@@ -7,6 +7,9 @@
         <item name="colorPrimaryDark">@android:color/black</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowBackground">@color/colorAccent</item>
+        <item name="android:colorBackground">@color/colorAccent</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

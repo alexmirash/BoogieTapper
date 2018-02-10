@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:textSize="40dp"
+        android:fontFamily="@font/open_sans_semi_bold"
         />
 </LinearLayout>
 

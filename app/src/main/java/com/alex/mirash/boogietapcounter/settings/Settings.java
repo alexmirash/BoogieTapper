@@ -24,6 +24,10 @@ public class Settings {
     private SettingUnit unit;
     private boolean isAutoRefresh;
 
+    //observerable part TODO
+    private List<SettingChangeObserver<SettingTapMode>> tapModeObservers;
+    private List<SettingChangeObserver<SettingUnit>> unitChangeObservers;
+
     public Settings() {
         loadFromPreferences();
     }
@@ -66,11 +70,6 @@ public class Settings {
     public static Settings get() {
         return BoogieApp.getInstance().getSettings();
     }
-
-
-    //observerable part TODO
-    private List<SettingChangeObserver<SettingTapMode>> tapModeObservers;
-    private List<SettingChangeObserver<SettingUnit>> unitChangeObservers;
 
     public void addUnitObserver(SettingChangeObserver<SettingUnit> observer) {
         if (unitChangeObservers == null) {

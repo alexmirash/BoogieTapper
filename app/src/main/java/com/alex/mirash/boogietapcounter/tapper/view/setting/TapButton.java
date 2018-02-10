@@ -2,12 +2,12 @@ package com.alex.mirash.boogietapcounter.tapper.view.setting;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.v7.widget.AppCompatButton;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
-import android.widget.Button;
 
 import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
@@ -18,7 +18,7 @@ import com.alex.mirash.boogietapcounter.settings.Settings;
  * @author Mirash
  */
 
-public class TapButton extends Button implements SettingChangeObserver<SettingTapMode> {
+public class TapButton extends AppCompatButton implements SettingChangeObserver<SettingTapMode> {
 
     public TapButton(Context context, AttributeSet attrs) {
         super(context, attrs);

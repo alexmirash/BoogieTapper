@@ -60,9 +60,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         toggle.syncState();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.addHeaderView(new SettingsView(this));
 
@@ -87,11 +87,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         refreshAnimation = AnimationUtils.loadAnimation(this, R.anim.refresh_menu_item_anim);
 
-        screenInfo = (InfoScreenView) findViewById(R.id.screen_info);
+        screenInfo = findViewById(R.id.screen_info);
         screenInfo.setActionProvider(this);
 
         new PashalkaHandler(findViewById(R.id.nav_image_panel), navigationView.findViewById(R.id.hbk_logo_image),
                 (ViewStub) navigationView.findViewById(R.id.bezuglyi_stub));
+
+        Utils.changeNavigationViewWidthIfNecessary(drawer, navigationView);
     }
 
     @Override
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 beatController.onTap();
             }
         });
-        outputView = (DataOutputView) findViewById(R.id.data_output_view);
+        outputView = findViewById(R.id.data_output_view);
     }
 
     @Override
@@ -183,7 +185,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void showAboutDialog() {
         View content = View.inflate(this, R.layout.dialog_about_content, null);
-        TextView versionValueView = (TextView) content.findViewById(R.id.about_version_value);
+        TextView versionValueView = content.findViewById(R.id.about_version_value);
         versionValueView.setText(Utils.getAppVersion());
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.about_dialog_title))
