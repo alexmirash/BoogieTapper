@@ -2,7 +2,6 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
-    <!--tap mode-->
     <LinearLayout
         style="@style/NavItemStyle"
         >
@@ -21,6 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/colorPrimary"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="8dp"
         />
     <!--unit-->
     <LinearLayout
@@ -41,31 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:background="@color/colorPrimary"
-        />
-
-    <!--stop time-->
-    <LinearLayout
-        android:id="@+id/settings_refresh_time_item"
-        style="@style/NavItemStyle"
-        >
-        <TextView
-            android:id="@+id/settings_refresh_time_label"
-            style="@style/NavLabelStyle"
-            android:layout_weight="1"
-            android:text="@string/settings_refresh_time_label"
-            />
-        <CheckBox
-            android:id="@+id/settings_refresh_time_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:theme="@style/MenuCheckBox"
-            />
-    </LinearLayout>
-    <View
-        android:id="@+id/settings_refresh_time_delimiter"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/colorPrimary"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="8dp"
         />
 </merge>

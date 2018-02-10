@@ -38,7 +38,7 @@
         <item name="android:minHeight">@dimen/nav_setting_item_height</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:paddingLeft">?attr/listPreferredItemPaddingLeft</item>
-        <item name="android:paddingRight">?attr/listPreferredItemPaddingRight</item>
+        <item name="android:paddingRight">6dp</item>
     </style>
 
     <style name="NavLabelStyle">

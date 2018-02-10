@@ -23,8 +23,6 @@
         <item>Восьмёрка</item>
     </string-array>
 
-    <string name="settings_refresh_time_label">Автозавершение</string>
-
     <string name="output_bpm_label">bpm:</string>
     <string name="output_temp_label">Темп:</string>
     <string name="output_beat_interval_label">Интервал (бит), сек:</string>
@@ -51,6 +49,5 @@
     <string name="about_text_version_label">версия:</string>
     <string name="about_text_email_value">alex.mirash@gmail.com</string>
     <string name="about_dialog_title">Seal with it</string>
-
 
 </resources>
