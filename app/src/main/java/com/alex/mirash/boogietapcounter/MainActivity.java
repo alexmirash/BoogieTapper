@@ -3,23 +3,21 @@ package com.alex.mirash.boogietapcounter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
-import com.alex.mirash.boogietapcounter.pashalka.PashalkaHandler;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
 import com.alex.mirash.boogietapcounter.settings.SettingUnit;
 import com.alex.mirash.boogietapcounter.settings.Settings;
@@ -28,9 +26,9 @@ import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
 import com.alex.mirash.boogietapcounter.tapper.tool.ActivityActionProvider;
 import com.alex.mirash.boogietapcounter.tapper.tool.EventsListener;
 import com.alex.mirash.boogietapcounter.tapper.tool.Utils;
-import com.alex.mirash.boogietapcounter.tapper.view.info.InfoScreenView;
 import com.alex.mirash.boogietapcounter.tapper.view.output.DataOutputView;
 import com.alex.mirash.boogietapcounter.tapper.view.setting.SettingsView;
+import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         EventsListener, ActivityActionProvider {
@@ -42,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DataOutputView outputView;
 
     private DrawerLayout drawer;
-
-    private InfoScreenView screenInfo;
 
     private Animation refreshAnimation;
     private NavigationView navigationView;
@@ -63,10 +59,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(getString(R.string.app_title_name));
-        }
         drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -84,19 +76,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
         toggle.syncState();
-        navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.addHeaderView(new SettingsView(this));
 
         initTapElements();
 
         refreshAnimation = AnimationUtils.loadAnimation(this, R.anim.refresh_menu_item_anim);
-
-        screenInfo = findViewById(R.id.screen_info);
-        screenInfo.setActionProvider(this);
-
-        new PashalkaHandler(findViewById(R.id.nav_image_panel), navigationView.findViewById(R.id.hbk_logo_image),
-                (ViewStub) navigationView.findViewById(R.id.bezuglyi_stub));
 
         Utils.changeNavigationViewWidthIfNecessary(drawer, navigationView);
     }
@@ -124,10 +110,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-            return;
-        }
-        if (screenInfo.isVisible()) {
-            screenInfo.hide();
             return;
         }
         super.onBackPressed();
@@ -160,11 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         switch (id) {
-            case R.id.nav_menu_info:
-                screenInfo.show();
-                break;
             case R.id.nav_menu_about:
                 showAboutDialog();
                 break;

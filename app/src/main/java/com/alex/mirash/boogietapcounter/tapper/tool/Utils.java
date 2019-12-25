@@ -1,12 +1,13 @@
 package com.alex.mirash.boogietapcounter.tapper.tool;
 
 import android.content.Context;
-import android.support.v4.widget.DrawerLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.BuildConfig;

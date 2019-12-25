@@ -15,7 +15,6 @@ import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
  * @author Mirash
  */
 
-@SuppressLint("DefaultLocale")
 public class DataOutputView extends LinearLayout implements SettingChangeObserver<SettingUnit> {
     private OutputCellView tempView;
     private OutputCellView bpmView;

@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:paddingLeft="@dimen/side_margin"
+    android:paddingTop="@dimen/side_margin"
+    android:paddingRight="@dimen/side_margin"
+    android:paddingBottom="@dimen/side_margin"
     tools:context="com.alex.mirash.boogietapcounter.MainActivity"
     >
     <com.alex.mirash.boogietapcounter.tapper.view.output.DataOutputView

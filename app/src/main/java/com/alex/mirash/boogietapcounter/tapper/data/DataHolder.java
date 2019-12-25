@@ -1,5 +1,7 @@
 package com.alex.mirash.boogietapcounter.tapper.data;
 
+import androidx.annotation.NonNull;
+
 import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 
@@ -10,7 +12,7 @@ import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 public class DataHolder {
     private float bpm;  //среднее значение бит в минуту
 
-    private ExtendedStats details;
+    private final ExtendedStats details;
 
     public DataHolder() {
         details = new ExtendedStats();
@@ -32,6 +34,7 @@ public class DataHolder {
         bpm = bpmValue;
     }
 
+    @NonNull
     public ExtendedStats getDetails() {
         return details;
     }

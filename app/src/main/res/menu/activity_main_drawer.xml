@@ -1,14 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_menu_info"
-            android:icon="@drawable/menu_icon_info"
-            android:title="@string/menu_item_info"
-            />
-
-    </group>
     <item
         android:id="@+id/nav_menu_about"
         android:icon="@drawable/menu_icon_dancer"

@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
-    <LinearLayout
-        style="@style/NavItemStyle"
-        >
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout style="@style/NavItemStyle">
         <TextView
             android:id="@+id/settings_tap_mode_label"
             style="@style/NavLabelStyle"
@@ -19,14 +15,12 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/colorPrimary"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="8dp"
         />
     <!--unit-->
-    <LinearLayout
-        style="@style/NavItemStyle"
-        >
+    <LinearLayout style="@style/NavItemStyle">
         <TextView
             android:id="@+id/settings_unit_label"
             style="@style/NavLabelStyle"
@@ -41,8 +35,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/colorPrimary"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="8dp"
         />
 </merge>

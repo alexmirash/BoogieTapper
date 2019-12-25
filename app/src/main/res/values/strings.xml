@@ -1,13 +1,8 @@
 <resources>
-    <string name="app_name">Seal Tap</string>
-    <string name="app_title_name">Буги Тапалка</string>
-
+    <string name="app_name">Буги Тапалка</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="menu_item_info">Шо тут происходит</string>
     <string name="menu_item_about">Хто здесь</string>
-
     <string name="settings_tap_mode_label">Тапать каждый</string>
     <string-array name="tap_modes">
         <item>бит</item>
@@ -15,39 +10,26 @@
         <item>4й счёт</item>
         <item>8й счёт</item>
     </string-array>
-
     <string name="settings_unit_label">Еденицы темпа</string>
     <string-array name="temp_units">
         <item>бит</item>
         <item>Такт (4 счета)</item>
         <item>Восьмёрка</item>
     </string-array>
-
     <string name="output_bpm_label">bpm:</string>
     <string name="output_temp_label">Темп:</string>
     <string name="output_beat_interval_label">Интервал (бит), сек:</string>
     <string name="output_temp_interval_label">Интервал (темп), сек:</string>
-
     <string name="tap_button_label_main">ТАПНИ МЕНЯ</string>
-    <string name="tap_button_label_main_new_measurement">ТАПНИ МЕНЯ</string>
     <string name="tap_button_label_bottom_beat">(каждый счёт)</string>
     <string name="tap_button_label_bottom_second_beat">(каждый 2й счёт)</string>
     <string name="tap_button_label_bottom_four_beat">(каждый 4й счёт)</string>
     <string name="tap_button_label_bottom_eight_beat">(каждую восьмёрку)</string>
-
     <string name="empty_measurement_started_value">--<!--\u2014--></string>
     <string name="empty_value">\u0020<!--\u2014--></string>
-
-    <string name="info_text">\tВредины-танцоры используют разные системы подсчёта темпа музыки:
-    \n\n\t1) Удары метронома в минуту ("биты", "beats per minute" или "BPM", "количество счетов в минуту"). Эта единица измерения используется, в основном, музыкантами, из-за чего является наиболее популярной. Используется в линди-хопе
-    \n\n\t2) Такты (4 счета) в минуту. Данная система подсчета используется в буги-вуги, юхууу!
-    \n\n\t3) "Восьмёрки" (8 счетов или 2 такта) в минуту, чаще всего используется теми оригиналами, кто пытается представить сколько восьмёрок придётся сделать за время выступления.
-    </string>
-
     <string name="about_text_author_label">автор:</string>
     <string name="about_text_author_value">Mirash</string>
     <string name="about_text_version_label">версия:</string>
     <string name="about_text_email_value">alex.mirash@gmail.com</string>
     <string name="about_dialog_title">Seal with it</string>
-
 </resources>

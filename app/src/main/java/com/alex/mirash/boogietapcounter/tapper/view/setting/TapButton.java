@@ -2,7 +2,7 @@ package com.alex.mirash.boogietapcounter.tapper.view.setting;
 
 import android.content.Context;
 import android.os.Build;
-import android.support.v7.widget.AppCompatButton;
+import androidx.appcompat.widget.AppCompatButton;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
