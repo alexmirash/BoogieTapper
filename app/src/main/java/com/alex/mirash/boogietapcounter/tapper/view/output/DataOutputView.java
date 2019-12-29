@@ -1,13 +1,12 @@
 package com.alex.mirash.boogietapcounter.tapper.view.output;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
-import com.alex.mirash.boogietapcounter.settings.SettingUnit;
+import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
 import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
 

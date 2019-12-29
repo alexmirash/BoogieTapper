@@ -6,6 +6,7 @@ import com.alex.mirash.boogietapcounter.tapper.controller.strategy.BpmCalculateS
 import com.alex.mirash.boogietapcounter.tapper.controller.strategy.DelayAverageStrategy;
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
 import com.alex.mirash.boogietapcounter.tapper.tool.BpmStrategyListener;
+import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 import com.alex.mirash.boogietapcounter.tapper.tool.EventsListener;
 import com.alex.mirash.boogietapcounter.tapper.tool.TapControlListener;
 
@@ -68,7 +69,7 @@ public class BeatController implements TapControlListener, BpmStrategyListener {
     @Override
     public void onBpmUpdate(DataHolder data) {
         if (Settings.get().getIsAutoRefresh()) {
-            idleHandler.setIdleTime((int) data.getDetails().getAverageTapInterval() + Settings.AUTO_REFRESH_TIME);
+            idleHandler.setIdleTime((int) data.getDetails().getAverageTapInterval() + Const.AUTO_REFRESH_TIME);
         }
         if (listener != null) {
             listener.onBpmUpdate(data);

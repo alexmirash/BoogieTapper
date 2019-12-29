@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_menu_about"
+        android:id="@+id/nav_menu_pick_file"
         android:icon="@drawable/menu_icon_dancer"
-        android:title="@string/menu_item_about"
+        android:title="@string/menu_item_file_pick"
         />
 </menu>

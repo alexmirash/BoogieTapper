@@ -1,37 +1,41 @@
 package com.alex.mirash.boogietapcounter;
 
-import android.graphics.Color;
+import android.Manifest;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.TextView;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.alex.mirash.boogietapcounter.mp3.Mp3PlayerControl;
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
-import com.alex.mirash.boogietapcounter.settings.SettingUnit;
 import com.alex.mirash.boogietapcounter.settings.Settings;
+import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
 import com.alex.mirash.boogietapcounter.tapper.controller.BeatController;
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
-import com.alex.mirash.boogietapcounter.tapper.tool.ActivityActionProvider;
 import com.alex.mirash.boogietapcounter.tapper.tool.EventsListener;
+import com.alex.mirash.boogietapcounter.tapper.tool.PreferencesManager;
 import com.alex.mirash.boogietapcounter.tapper.tool.Utils;
 import com.alex.mirash.boogietapcounter.tapper.view.output.DataOutputView;
 import com.alex.mirash.boogietapcounter.tapper.view.setting.SettingsView;
 import com.google.android.material.navigation.NavigationView;
+import com.obsez.android.lib.filechooser.ChooserDialog;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        EventsListener, ActivityActionProvider {
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
+
+public class MainActivity extends BasePermissionsActivity implements NavigationView.OnNavigationItemSelectedListener, EventsListener {
 
     private static final float DRAWER_PARALLAX_RATIO = 0.25f;
 
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Animation refreshAnimation;
     private NavigationView navigationView;
 
+    private Mp3PlayerControl mp3PlayerControl;
+
     private final SettingChangeObserver<SettingUnit> unitUpdateForOldDataObserver = new SettingChangeObserver<SettingUnit>() {
         @Override
         public void onSettingChanged(SettingUnit setting) {
@@ -55,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestPermissionsIfNecessary(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -81,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.addHeaderView(new SettingsView(this));
 
         initTapElements();
+        mp3PlayerControl = new Mp3PlayerControl(findViewById(R.id.mp3_player));
 
         refreshAnimation = AnimationUtils.loadAnimation(this, R.anim.refresh_menu_item_anim);
 
@@ -90,19 +98,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onDestroy() {
         Settings.get().clearObservers();
+        mp3PlayerControl.clear();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BoogieApp.getInstance().setIsForeground(true);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        BoogieApp.getInstance().setIsForeground(false);
     }
 
     private void initTapElements() {
         beatController = new BeatController();
         beatController.setListener(this);
         View tapButton = findViewById(R.id.tap_button);
-        tapButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                beatController.onTap();
-            }
-        });
+        tapButton.setOnClickListener(v -> beatController.onTap());
         outputView = findViewById(R.id.data_output_view);
     }
 
@@ -127,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            View refreshView = getRefreshButton();
+            View refreshView = findViewById(R.id.action_refresh);
             if (refreshView != null) {
                 refreshView.startAnimation(refreshAnimation);
             }
@@ -142,12 +158,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        switch (id) {
-            case R.id.nav_menu_about:
-                showAboutDialog();
-                break;
+        if (id == R.id.nav_menu_pick_file) {
+//            Mp3Helper.requestDocumentTree(this);
+            new ChooserDialog(MainActivity.this)
+                    .withFilter(true, false)
+                    .withStartFile(PreferencesManager.getLastFilePath())
+                    .withChosenListener((path, folder) -> {
+                        drawer.closeDrawer(GravityCompat.START);
+                        PreferencesManager.setLastFilePath(path);
+                        if (folder != null) {
+                            Log.d(TAG, path + ", " + folder.exists() + ", canWrite =? " + folder.canWrite());
+                            File[] files = folder.listFiles();
+                            if (files == null || files.length == 0) {
+                                ToastUtils.showToast("Fail: seems folder is empty");
+                                return;
+                            }
+                            List<File> mp3Files = new ArrayList<>(files.length);
+                            for (File file : files) {
+                                if (file.getName().endsWith(".mp3")) {
+                                    mp3Files.add(file);
+                                }
+                            }
+                            if (mp3Files.isEmpty()) {
+                                ToastUtils.showToast("Fail: no mp3 files found");
+                                return;
+                            }
+                            mp3PlayerControl.initialize(mp3Files);
+                        }
+                    })
+                    .build()
+                    .show();
         }
-        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
@@ -166,20 +207,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    private void showAboutDialog() {
-        View content = View.inflate(this, R.layout.dialog_about_content, null);
-        TextView versionValueView = content.findViewById(R.id.about_version_value);
-        versionValueView.setText(Utils.getAppVersion());
-        AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle(getString(R.string.about_dialog_title))
-                .setView(content)
-                .setPositiveButton(android.R.string.yes, null)
-                .show();
-        if (dialog != null && dialog.getButton(AlertDialog.BUTTON_POSITIVE) != null) {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-        }
-    }
-
     @Override
     public void onBpmUpdate(DataHolder data) {
         outputView.setData(data);
@@ -188,21 +215,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onRefresh() {
         outputView.refresh();
-    }
-
-    // ActivityActionsProvider
-    @Override
-    public void onBack() {
-        onBackPressed();
-    }
-
-    @Override
-    public View getRefreshButton() {
-        return findViewById(R.id.action_refresh);
-    }
-
-    @Override
-    public Menu getNavigationMenu() {
-        return navigationView.getMenu();
     }
 }

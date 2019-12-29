@@ -8,8 +8,8 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.alex.mirash.boogietapcounter.R;
-import com.alex.mirash.boogietapcounter.settings.SettingTapMode;
-import com.alex.mirash.boogietapcounter.settings.SettingUnit;
+import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
+import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
 import com.alex.mirash.boogietapcounter.settings.Settings;
 
 /**

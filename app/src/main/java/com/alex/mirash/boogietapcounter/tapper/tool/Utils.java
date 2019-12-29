@@ -12,8 +12,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.BuildConfig;
 import com.alex.mirash.boogietapcounter.R;
-import com.alex.mirash.boogietapcounter.settings.SettingTapMode;
-import com.alex.mirash.boogietapcounter.settings.SettingUnit;
+import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
+import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
 import com.alex.mirash.boogietapcounter.settings.Settings;
 
 /**

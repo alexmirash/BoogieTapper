@@ -3,6 +3,8 @@ package com.alex.mirash.boogietapcounter.settings;
 import android.util.Log;
 
 import com.alex.mirash.boogietapcounter.BoogieApp;
+import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
+import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
 import com.alex.mirash.boogietapcounter.tapper.tool.PreferencesManager;
 
 import java.util.ArrayList;
@@ -13,16 +15,10 @@ import java.util.List;
  */
 
 public class Settings {
-    public static final String KEY_TAP_MODE = "tap_mode";
-    public static final String KEY_TEMP_UNIT = "unit";
-    public static final String KEY_AUTO_REFRESH = "auto_refresh";
-
-    public static boolean AUTO_REFRESH_DEFAULT_VALUE = true;
-    public static int AUTO_REFRESH_TIME = 2000;
-
     private SettingTapMode tapMode;
     private SettingUnit unit;
     private boolean isAutoRefresh;
+    private boolean isAddBpmToFileName;
 
     //observerable part TODO
     private List<SettingChangeObserver<SettingTapMode>> tapModeObservers;
@@ -36,6 +32,7 @@ public class Settings {
         tapMode = PreferencesManager.getTapMode();
         unit = PreferencesManager.getUnit();
         isAutoRefresh = PreferencesManager.getAutoRefreshValue();
+        isAutoRefresh = PreferencesManager.getAddBpmToFileNameValue();
     }
 
     public SettingTapMode getTapMode() {
@@ -65,6 +62,14 @@ public class Settings {
     public void setIsAutoRefresh(boolean autoRefresh) {
         isAutoRefresh = autoRefresh;
         PreferencesManager.setAutoRefresh(autoRefresh);
+    }
+
+    public boolean isAddBpmToFileName() {
+        return isAddBpmToFileName;
+    }
+
+    public void setAddBpmToFileName(boolean addBpmToFileName) {
+        isAddBpmToFileName = addBpmToFileName;
     }
 
     public static Settings get() {

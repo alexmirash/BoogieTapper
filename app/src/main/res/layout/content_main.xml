@@ -4,10 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/side_margin"
-    android:paddingTop="@dimen/side_margin"
-    android:paddingRight="@dimen/side_margin"
-    android:paddingBottom="@dimen/side_margin"
+    android:padding="@dimen/side_margin"
     tools:context="com.alex.mirash.boogietapcounter.MainActivity"
     >
     <com.alex.mirash.boogietapcounter.tapper.view.output.DataOutputView
@@ -18,9 +15,16 @@
     <com.alex.mirash.boogietapcounter.tapper.view.setting.TapButton
         android:id="@+id/tap_button"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="15dp"
+        android:layout_weight="1"
         android:textColor="@color/tap_button_text_color"
         android:textSize="25dp"
+        />
+    <com.alex.mirash.boogietapcounter.mp3.PlayerView
+        android:id="@+id/mp3_player"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         />
 </LinearLayout>

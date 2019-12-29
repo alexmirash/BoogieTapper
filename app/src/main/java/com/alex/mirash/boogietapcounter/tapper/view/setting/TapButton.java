@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 
 import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
-import com.alex.mirash.boogietapcounter.settings.SettingTapMode;
+import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.Settings;
 
 /**

@@ -13,6 +13,7 @@ public class BoogieApp extends Application {
     private Settings settings;
     private PreferencesManager preferences;
     private static BoogieApp instance;
+    private boolean isForeground;
 
     @Override
     public void onCreate() {
@@ -32,5 +33,13 @@ public class BoogieApp extends Application {
 
     public PreferencesManager getPreferences() {
         return preferences;
+    }
+
+    public void setIsForeground(boolean foreground) {
+        isForeground = foreground;
+    }
+
+    public static boolean isForeground() {
+        return instance.isForeground;
     }
 }

@@ -1,4 +1,4 @@
-package com.alex.mirash.boogietapcounter.settings;
+package com.alex.mirash.boogietapcounter.settings.options;
 
 import com.alex.mirash.boogietapcounter.R;
 

@@ -1,8 +1,9 @@
 <resources>
-    <string name="app_name">Буги Тапалка</string>
+    <string name="app_name">Буги ТаПрас</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="menu_item_about">Хто здесь</string>
+    <string name="menu_item_file_pick">Выбрать файл</string>
     <string name="settings_tap_mode_label">Тапать каждый</string>
     <string-array name="tap_modes">
         <item>бит</item>
@@ -32,4 +33,8 @@
     <string name="about_text_version_label">версия:</string>
     <string name="about_text_email_value">alex.mirash@gmail.com</string>
     <string name="about_dialog_title">Seal with it</string>
+
+    <string name="file_choose_title">Выбери папку с исходными mp3 файлами</string>
+    <string name="file_choose_cancel">Да ну его</string>
+    <string name="file_choose_ok">Ок</string>
 </resources>
