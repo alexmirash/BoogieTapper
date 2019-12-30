@@ -20,6 +20,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import static com.alex.mirash.boogietapcounter.tapper.tool.Const.SONG_PROGRESS_UPDATE_INTERVAL;
+
 /**
  * @author Mirash
  */
@@ -32,28 +34,7 @@ public class Mp3PlayerControl {
     private SparseArray<Mp3File> mp3Files;
     private int currentPosition = -1;
     private final Handler handler = new Handler();
-
-    public void updateSongProgressBar() {
-        handler.postDelayed(updateTimeTask, 100);
-    }
-
-    private final Runnable updateTimeTask = new Runnable() {
-        @Override
-        public void run() {
-            long totalDuration = mediaPlayer.getDuration();
-            long currentDuration = mediaPlayer.getCurrentPosition();
-            // Displaying Total Duration time
-//            songTotalDurationLabel.setText(""+utils.milliSecondsToTimer(totalDuration));
-            // Displaying time completed playing
-//            songCurrentDurationLabel.setText(""+utils.milliSecondsToTimer(currentDuration));
-
-            // Updating progress bar
-            float progress = PlayerUtils.getProgressPercentage(currentDuration, totalDuration);
-            //Log.d("Progress", ""+progress);
-            playerView.setProgress(progress);
-            handler.postDelayed(this, 100);
-        }
-    };
+    private Runnable updateTimeTask;
 
     public Mp3PlayerControl(PlayerView playerView) {
         this.playerView = playerView;
@@ -71,16 +52,16 @@ public class Mp3PlayerControl {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-                handler.removeCallbacks(updateTimeTask);
+                stopUpdateSongProgress();
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-                handler.removeCallbacks(updateTimeTask);
+                stopUpdateSongProgress();
                 int totalDuration = mediaPlayer.getDuration();
-                int currentPosition = PlayerUtils.progressToTimer(seekBar.getProgress() / (float) seekBar.getMax(), totalDuration);
+                int currentPosition = PlayerUtils.getProgressTime(seekBar.getProgress() / (float) seekBar.getMax(), totalDuration);
                 mediaPlayer.seekTo(currentPosition);
-                updateSongProgressBar();
+                startUpdateSongProgress();
             }
         });
     }
@@ -117,6 +98,16 @@ public class Mp3PlayerControl {
                 if (mediaPlayer == null) {
                     mediaPlayer = new MediaPlayer();
                     mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    mediaPlayer.setOnCompletionListener(mp -> {
+                        Log.d(TAG, "onComplete");
+                        stopUpdateSongProgress();
+                        playNextFile();
+                    });
+                    mediaPlayer.setOnErrorListener((mp, what, extra) -> {
+                        Log.e(TAG, "onError: " + what + ", " + extra);
+                        playerView.setPlaying(false);
+                        return false;
+                    });
                 } else {
                     mediaPlayer.reset();
                 }
@@ -126,18 +117,40 @@ public class Mp3PlayerControl {
                     ToastUtils.showToast("Fail: playFile " + e);
                     return;
                 }
-                mediaPlayer.setOnPreparedListener(mp -> start());
-                mediaPlayer.setOnCompletionListener(mp -> {
-                    handler.removeCallbacks(updateTimeTask);
-                    playNextFile();
-                });
-                mediaPlayer.setOnErrorListener((mp, what, extra) -> {
-                    playerView.setPlaying(false);
-                    return false;
-                });
-                mediaPlayer.prepareAsync();
-                playerView.setSongInfo(new SongInfo(file.getName(), position, files.size(), FileHelper.getBpm(mp3File)));
+                try {
+                    mediaPlayer.prepare();
+                } catch (IOException e) {
+                    Log.e(TAG, "prepare failed: " + e);
+                    ToastUtils.showToast("mediaPlayer.prepare() fail: " + e);
+                    return;
+                }
+                start();
+                playerView.setSongInfo(new SongInfo(file.getName(), position, files.size(),
+                        mediaPlayer.getDuration(), FileHelper.getBpm(mp3File)));
             }
+        }
+    }
+
+    private void startUpdateSongProgress() {
+        if (updateTimeTask == null) {
+            updateTimeTask = new Runnable() {
+                @Override
+                public void run() {
+                    long currentDuration = mediaPlayer.getCurrentPosition();
+                    float progress = PlayerUtils.getProgress(currentDuration, mediaPlayer.getDuration());
+                    playerView.setProgressTime(currentDuration);
+                    playerView.setProgress(progress);
+                    handler.postDelayed(this, SONG_PROGRESS_UPDATE_INTERVAL);
+                }
+            };
+            handler.postDelayed(updateTimeTask, SONG_PROGRESS_UPDATE_INTERVAL);
+        }
+    }
+
+    private void stopUpdateSongProgress() {
+        if (updateTimeTask != null) {
+            handler.removeCallbacks(updateTimeTask);
+            updateTimeTask = null;
         }
     }
 
@@ -159,18 +172,14 @@ public class Mp3PlayerControl {
         playFile(currentPosition);
     }
 
-    public void seekTo(int millis) {
-        mediaPlayer.seekTo(millis);
-    }
-
     private void pause() {
-        handler.removeCallbacks(updateTimeTask);
+        stopUpdateSongProgress();
         playerView.setPlaying(false);
         mediaPlayer.pause();
     }
 
     private void start() {
-        updateSongProgressBar();
+        startUpdateSongProgress();
         playerView.setPlaying(true);
         mediaPlayer.start();
     }
@@ -188,6 +197,6 @@ public class Mp3PlayerControl {
             mediaPlayer.release();
             mediaPlayer = null;
         }
-        handler.removeCallbacks(updateTimeTask);
+        stopUpdateSongProgress();
     }
 }

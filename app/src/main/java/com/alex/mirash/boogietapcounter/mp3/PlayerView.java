@@ -24,6 +24,9 @@ public class PlayerView extends LinearLayout {
     private TextView positionTextView;
     private TextView bpmTextView;
     private SeekBar seekBar;
+    private TextView timeProgressTextView;
+    private TextView durationTextView;
+    private final PlayerUtils.TimeHolder timeHolder = new PlayerUtils.TimeHolder();
 
     public PlayerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
@@ -45,6 +48,8 @@ public class PlayerView extends LinearLayout {
         positionTextView = findViewById(R.id.player_song_position);
         bpmTextView = findViewById(R.id.player_song_bpm);
         seekBar = findViewById(R.id.player_progress_bar);
+        timeProgressTextView = findViewById(R.id.player_song_progress_time);
+        durationTextView = findViewById(R.id.player_song_duration);
     }
 
     public void setPreviousButtonClickListener(OnClickListener onClickListener) {
@@ -64,10 +69,12 @@ public class PlayerView extends LinearLayout {
         if (songInfo == null) {
             titleTextView.setText("");
             positionTextView.setText("");
+            durationTextView.setText("");
             bpmTextView.setText("");
         } else {
             titleTextView.setText(songInfo.getTitle());
             positionTextView.setText((songInfo.getPosition() + 1) + "/" + songInfo.getTotalCount());
+            durationTextView.setText(PlayerUtils.millisToTimeString(songInfo.getDuration()));
             int bpm = songInfo.getBpm();
             bpmTextView.setText(bpm < 0 ? "" : String.valueOf(bpm));
         }
@@ -79,11 +86,18 @@ public class PlayerView extends LinearLayout {
 
     public void setPlaying(boolean isPlaying) {
         playPauseButton.setIconResource(isPlaying
-                ? R.drawable.ic_pause_circle_outline_black_24dp
-                : R.drawable.ic_play_circle_outline_black_24dp);
+                ? R.drawable.ic_pause_black_24dp
+                : R.drawable.ic_play_arrow_black_24dp);
     }
 
     public void setProgress(float progress) {
-        seekBar.setProgress((int) (seekBar.getMax() * progress));
+        seekBar.setProgress(Math.round(seekBar.getMax() * progress));
+    }
+
+    public void setProgressTime(long time) {
+        boolean changed = PlayerUtils.millisToTime(timeHolder, time);
+        if (changed) {
+            timeProgressTextView.setText(timeHolder.toString());
+        }
     }
 }

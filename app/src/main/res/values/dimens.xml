@@ -9,4 +9,7 @@
 
     <dimen name="drawer_max_width">320dp</dimen>
     <dimen name="drawer_min_space">40dp</dimen>
+
+    <dimen name="text_size_default">16dp</dimen>
+    <dimen name="text_size_small">12dp</dimen>
 </resources>

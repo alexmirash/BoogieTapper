@@ -32,10 +32,10 @@ public class FileHelper {
             ToastUtils.showToast("Fail: parent folder is null");
             return;
         }
-        File editFolder = new File(folder.getPath(), Const.FODLER_NAME);
+        File editFolder = new File(folder.getPath(), Const.FOLDER_NAME);
         if (!editFolder.exists()) {
             if (!editFolder.mkdirs()) {
-                ToastUtils.showToast("Fail: could not create <" + Const.FODLER_NAME + "> folder");
+                ToastUtils.showToast("Fail: could not create <" + Const.FOLDER_NAME + "> folder");
                 return;
             }
         }

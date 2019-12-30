@@ -71,6 +71,7 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         contentContainerView = findViewById(R.id.content_container);
+        contentContainerView.findViewById(R.id.content_main_view).setOnTouchListener((v, event) -> true);
         drawer.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
