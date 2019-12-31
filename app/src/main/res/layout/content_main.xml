@@ -8,11 +8,27 @@
     android:padding="@dimen/side_margin"
     tools:context="com.alex.mirash.boogietapcounter.MainActivity"
     >
-    <com.alex.mirash.boogietapcounter.tapper.view.output.DataOutputView
-        android:id="@+id/data_output_view"
-        android:layout_width="wrap_content"
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        />
+        >
+        <com.alex.mirash.boogietapcounter.tapper.view.output.DataOutputView
+            android:id="@+id/data_output_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <ImageButton
+            android:id="@+id/bpm_save_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:enabled="false"
+            android:padding="@dimen/minor_margin"
+            android:src="@drawable/ic_save_accent_42dp"
+            android:visibility="invisible"
+            />
+    </FrameLayout>
     <com.alex.mirash.boogietapcounter.tapper.view.setting.TapButton
         android:id="@+id/tap_button"
         android:layout_width="match_parent"

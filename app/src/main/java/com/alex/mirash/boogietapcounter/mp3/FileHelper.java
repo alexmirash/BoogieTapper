@@ -22,24 +22,26 @@ import java.io.IOException;
  */
 public class FileHelper {
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void writeBpmTag(File baseMp3File, int bpm) throws InvalidDataException, IOException, UnsupportedTagException {
+    public static boolean writeBpmTag(File baseMp3File, Mp3File mp3file, int bpm) throws InvalidDataException, IOException, UnsupportedTagException {
         if (baseMp3File == null) {
             ToastUtils.showToast("Fail: File is null");
-            return;
+            return false;
         }
         File folder = baseMp3File.getParentFile();
         if (folder == null) {
             ToastUtils.showToast("Fail: parent folder is null");
-            return;
+            return false;
         }
         File editFolder = new File(folder.getPath(), Const.FOLDER_NAME);
         if (!editFolder.exists()) {
             if (!editFolder.mkdirs()) {
                 ToastUtils.showToast("Fail: could not create <" + Const.FOLDER_NAME + "> folder");
-                return;
+                return false;
             }
         }
-        Mp3File mp3file = new Mp3File(baseMp3File);
+        if (mp3file == null) {
+            mp3file = new Mp3File(baseMp3File);
+        }
         ID3v2 id3v2 = mp3file.getId3v2Tag();
         if (id3v2 == null) {
             id3v2 = new ID3v22Tag();
@@ -50,9 +52,11 @@ public class FileHelper {
         File saveFile = new File(editFolder.getPath(), saveFileName);
         try {
             mp3file.save(saveFile.getPath());
+            return true;
         } catch (NotSupportedException e) {
             ToastUtils.showLongToast("Fail save: " + e.getDetailedMessage());
         }
+        return false;
     }
 
     public static int getBpm(Mp3File mp3file) {

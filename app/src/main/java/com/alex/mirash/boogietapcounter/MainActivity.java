@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.alex.mirash.boogietapcounter.mp3.Mp3PlayerCallback;
 import com.alex.mirash.boogietapcounter.mp3.Mp3PlayerControl;
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
 import com.alex.mirash.boogietapcounter.settings.Settings;
@@ -35,13 +36,14 @@ import java.util.List;
 
 import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
 
-public class MainActivity extends BasePermissionsActivity implements NavigationView.OnNavigationItemSelectedListener, EventsListener {
+public class MainActivity extends BasePermissionsActivity implements NavigationView.OnNavigationItemSelectedListener, EventsListener, Mp3PlayerCallback {
 
     private static final float DRAWER_PARALLAX_RATIO = 0.25f;
 
     private BeatController beatController;
     private View contentContainerView;
     private DataOutputView outputView;
+    private View bpmSaveButton;
 
     private DrawerLayout drawer;
 
@@ -89,10 +91,17 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
         navigationView.addHeaderView(new SettingsView(this));
 
         initTapElements();
+        bpmSaveButton = findViewById(R.id.bpm_save_button);
+        bpmSaveButton.setOnClickListener(v -> {
+            DataHolder dataHolder = beatController.getData();
+            if (dataHolder != null) {
+                mp3PlayerControl.saveBpm(beatController.getData().getTemp());
+            }
+        });
         mp3PlayerControl = new Mp3PlayerControl(findViewById(R.id.mp3_player));
+        mp3PlayerControl.setCallback(this);
 
         refreshAnimation = AnimationUtils.loadAnimation(this, R.anim.refresh_menu_item_anim);
-
         Utils.changeNavigationViewWidthIfNecessary(drawer, navigationView);
     }
 
@@ -148,7 +157,6 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
             if (refreshView != null) {
                 refreshView.startAnimation(refreshAnimation);
             }
-            Settings.get().removeUnitObserver(unitUpdateForOldDataObserver);
             beatController.refresh();
             return true;
         }
@@ -185,6 +193,7 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
                                 return;
                             }
                             mp3PlayerControl.initialize(mp3Files);
+                            bpmSaveButton.setVisibility(View.VISIBLE);
                         }
                     })
                     .build()
@@ -196,12 +205,14 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
     // EventsListener
     @Override
     public void onNewMeasurementStarted() {
+        Log.d(TAG, "onNewMeasurementStarted");
         outputView.refresh(true);
         Settings.get().removeUnitObserver(unitUpdateForOldDataObserver);
     }
 
     @Override
     public void onMeasurementStopped(DataHolder resultData) {
+        Log.d(TAG, "onMeasurementStopped");
         if (resultData != null && resultData.getDetails().getIntervalsCount() > 0) {
             outputView.highlight();
             Settings.get().addUnitObserver(unitUpdateForOldDataObserver);
@@ -210,11 +221,22 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
 
     @Override
     public void onBpmUpdate(DataHolder data) {
+        Log.d(TAG, "onBpmUpdate");
         outputView.setData(data);
+        bpmSaveButton.setEnabled(true);
     }
 
     @Override
     public void onRefresh() {
+        Log.d(TAG, "onRefresh");
+        Settings.get().removeUnitObserver(unitUpdateForOldDataObserver);
         outputView.refresh();
+        bpmSaveButton.setEnabled(false);
+    }
+
+    @Override
+    public void onFilePlayStart() {
+        Log.d(TAG, "onFilePlayStart");
+        beatController.refresh();
     }
 }

@@ -147,7 +147,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_save_black_24dp" />
+                            <entry key="color" value="f79727" />
+                            <entry key="outputName" value="ic_save_black_42dp" />
                             <entry key="sourceFile" value="C:\Users\Mirash" />
                           </map>
                         </option>

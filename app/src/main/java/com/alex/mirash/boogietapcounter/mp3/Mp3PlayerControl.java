@@ -3,6 +3,7 @@ package com.alex.mirash.boogietapcounter.mp3;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 import android.util.SparseArray;
@@ -35,6 +36,7 @@ public class Mp3PlayerControl {
     private int currentPosition = -1;
     private final Handler handler = new Handler();
     private Runnable updateTimeTask;
+    private Mp3PlayerCallback callback;
 
     public Mp3PlayerControl(PlayerView playerView) {
         this.playerView = playerView;
@@ -64,6 +66,10 @@ public class Mp3PlayerControl {
                 startUpdateSongProgress();
             }
         });
+    }
+
+    public void setCallback(Mp3PlayerCallback callback) {
+        this.callback = callback;
     }
 
     public void initialize(@NonNull List<File> filesList) {
@@ -126,7 +132,11 @@ public class Mp3PlayerControl {
                 }
                 start();
                 playerView.setSongInfo(new SongInfo(file.getName(), position, files.size(),
-                        mediaPlayer.getDuration(), FileHelper.getBpm(mp3File)));
+                        mediaPlayer.getDuration()));
+                playerView.setSongBpm(FileHelper.getBpm(mp3File));
+                if (callback != null) {
+                    callback.onFilePlayStart();
+                }
             }
         }
     }
@@ -192,11 +202,28 @@ public class Mp3PlayerControl {
         }
     }
 
+    public void saveBpm(float bpm) {
+        int roundBpm = Math.round(bpm);
+        Log.d(TAG, "saveBpm: " + bpm + ", " + roundBpm);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            try {
+                boolean result = FileHelper.writeBpmTag(files.get(currentPosition), mp3Files.get(currentPosition), roundBpm);
+                if (result) {
+                    playerView.setSongBpm(roundBpm);
+                    ToastUtils.showToast("BPM save succeed");
+                }
+            } catch (InvalidDataException | IOException | UnsupportedTagException e) {
+                Log.e(TAG, "saveBpm: " + e);
+            }
+        }
+    }
+
     public void clear() {
         if (mediaPlayer != null) {
             mediaPlayer.release();
             mediaPlayer = null;
         }
         stopUpdateSongProgress();
+        callback = null;
     }
 }

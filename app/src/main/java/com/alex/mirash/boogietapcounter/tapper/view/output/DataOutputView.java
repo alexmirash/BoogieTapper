@@ -6,8 +6,8 @@ import android.widget.LinearLayout;
 
 import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
-import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
 import com.alex.mirash.boogietapcounter.settings.Settings;
+import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
 
 /**
@@ -50,10 +50,12 @@ public class DataOutputView extends LinearLayout implements SettingChangeObserve
     }
 
     public void setData(DataHolder data) {
-        setBeats(data.getBpm());
-        setTemp(data.getTemp());
-        setBeatsInterval(data.getBeatsInterval());
-        setTempInterval(data.getTempUnitsInterval());
+        if (data != null) {
+            setBeats(data.getBpm());
+            setTemp(data.getTemp());
+            setBeatsInterval(data.getBeatsInterval());
+            setTempInterval(data.getTempUnitsInterval());
+        }
     }
 
     public void refresh() {

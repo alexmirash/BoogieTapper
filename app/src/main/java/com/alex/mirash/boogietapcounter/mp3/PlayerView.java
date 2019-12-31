@@ -70,14 +70,15 @@ public class PlayerView extends LinearLayout {
             titleTextView.setText("");
             positionTextView.setText("");
             durationTextView.setText("");
-            bpmTextView.setText("");
         } else {
             titleTextView.setText(songInfo.getTitle());
             positionTextView.setText((songInfo.getPosition() + 1) + "/" + songInfo.getTotalCount());
             durationTextView.setText(PlayerUtils.millisToTimeString(songInfo.getDuration()));
-            int bpm = songInfo.getBpm();
-            bpmTextView.setText(bpm < 0 ? "" : String.valueOf(bpm));
         }
+    }
+
+    public void setSongBpm(int bpm) {
+        bpmTextView.setText(bpm < 0 ? "" : String.valueOf(bpm));
     }
 
     public void setSeekBarListener(SeekBar.OnSeekBarChangeListener listener) {

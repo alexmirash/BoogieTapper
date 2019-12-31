@@ -32,7 +32,7 @@ public class Settings {
         tapMode = PreferencesManager.getTapMode();
         unit = PreferencesManager.getUnit();
         isAutoRefresh = PreferencesManager.getAutoRefreshValue();
-        isAutoRefresh = PreferencesManager.getAddBpmToFileNameValue();
+        isAddBpmToFileName = PreferencesManager.getAddBpmToFileNameValue();
     }
 
     public SettingTapMode getTapMode() {

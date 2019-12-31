@@ -7,10 +7,9 @@ public class SongInfo {
     private String title;
     private int position;
     private int totalCount;
-    private int bpm;
     private long duration;
 
-    public SongInfo(String title, int position, int totalCount, long duration, int bpm) {
+    public SongInfo(String title, int position, int totalCount, long duration) {
         if (title != null && title.endsWith(".mp3")) {
             title = title.substring(0, title.length() - 4);
         }
@@ -18,7 +17,6 @@ public class SongInfo {
         this.position = position;
         this.totalCount = totalCount;
         this.duration = duration;
-        this.bpm = bpm;
     }
 
     public int getPosition() {
@@ -27,10 +25,6 @@ public class SongInfo {
 
     public String getTitle() {
         return title;
-    }
-
-    public int getBpm() {
-        return bpm;
     }
 
     public int getTotalCount() {
@@ -48,7 +42,6 @@ public class SongInfo {
                 ", position=" + position +
                 ", totalCount=" + totalCount +
                 ", duration=" + duration +
-                ", bpm=" + bpm +
                 '}';
     }
 }

@@ -11,7 +11,6 @@ import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 
 public class DataHolder {
     private float bpm;  //среднее значение бит в минуту
-
     private final ExtendedStats details;
 
     public DataHolder() {
