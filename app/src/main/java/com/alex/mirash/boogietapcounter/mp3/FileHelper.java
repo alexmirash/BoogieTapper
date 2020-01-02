@@ -134,7 +134,7 @@ public class FileHelper {
             to.setPadding(from.getPadding());
         } catch (IllegalArgumentException e) {
             Log.e(TAG, "tag convert exception: " + e);
-            ToastUtils.showLongToast("Tag version convert exception:\n" + e);
+            ToastUtils.showLongToast("Tag version convert exception:\n" + e + "\nSome metadata may be lost");
         }
         return to;
     }

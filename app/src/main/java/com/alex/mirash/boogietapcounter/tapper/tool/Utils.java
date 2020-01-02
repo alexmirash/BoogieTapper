@@ -30,7 +30,7 @@ public final class Utils {
     }
 
     public static String getAppVersion() {
-        return BuildConfig.VERSION_CODE + "." + BuildConfig.VERSION_NAME;
+        return "v" + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
     }
 
     public static void changeNavigationViewWidthIfNecessary(DrawerLayout drawerLayout, final View navigationView) {

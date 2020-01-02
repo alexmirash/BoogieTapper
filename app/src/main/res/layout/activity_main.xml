@@ -50,14 +50,29 @@
                 android:layout_gravity="bottom"
                 android:layout_marginBottom="@dimen/side_margin"
                 >
-                <ImageView
-                    android:id="@+id/drawer_hbk_logo"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
                     android:layout_marginEnd="@dimen/side_margin"
-                    android:src="@drawable/hbk_logo_small"
-                    />
+                    android:gravity="end"
+                    android:orientation="vertical"
+                    >
+                    <ImageView
+                        android:id="@+id/drawer_hbk_logo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/hbk_logo_small"
+                        />
+                    <TextView
+                        android:id="@+id/app_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/side_half_margin"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="@dimen/text_size_small"
+                        />
+                </LinearLayout>
                 <ImageView
                     android:id="@+id/drawer_image"
                     android:layout_width="wrap_content"

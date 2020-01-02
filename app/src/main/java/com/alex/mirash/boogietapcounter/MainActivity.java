@@ -92,7 +92,8 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
             }
         });
         toggle.syncState();
-
+        TextView versionTextView = drawer.findViewById(R.id.app_version);
+        versionTextView.setText(Utils.getAppVersion());
         Utils.initEasterEgg(drawer.findViewById(R.id.drawer_image), drawer.findViewById(R.id.drawer_hbk_logo));
 
         navigationView = findViewById(R.id.navigation_view);
