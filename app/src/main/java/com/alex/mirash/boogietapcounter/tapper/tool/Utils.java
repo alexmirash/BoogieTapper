@@ -59,7 +59,7 @@ public final class Utils {
     public static void initEasterEgg(ImageView imageView, View button) {
         button.setOnClickListener(v -> {
             int[] images = new int[]{R.drawable.boogie_couple, R.drawable.bezugly,
-                    R.drawable.taras_1, R.drawable.taras_2, R.drawable.omg};
+                    R.drawable.taras_1, R.drawable.taras_2, R.drawable.omg, R.drawable.mirash};
             imageView.setImageResource(images[new Random().nextInt(images.length)]);
         });
     }

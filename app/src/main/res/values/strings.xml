@@ -12,17 +12,17 @@
     </string-array>
     <string name="settings_unit_label">Еденицы темпа</string>
     <string-array name="temp_units">
-        <item>Бит</item>
-        <item>Такт (4 счета)</item>
+        <item>бит</item>
+        <item>такт (4 счета)</item>
     </string-array>
     <string name="settings_round_mode_label">Округление</string>
     <string name="settings_id3v2v_label">Версия ID3v2</string>
     <string name="settings_bpm_filename_label">Добавлять BPM в имя файла</string>
     <string name="settings_show_output_details_label">Показывать ненужную хрень</string>
     <string-array name="round_modes">
-        <item>Round</item>
-        <item>Ceil</item>
-        <item>Floor</item>
+        <item>round</item>
+        <item>ceil</item>
+        <item>floor</item>
     </string-array>
     <string-array name="id3v2tags">
         <item>ID3v23</item>
