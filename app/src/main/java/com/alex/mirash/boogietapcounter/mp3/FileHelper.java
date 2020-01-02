@@ -8,14 +8,14 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.alex.mirash.boogietapcounter.ToastUtils;
-import com.alex.mirash.boogietapcounter.mp3agic.ID3v2;
-import com.alex.mirash.boogietapcounter.mp3agic.ID3v22Tag;
-import com.alex.mirash.boogietapcounter.mp3agic.InvalidDataException;
-import com.alex.mirash.boogietapcounter.mp3agic.Mp3File;
-import com.alex.mirash.boogietapcounter.mp3agic.NotSupportedException;
-import com.alex.mirash.boogietapcounter.mp3agic.UnsupportedTagException;
 import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.tapper.tool.Const;
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.ID3v22Tag;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.NotSupportedException;
+import com.mpatric.mp3agic.UnsupportedTagException;
 
 import java.io.File;
 import java.io.IOException;

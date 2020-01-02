@@ -4,9 +4,9 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.alex.mirash.boogietapcounter.mp3agic.ID3v2;
-import com.alex.mirash.boogietapcounter.mp3agic.ID3v23Tag;
-import com.alex.mirash.boogietapcounter.mp3agic.ID3v24Tag;
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.ID3v23Tag;
+import com.mpatric.mp3agic.ID3v24Tag;
 
 import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
 
