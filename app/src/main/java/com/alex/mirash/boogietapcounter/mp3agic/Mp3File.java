@@ -2,6 +2,7 @@ package com.alex.mirash.boogietapcounter.mp3agic;
 
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import java.io.File;
@@ -499,5 +500,11 @@ public class Mp3File extends FileWrapper {
                 }
             }
         }
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return getFilename();
     }
 }

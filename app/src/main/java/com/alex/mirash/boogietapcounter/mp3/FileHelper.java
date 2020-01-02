@@ -1,7 +1,9 @@
 package com.alex.mirash.boogietapcounter.mp3;
 
 import android.os.Build;
+import android.util.Log;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.alex.mirash.boogietapcounter.ToastUtils;
@@ -17,46 +19,46 @@ import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 import java.io.File;
 import java.io.IOException;
 
+import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
+
 /**
  * @author Mirash
  */
 public class FileHelper {
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static boolean writeBpmTag(File baseMp3File, Mp3File mp3file, int bpm) throws InvalidDataException, IOException, UnsupportedTagException {
+    @Nullable
+    public static File writeBpmTag(File baseMp3File, Mp3File mp3file, int bpm) throws InvalidDataException, IOException, UnsupportedTagException, NotSupportedException {
+        Log.d(TAG, "writeBpmTag: " + mp3file + ", " + bpm);
         if (baseMp3File == null) {
             ToastUtils.showToast("Fail: File is null");
-            return false;
+            return null;
         }
         File folder = baseMp3File.getParentFile();
         if (folder == null) {
             ToastUtils.showToast("Fail: parent folder is null");
-            return false;
+            return null;
         }
         File editFolder = new File(folder.getPath(), Const.FOLDER_NAME);
         if (!editFolder.exists()) {
             if (!editFolder.mkdirs()) {
                 ToastUtils.showToast("Fail: could not create <" + Const.FOLDER_NAME + "> folder");
-                return false;
+                return null;
             }
         }
         if (mp3file == null) {
             mp3file = new Mp3File(baseMp3File);
         }
-        ID3v2 id3v2 = mp3file.getId3v2Tag();
-        if (id3v2 == null) {
-            id3v2 = new ID3v22Tag();
-            mp3file.setId3v2Tag(id3v2);
+        ID3v2 id3v2Tag = mp3file.getId3v2Tag();
+        if (id3v2Tag == null) {
+            id3v2Tag = new ID3v22Tag();
+            mp3file.setId3v2Tag(id3v2Tag);
+            Log.d(TAG, "create id3v2Tag");
         }
-        id3v2.setBPM(bpm);
+        id3v2Tag.setBPM(bpm);
         String saveFileName = Settings.get().isAddBpmToFileName() ? "(" + bpm + ") " + baseMp3File.getName() : baseMp3File.getName();
         File saveFile = new File(editFolder.getPath(), saveFileName);
-        try {
-            mp3file.save(saveFile.getPath());
-            return true;
-        } catch (NotSupportedException e) {
-            ToastUtils.showLongToast("Fail save: " + e.getDetailedMessage());
-        }
-        return false;
+        mp3file.save(saveFile.getPath());
+        return saveFile;
     }
 
     public static int getBpm(Mp3File mp3file) {

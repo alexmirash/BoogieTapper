@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import com.alex.mirash.boogietapcounter.ToastUtils;
 import com.alex.mirash.boogietapcounter.mp3agic.InvalidDataException;
 import com.alex.mirash.boogietapcounter.mp3agic.Mp3File;
+import com.alex.mirash.boogietapcounter.mp3agic.NotSupportedException;
 import com.alex.mirash.boogietapcounter.mp3agic.UnsupportedTagException;
 import com.alex.mirash.boogietapcounter.settings.Settings;
 
@@ -208,13 +209,14 @@ public class Mp3PlayerControl {
         Log.d(TAG, "saveBpm: " + bpm + " -> " + roundBpm);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             try {
-                boolean result = FileHelper.writeBpmTag(files.get(currentPosition), mp3Files.get(currentPosition), roundBpm);
-                if (result) {
+                File result = FileHelper.writeBpmTag(files.get(currentPosition), mp3Files.get(currentPosition), roundBpm);
+                if (result != null && result.exists()) {
                     playerView.setSongBpm(roundBpm);
-                    ToastUtils.showToast("BPM save succeed");
+                    ToastUtils.showToast("BPM save succeed to " + result.getPath());
                 }
-            } catch (InvalidDataException | IOException | UnsupportedTagException e) {
-                Log.e(TAG, "saveBpm: " + e);
+            } catch (InvalidDataException | IOException | UnsupportedTagException | NotSupportedException e) {
+                Log.e(TAG, "saveBpm Failed: " + e);
+                ToastUtils.showToast("BPM save failed");
             }
         }
     }

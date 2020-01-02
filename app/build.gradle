@@ -10,10 +10,26 @@ android {
         versionCode 1
         versionName "0.0"
     }
+
+    signingConfigs {
+        release {
+            storeFile file("mirash_key_store.jks")
+            storePassword "mirash"
+            keyAlias "mirash"
+            keyPassword "mirash"
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            resValue "string", "app_name", "Буги ТаПрас"
+        }
+        debug {
+            applicationIdSuffix ".debug"
+            resValue "string", "app_name", "Буги ТаПрас \n(debug)"
         }
     }
 
