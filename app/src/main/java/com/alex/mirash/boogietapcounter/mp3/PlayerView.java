@@ -24,6 +24,7 @@ public class PlayerView extends LinearLayout {
     private TextView titleTextView;
     private TextView positionTextView;
     private TextView bpmTextView;
+    private TextView id3v2TextView;
     private SeekBar seekBar;
     private TextView timeProgressTextView;
     private TextView durationTextView;
@@ -50,6 +51,7 @@ public class PlayerView extends LinearLayout {
         titleTextView.setSelected(true);
         positionTextView = findViewById(R.id.player_song_position);
         bpmTextView = findViewById(R.id.player_song_bpm);
+        id3v2TextView = findViewById(R.id.player_id3v2_version);
         seekBar = findViewById(R.id.player_progress_bar);
         timeProgressTextView = findViewById(R.id.player_song_progress_time);
         durationTextView = findViewById(R.id.player_song_duration);
@@ -82,6 +84,14 @@ public class PlayerView extends LinearLayout {
 
     public void setSongBpm(int bpm) {
         bpmTextView.setText(bpm < 0 ? "" : String.valueOf(bpm));
+    }
+
+    public void setID3v2Version(String version) {
+        if (version == null) {
+            id3v2TextView.setText("");
+        } else {
+            id3v2TextView.setText("(v" + version + ")");
+        }
     }
 
     public void setSeekBarListener(SeekBar.OnSeekBarChangeListener listener) {

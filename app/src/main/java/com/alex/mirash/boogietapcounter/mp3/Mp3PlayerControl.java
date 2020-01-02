@@ -138,6 +138,7 @@ public class Mp3PlayerControl {
                 playerView.setSongInfo(new SongInfo(file.getName(), position, files.size(),
                         mediaPlayer.getDuration()));
                 playerView.setSongBpm(FileHelper.getBpm(mp3File));
+                playerView.setID3v2Version(FileHelper.getID3v2Version(mp3File));
                 if (callback != null) {
                     callback.onFilePlayStart();
                 }
@@ -211,9 +212,8 @@ public class Mp3PlayerControl {
         Log.d(TAG, "saveBpm: " + bpm + " -> " + roundBpm);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             try {
-                File result = FileHelper.writeBpmTag(files.get(currentPosition), mp3Files.get(currentPosition), roundBpm);
+                File result = FileHelper.writeBpmTag(files.get(currentPosition), null, roundBpm);
                 if (result != null && result.exists()) {
-                    playerView.setSongBpm(roundBpm);
                     ToastUtils.showLongToast(String.format(BoogieApp.getInstance().getString(R.string.save_success_message), result.getPath()));
                 }
             } catch (InvalidDataException | IOException | UnsupportedTagException | NotSupportedException e) {

@@ -32,6 +32,16 @@
             android:layout_height="0dp"
             />
         <TextView
+            android:id="@+id/player_id3v2_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            />
+        <Space
+            android:layout_width="@dimen/minor_margin"
+            android:layout_height="0dp"
+            />
+        <TextView
             android:id="@+id/player_song_bpm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
