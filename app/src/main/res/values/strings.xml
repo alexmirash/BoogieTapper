@@ -12,8 +12,8 @@
     </string-array>
     <string name="settings_unit_label">Еденицы темпа</string>
     <string-array name="temp_units">
-        <item>бит</item>
-        <item>такт (4 счета)</item>
+        <item>биты</item>
+        <item>такты (4 бита)</item>
     </string-array>
     <string name="settings_round_mode_label">Округление</string>
     <string name="settings_id3v2v_label">Версия ID3v2</string>
@@ -29,9 +29,9 @@
         <item>ID3v24</item>
     </string-array>
     <string name="output_bpm_label">Биты:</string>
-    <string name="output_tact_label">Такт:</string>
+    <string name="output_tact_label">Такты:</string>
     <string name="output_beat_interval_label">Интервал (биты), сек:</string>
-    <string name="output_tact_interval_label">Интервал (такт), сек:</string>
+    <string name="output_tact_interval_label">Интервал (такты), сек:</string>
     <string name="tap_button_label_main">ТАПНИ МЕНЯ</string>
     <string name="tap_button_label_bottom_beat">(каждый счёт)</string>
     <string name="tap_button_label_bottom_second_beat">(каждый 2й счёт)</string>
