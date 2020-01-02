@@ -5,7 +5,7 @@ android {
     buildToolsVersion '29.0.2'
     defaultConfig {
         applicationId "com.alexmirash.boogietapper"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
         versionName "0.0"
@@ -27,5 +27,5 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation 'com.github.hedzr:android-file-chooser:v1.2.0-final'
+    implementation 'com.github.TutorialsAndroid:FilePicker:v6.0.19'
 }

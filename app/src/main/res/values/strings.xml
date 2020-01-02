@@ -4,6 +4,7 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="menu_item_file_pick">Выбери папку с mp3</string>
     <string name="settings_tap_mode_label">Тапать каждый</string>
+    <string name="select_file_title">Выбери папку или файл</string>
     <string-array name="tap_modes">
         <item>бит</item>
         <item>2й счёт</item>

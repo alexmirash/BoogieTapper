@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -30,11 +31,14 @@ import com.alex.mirash.boogietapcounter.tapper.tool.Utils;
 import com.alex.mirash.boogietapcounter.tapper.view.SaveButton;
 import com.alex.mirash.boogietapcounter.tapper.view.output.DataOutputView;
 import com.alex.mirash.boogietapcounter.tapper.view.setting.SettingsView;
+import com.developer.filepicker.model.DialogConfigs;
+import com.developer.filepicker.model.DialogProperties;
+import com.developer.filepicker.view.FilePickerDialog;
 import com.google.android.material.navigation.NavigationView;
-import com.obsez.android.lib.filechooser.ChooserDialog;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
@@ -63,7 +67,6 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestPermissionsIfNecessary(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -136,7 +139,7 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
     }
 
     private void setBpmSaveButtonEnabled(boolean enabled) {
-        bpmSaveButton.setEnabled(true);
+        bpmSaveButton.setEnabled(enabled);
         if (enabled) {
             addRoundModeObserver();
         } else {
@@ -181,41 +184,85 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
         return super.onOptionsItemSelected(item);
     }
 
+    private void handleFolderPick(String path, @NonNull File folder) {
+        Log.d(TAG, "handleFolderPick: " + path);
+        if (!folder.canWrite()) {
+            ToastUtils.showToast("Selected folder is <read only>. Please select folder from internal storage");
+            Log.e(TAG, "Cannot write to selected folder");
+            return;
+        }
+        File parent = folder.getParentFile();
+        if (parent != null && parent.exists()) {
+            PreferencesManager.setLastFilePath(parent.getPath());
+        } else {
+            PreferencesManager.setLastFilePath(path);
+        }
+        File[] files = folder.listFiles();
+        if (files == null || files.length == 0) {
+            ToastUtils.showToast("Fail: seems folder is empty");
+            return;
+        }
+        List<File> mp3Files = new ArrayList<>(files.length);
+        for (File file : files) {
+            if (file.getName().endsWith(".mp3")) {
+                mp3Files.add(file);
+            }
+        }
+        if (mp3Files.isEmpty()) {
+            ToastUtils.showToast("Fail: no mp3 files found");
+            return;
+        }
+        mp3PlayerControl.initialize(mp3Files);
+        bpmSaveButton.setVisibility(View.VISIBLE);
+    }
+
+    private void handleFilePick(String path, @NonNull File file) {
+        Log.d(TAG, "handleFilePick: " + path);
+        File folder = file.getParentFile();
+        if (folder == null || !folder.canWrite()) {
+            ToastUtils.showToast("Selected folder is <read only>. Please select folder from internal storage");
+            Log.e(TAG, "Cannot write to selected folder");
+            return;
+        }
+        PreferencesManager.setLastFilePath(folder.getPath());
+        mp3PlayerControl.initialize(Collections.singletonList(file));
+        bpmSaveButton.setVisibility(View.VISIBLE);
+    }
+
+    private void showFilePicker() {
+        String lastPath = PreferencesManager.getLastFilePath();
+        DialogProperties properties = new DialogProperties();
+        properties.selection_mode = DialogConfigs.SINGLE_MODE;
+        properties.selection_type = DialogConfigs.FILE_AND_DIR_SELECT;
+        properties.root = new File(DialogConfigs.DEFAULT_DIR);
+        properties.offset = new File(lastPath == null ? DialogConfigs.DEFAULT_DIR : lastPath);
+        properties.extensions = new String[]{"mp3"};
+        FilePickerDialog dialog = new FilePickerDialog(MainActivity.this, properties);
+        dialog.setDialogSelectionListener(files -> {
+            String path = files == null || files.length == 0 ? null : files[0];
+            if (path != null) {
+                drawer.closeDrawer(GravityCompat.START);
+                File file = new File(path);
+                if (file.isDirectory()) {
+                    handleFolderPick(path, file);
+                } else {
+                    handleFilePick(path, file);
+                }
+            } else {
+                ToastUtils.showToast("File select failed");
+            }
+        });
+        dialog.setTitle(getString(R.string.select_file_title));
+        dialog.show();
+    }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if (id == R.id.nav_menu_pick_file) {
-//            Mp3Helper.requestDocumentTree(this);
-            new ChooserDialog(MainActivity.this)
-                    .withFilter(true, false)
-                    .withStartFile(PreferencesManager.getLastFilePath())
-                    .withChosenListener((path, folder) -> {
-                        drawer.closeDrawer(GravityCompat.START);
-                        PreferencesManager.setLastFilePath(path);
-                        if (folder != null) {
-                            Log.d(TAG, path + ", " + folder.exists() + ", canWrite =? " + folder.canWrite());
-                            File[] files = folder.listFiles();
-                            if (files == null || files.length == 0) {
-                                ToastUtils.showToast("Fail: seems folder is empty");
-                                return;
-                            }
-                            List<File> mp3Files = new ArrayList<>(files.length);
-                            for (File file : files) {
-                                if (file.getName().endsWith(".mp3")) {
-                                    mp3Files.add(file);
-                                }
-                            }
-                            if (mp3Files.isEmpty()) {
-                                ToastUtils.showToast("Fail: no mp3 files found");
-                                return;
-                            }
-                            mp3PlayerControl.initialize(mp3Files);
-                            bpmSaveButton.setVisibility(View.VISIBLE);
-                        }
-                    })
-                    .build()
-                    .show();
+            performTaskOnPermissionsGranted(result -> showFilePicker(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         return true;
     }
@@ -276,7 +323,10 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
 
     private void addUnitObserver() {
         if (unitUpdateObserver == null) {
-            unitUpdateObserver = setting -> outputView.setData(beatController.getData());
+            unitUpdateObserver = setting -> {
+                outputView.setData(beatController.getData());
+                updateBpmSaveButtonText(beatController.getData());
+            };
             Settings.get().addUnitObserver(unitUpdateObserver);
         }
     }
