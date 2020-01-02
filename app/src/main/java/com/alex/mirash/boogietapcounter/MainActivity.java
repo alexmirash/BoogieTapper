@@ -2,6 +2,7 @@ package com.alex.mirash.boogietapcounter;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,10 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -254,6 +257,17 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
         });
         dialog.setTitle(getString(R.string.select_file_title));
         dialog.show();
+
+        TextView button = dialog.findViewById(R.id.cancel);
+        if (button != null) {
+            button.setBackgroundTintList(ColorStateList.valueOf(
+                    ContextCompat.getColor(this, R.color.colorPrimary)));
+        }
+        button = dialog.findViewById(R.id.select);
+        if (button != null) {
+            button.setBackgroundTintList(ColorStateList.valueOf(
+                    ContextCompat.getColor(this, R.color.colorPrimary)));
+        }
     }
 
     @Override
