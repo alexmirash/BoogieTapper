@@ -3,6 +3,7 @@ package com.alex.mirash.boogietapcounter.mp3;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
@@ -39,6 +40,8 @@ public class PlayerView extends LinearLayout {
     }
 
     private void init() {
+        setOrientation(VERTICAL);
+        setGravity(Gravity.CENTER_HORIZONTAL);
         inflate(getContext(), R.layout.player_view, this);
         prevButton = findViewById(R.id.player_button_previous);
         nextButton = findViewById(R.id.player_button_next);

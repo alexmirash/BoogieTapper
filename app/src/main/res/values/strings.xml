@@ -2,8 +2,7 @@
     <string name="app_name">Буги ТаПрас</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="menu_item_about">Хто здесь</string>
-    <string name="menu_item_file_pick">Выбрать файл</string>
+    <string name="menu_item_file_pick">Выбери папку с mp3</string>
     <string name="settings_tap_mode_label">Тапать каждый</string>
     <string-array name="tap_modes">
         <item>бит</item>
@@ -17,7 +16,14 @@
         <item>Такт (4 счета)</item>
         <item>Восьмёрка</item>
     </string-array>
-    <string name="output_bpm_label">bpm:</string>
+    <string name="settings_round_mode_label">Округление</string>
+    <string name="settings_bpm_filename_label">Добавлять БПМ в имя файла</string>
+    <string-array name="round_modes">
+        <item>Round</item>
+        <item>Ceil</item>
+        <item>Floor</item>
+    </string-array>
+    <string name="output_bpm_label">Биты:</string>
     <string name="output_temp_label">Темп:</string>
     <string name="output_beat_interval_label">Интервал (бит), сек:</string>
     <string name="output_temp_interval_label">Интервал (темп), сек:</string>
@@ -28,13 +34,5 @@
     <string name="tap_button_label_bottom_eight_beat">(каждую восьмёрку)</string>
     <string name="empty_measurement_started_value">--<!--\u2014--></string>
     <string name="empty_value">\u0020<!--\u2014--></string>
-    <string name="about_text_author_label">автор:</string>
-    <string name="about_text_author_value">Mirash</string>
-    <string name="about_text_version_label">версия:</string>
-    <string name="about_text_email_value">alex.mirash@gmail.com</string>
-    <string name="about_dialog_title">Seal with it</string>
 
-    <string name="file_choose_title">Выбери папку с исходными mp3 файлами</string>
-    <string name="file_choose_cancel">Да ну его</string>
-    <string name="file_choose_ok">Ок</string>
 </resources>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content_main_view"
     android:layout_width="match_parent"
@@ -17,29 +18,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
-        <ImageButton
+        <com.alex.mirash.boogietapcounter.tapper.view.SaveButton
             android:id="@+id/bpm_save_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:background="?attr/selectableItemBackgroundBorderless"
             android:enabled="false"
-            android:padding="@dimen/minor_margin"
-            android:src="@drawable/ic_save_accent_42dp"
             android:visibility="invisible"
             />
     </FrameLayout>
     <com.alex.mirash.boogietapcounter.tapper.view.setting.TapButton
         android:id="@+id/tap_button"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/side_half_margin"
         android:layout_weight="1"
-        android:textColor="@color/tap_button_text_color"
         android:textSize="25dp"
+        app:strokeColor="@color/colorAccent"
+        app:strokeWidth="4dp"
         />
     <com.alex.mirash.boogietapcounter.mp3.PlayerView
         android:id="@+id/mp3_player"
+        android:layout_marginTop="@dimen/side_half_margin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"

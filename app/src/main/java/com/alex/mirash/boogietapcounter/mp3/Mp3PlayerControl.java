@@ -16,6 +16,7 @@ import com.alex.mirash.boogietapcounter.ToastUtils;
 import com.alex.mirash.boogietapcounter.mp3agic.InvalidDataException;
 import com.alex.mirash.boogietapcounter.mp3agic.Mp3File;
 import com.alex.mirash.boogietapcounter.mp3agic.UnsupportedTagException;
+import com.alex.mirash.boogietapcounter.settings.Settings;
 
 import java.io.File;
 import java.io.IOException;
@@ -203,8 +204,8 @@ public class Mp3PlayerControl {
     }
 
     public void saveBpm(float bpm) {
-        int roundBpm = Math.round(bpm);
-        Log.d(TAG, "saveBpm: " + bpm + ", " + roundBpm);
+        int roundBpm = Settings.get().getRoundMode().round(bpm);
+        Log.d(TAG, "saveBpm: " + bpm + " -> " + roundBpm);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             try {
                 boolean result = FileHelper.writeBpmTag(files.get(currentPosition), mp3Files.get(currentPosition), roundBpm);

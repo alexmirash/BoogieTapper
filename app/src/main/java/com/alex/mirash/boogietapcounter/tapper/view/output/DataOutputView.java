@@ -4,6 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
+import androidx.annotation.Nullable;
+
 import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
 import com.alex.mirash.boogietapcounter.settings.Settings;
@@ -49,7 +51,7 @@ public class DataOutputView extends LinearLayout implements SettingChangeObserve
         }
     }
 
-    public void setData(DataHolder data) {
+    public void setData(@Nullable DataHolder data) {
         if (data != null) {
             setBeats(data.getBpm());
             setTemp(data.getTemp());

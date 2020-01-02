@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.alex.mirash.boogietapcounter.BoogieApp;
+import com.alex.mirash.boogietapcounter.settings.options.SettingRoundMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
 
@@ -63,11 +64,23 @@ public class PreferencesManager {
         if (position == -1) {
             return SettingUnit.getDefaultValue();
         }
-        return SettingUnit.values()[position];
+        return SettingUnit.getValue(position);
     }
 
     public static void setUnit(SettingUnit unit) {
         putInt(Const.KEY_TEMP_UNIT, unit.ordinal());
+    }
+
+    public static SettingRoundMode getRoundMode() {
+        int position = getInt(Const.KEY_ROUND_MODE, -1);
+        if (position == -1) {
+            return SettingRoundMode.getDefaultValue();
+        }
+        return SettingRoundMode.getValue(position);
+    }
+
+    public static void setRoundMode(SettingRoundMode roundMode) {
+        putInt(Const.KEY_ROUND_MODE, roundMode.ordinal());
     }
 
     public static boolean getAutoRefreshValue() {

@@ -1,8 +1,6 @@
 package com.alex.mirash.boogietapcounter.tapper.view.setting;
 
 import android.content.Context;
-import android.os.Build;
-import androidx.appcompat.widget.AppCompatButton;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -11,14 +9,15 @@ import android.util.AttributeSet;
 
 import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
-import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.Settings;
+import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
+import com.google.android.material.button.MaterialButton;
 
 /**
  * @author Mirash
  */
 
-public class TapButton extends AppCompatButton implements SettingChangeObserver<SettingTapMode> {
+public class TapButton extends MaterialButton implements SettingChangeObserver<SettingTapMode> {
 
     public TapButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -29,11 +28,7 @@ public class TapButton extends AppCompatButton implements SettingChangeObserver<
         setAllCaps(false);
         if (!isInEditMode()) {
             Settings.get().addTapModeObserver(this);
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                setBackgroundResource(R.drawable.tap_button_selector);
-            }
         }
-
     }
 
     @Override

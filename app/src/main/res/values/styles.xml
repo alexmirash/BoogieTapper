@@ -25,8 +25,8 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:minHeight">@dimen/nav_setting_item_height</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:paddingLeft">?attr/listPreferredItemPaddingLeft</item>
-        <item name="android:paddingRight">6dp</item>
+        <item name="android:paddingStart">?attr/listPreferredItemPaddingLeft</item>
+        <item name="android:paddingEnd">6dp</item>
     </style>
 
     <style name="NavLabelStyle">

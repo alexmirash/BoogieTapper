@@ -10,6 +10,7 @@ public final class Const {
     public static final String TAG = "LOL";
     public static final String KEY_TAP_MODE = "tap_mode";
     public static final String KEY_TEMP_UNIT = "unit";
+    public static final String KEY_ROUND_MODE = "round_mode";
     public static final String KEY_AUTO_REFRESH = "auto_refresh";
     public static final String KEY_ADD_BPM_TO_FILENAME = "add_filename_bpm";
     public static final String KEY_LAST_FILE_PATH = "last_file_path";

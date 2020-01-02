@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-    <LinearLayout style="@style/NavItemStyle">
+    <LinearLayout
+        android:id="@+id/settings_tap_mode_item"
+        style="@style/NavItemStyle"
+        >
         <TextView
-            android:id="@+id/settings_tap_mode_label"
             style="@style/NavLabelStyle"
             android:text="@string/settings_tap_mode_label"
             />
@@ -12,17 +14,12 @@
             android:entries="@array/tap_modes"
             />
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/colorPrimary"
-        />
     <!--unit-->
-    <LinearLayout style="@style/NavItemStyle">
+    <LinearLayout
+        android:id="@+id/settings_unit_item"
+        style="@style/NavItemStyle"
+        >
         <TextView
-            android:id="@+id/settings_unit_label"
             style="@style/NavLabelStyle"
             android:text="@string/settings_unit_label"
             />
@@ -32,11 +29,42 @@
             android:entries="@array/temp_units"
             />
     </LinearLayout>
-    <View
+    <include layout="@layout/view_delimiter" />
+    <!--rounding mode-->
+    <LinearLayout
+        android:id="@+id/settings_round_mode_item"
+        style="@style/NavItemStyle"
+        >
+        <TextView
+            style="@style/NavLabelStyle"
+            android:text="@string/settings_round_mode_label"
+            />
+        <Spinner
+            android:id="@+id/settings_round_mode_spinner"
+            style="@style/NavSpinnerStyle"
+            android:entries="@array/round_modes"
+            />
+    </LinearLayout>
+    <include layout="@layout/view_delimiter" />
+    <FrameLayout
+        android:id="@+id/settings_bpm_filename_item"
         android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginStart="12dp"
-        android:layout_marginEnd="8dp"
-        android:background="@color/colorPrimary"
-        />
+        android:layout_height="@dimen/nav_setting_item_height"
+        android:paddingStart="?attr/listPreferredItemPaddingLeft"
+        android:paddingEnd="6dp"
+        >
+        <TextView
+            style="@style/NavLabelStyle"
+            android:text="@string/settings_bpm_filename_label"
+            />
+        <CheckBox
+            android:id="@+id/settings_bpm_filename_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="@dimen/minor_margin"
+            android:buttonTint="@color/colorPrimaryDark"
+            />
+    </FrameLayout>
+    <include layout="@layout/view_delimiter" />
 </merge>

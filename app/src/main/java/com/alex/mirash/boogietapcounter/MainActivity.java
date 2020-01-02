@@ -1,6 +1,7 @@
 package com.alex.mirash.boogietapcounter;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,12 +20,14 @@ import com.alex.mirash.boogietapcounter.mp3.Mp3PlayerCallback;
 import com.alex.mirash.boogietapcounter.mp3.Mp3PlayerControl;
 import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
 import com.alex.mirash.boogietapcounter.settings.Settings;
+import com.alex.mirash.boogietapcounter.settings.options.SettingRoundMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
 import com.alex.mirash.boogietapcounter.tapper.controller.BeatController;
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
 import com.alex.mirash.boogietapcounter.tapper.tool.EventsListener;
 import com.alex.mirash.boogietapcounter.tapper.tool.PreferencesManager;
 import com.alex.mirash.boogietapcounter.tapper.tool.Utils;
+import com.alex.mirash.boogietapcounter.tapper.view.SaveButton;
 import com.alex.mirash.boogietapcounter.tapper.view.output.DataOutputView;
 import com.alex.mirash.boogietapcounter.tapper.view.setting.SettingsView;
 import com.google.android.material.navigation.NavigationView;
@@ -43,7 +46,7 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
     private BeatController beatController;
     private View contentContainerView;
     private DataOutputView outputView;
-    private View bpmSaveButton;
+    private SaveButton bpmSaveButton;
 
     private DrawerLayout drawer;
 
@@ -52,14 +55,11 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
 
     private Mp3PlayerControl mp3PlayerControl;
 
-    private final SettingChangeObserver<SettingUnit> unitUpdateForOldDataObserver = new SettingChangeObserver<SettingUnit>() {
-        @Override
-        public void onSettingChanged(SettingUnit setting) {
-            outputView.highlight();
-            outputView.setData(beatController.getData());
-        }
-    };
+    private SettingChangeObserver<SettingUnit> unitUpdateForOldDataObserver;
 
+    private SettingChangeObserver<SettingRoundMode> roundModeUpdateObserver;
+
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,6 +130,21 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
         View tapButton = findViewById(R.id.tap_button);
         tapButton.setOnClickListener(v -> beatController.onTap());
         outputView = findViewById(R.id.data_output_view);
+    }
+
+    private void setBpmSaveButtonEnabled(boolean enabled) {
+        bpmSaveButton.setEnabled(true);
+        if (enabled) {
+            addRoundModeObserver();
+        } else {
+            removeRoundModeObserver();
+        }
+    }
+
+    private void updateBpmSaveButtonText(DataHolder data) {
+        if (data != null) {
+            bpmSaveButton.setText(String.valueOf(Settings.get().getRoundMode().round(data.getTemp())));
+        }
     }
 
     @Override
@@ -207,7 +222,7 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
     public void onNewMeasurementStarted() {
         Log.d(TAG, "onNewMeasurementStarted");
         outputView.refresh(true);
-        Settings.get().removeUnitObserver(unitUpdateForOldDataObserver);
+        removeUnitObserver();
     }
 
     @Override
@@ -215,7 +230,7 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
         Log.d(TAG, "onMeasurementStopped");
         if (resultData != null && resultData.getDetails().getIntervalsCount() > 0) {
             outputView.highlight();
-            Settings.get().addUnitObserver(unitUpdateForOldDataObserver);
+            addUnitObserver();
         }
     }
 
@@ -223,20 +238,52 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
     public void onBpmUpdate(DataHolder data) {
         Log.d(TAG, "onBpmUpdate");
         outputView.setData(data);
-        bpmSaveButton.setEnabled(true);
+        if (data != null) {
+            setBpmSaveButtonEnabled(true);
+            updateBpmSaveButtonText(data);
+        }
     }
 
     @Override
     public void onRefresh() {
         Log.d(TAG, "onRefresh");
-        Settings.get().removeUnitObserver(unitUpdateForOldDataObserver);
+        removeUnitObserver();
         outputView.refresh();
-        bpmSaveButton.setEnabled(false);
+        setBpmSaveButtonEnabled(false);
     }
 
     @Override
     public void onFilePlayStart() {
         Log.d(TAG, "onFilePlayStart");
         beatController.refresh();
+    }
+
+    private void addRoundModeObserver() {
+        if (roundModeUpdateObserver == null) {
+            roundModeUpdateObserver = setting -> updateBpmSaveButtonText(beatController.getData());
+            Settings.get().addRoundModeObserver(roundModeUpdateObserver);
+        }
+    }
+
+    private void removeRoundModeObserver() {
+        if (roundModeUpdateObserver != null) {
+            Settings.get().removeRoundModeObserver(roundModeUpdateObserver);
+        }
+    }
+
+    private void addUnitObserver() {
+        if (unitUpdateForOldDataObserver == null) {
+            unitUpdateForOldDataObserver = setting -> {
+                outputView.highlight();
+                outputView.setData(beatController.getData());
+            };
+            Settings.get().addUnitObserver(unitUpdateForOldDataObserver);
+        }
+    }
+
+    private void removeUnitObserver() {
+        if (unitUpdateForOldDataObserver != null) {
+            Settings.get().removeUnitObserver(unitUpdateForOldDataObserver);
+        }
     }
 }
