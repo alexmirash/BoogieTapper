@@ -9,7 +9,6 @@ import com.alex.mirash.boogietapcounter.tapper.tool.Const;
  */
 
 public class DelayAverageStrategy extends BpmCalculateStrategy {
-
     private long tapTime;
     private int intervalsCount;
     private float averageTapInterval;
@@ -27,7 +26,6 @@ public class DelayAverageStrategy extends BpmCalculateStrategy {
         long curTapTime = System.currentTimeMillis();
         if (tapTime == 0) {
             tapTime = curTapTime;
-
             setIsMeasuring(true);
             notifyNewMeasurementStarted();
         } else {
@@ -35,13 +33,10 @@ public class DelayAverageStrategy extends BpmCalculateStrategy {
             tapTime = curTapTime;
             averageTapInterval = (averageTapInterval * intervalsCount + tapInterval) / (intervalsCount + 1);
             data.setBpm(Settings.get().getTapMode().getBeats() * Const.MILLIS_IN_MINUTE / averageTapInterval);
-
             ExtendedStats details = data.getDetails();
             details.setAverageTapInterval(averageTapInterval);
             intervalsCount++;
-
             details.setIntervalsCount(intervalsCount);
-
             notifyBpmUpdated();
         }
     }

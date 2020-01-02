@@ -1,7 +1,5 @@
 package com.alex.mirash.boogietapcounter.tapper.controller.strategy;
 
-import android.annotation.SuppressLint;
-
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
 import com.alex.mirash.boogietapcounter.tapper.tool.BpmStrategyListener;
 import com.alex.mirash.boogietapcounter.tapper.tool.TapControlListener;
@@ -20,12 +18,6 @@ public abstract class BpmCalculateStrategy implements TapControlListener {
     public void refresh() {
         data = new DataHolder();
         setIsMeasuring(false);
-    }
-
-    @SuppressLint("DefaultLocale")
-    @Override
-    public String toString() {
-        return "{ " + String.format("%.2f", (data.getBpm() / 4f)) + "}";
     }
 
     protected void setIsMeasuring(boolean measuring) {
