@@ -17,7 +17,8 @@
         <item>Восьмёрка</item>
     </string-array>
     <string name="settings_round_mode_label">Округление</string>
-    <string name="settings_bpm_filename_label">Добавлять БПМ в имя файла</string>
+    <string name="settings_bpm_filename_label">Добавлять BPM в имя файла</string>
+    <string name="settings_show_output_details_label">Показывать ненужную хрень</string>
     <string-array name="round_modes">
         <item>Round</item>
         <item>Ceil</item>
@@ -32,7 +33,7 @@
     <string name="tap_button_label_bottom_second_beat">(каждый 2й счёт)</string>
     <string name="tap_button_label_bottom_four_beat">(каждый 4й счёт)</string>
     <string name="tap_button_label_bottom_eight_beat">(каждую восьмёрку)</string>
-    <string name="empty_measurement_started_value">--<!--\u2014--></string>
-    <string name="empty_value">\u0020<!--\u2014--></string>
+    <string name="empty_measurement_started_value">--</string>
+    <string name="empty_value">\u0020</string>
 
 </resources>

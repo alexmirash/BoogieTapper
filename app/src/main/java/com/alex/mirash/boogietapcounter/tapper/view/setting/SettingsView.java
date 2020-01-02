@@ -55,6 +55,8 @@ public class SettingsView extends LinearLayout {
                 });
         initSettingCheckBox(R.id.settings_bpm_filename_item, R.id.settings_bpm_filename_checkbox,
                 settings.isAddBpmToFileName(), (buttonView, isChecked) -> Settings.get().setAddBpmToFileName(isChecked));
+        initSettingCheckBox(R.id.settings_show_details_item, R.id.settings_show_details_checkbox,
+                settings.isShowOutputDetails(), (buttonView, isChecked) -> Settings.get().setShowOutputDetails(isChecked));
     }
 
     private void initSettingSpinner(int itemViewId, int spinnerId, int selectedPosition, AdapterView.OnItemSelectedListener listener) {

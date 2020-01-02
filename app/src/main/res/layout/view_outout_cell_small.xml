@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginEnd="@dimen/side_half_margin"
+        android:textColor="@color/output_text_color"
         android:textSize="@dimen/text_size_default"
         />
     <TextView
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/open_sans_semi_bold"
         android:gravity="end"
+        android:textColor="@color/output_text_color"
         android:textSize="@dimen/text_size_output_small"
         />
 </LinearLayout>

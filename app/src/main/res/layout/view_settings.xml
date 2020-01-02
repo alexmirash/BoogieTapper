@@ -67,4 +67,25 @@
             />
     </FrameLayout>
     <include layout="@layout/view_delimiter" />
+    <FrameLayout
+        android:id="@+id/settings_show_details_item"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_setting_item_height"
+        android:paddingStart="?attr/listPreferredItemPaddingLeft"
+        android:paddingEnd="6dp"
+        >
+        <TextView
+            style="@style/NavLabelStyle"
+            android:text="@string/settings_show_output_details_label"
+            />
+        <CheckBox
+            android:id="@+id/settings_show_details_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="@dimen/minor_margin"
+            android:buttonTint="@color/colorPrimaryDark"
+            />
+    </FrameLayout>
+    <include layout="@layout/view_delimiter" />
 </merge>

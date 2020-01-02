@@ -24,6 +24,8 @@ public enum SettingRoundMode {
         }
     };
 
+    public abstract int round(float bpm);
+
     public static SettingRoundMode getValue(int position) {
         SettingRoundMode[] values = values();
         if (position >= 0 && position < values.length) {
@@ -34,6 +36,4 @@ public enum SettingRoundMode {
     public static SettingRoundMode getDefaultValue() {
         return ROUND;
     }
-
-    public abstract int round(float bpm);
 }

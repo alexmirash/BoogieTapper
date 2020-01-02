@@ -8,7 +8,6 @@ import android.text.style.RelativeSizeSpan;
 import android.util.AttributeSet;
 
 import com.alex.mirash.boogietapcounter.R;
-import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
 import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
 import com.google.android.material.button.MaterialButton;
@@ -17,7 +16,7 @@ import com.google.android.material.button.MaterialButton;
  * @author Mirash
  */
 
-public class TapButton extends MaterialButton implements SettingChangeObserver<SettingTapMode> {
+public class TapButton extends MaterialButton {
 
     public TapButton(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -26,15 +25,15 @@ public class TapButton extends MaterialButton implements SettingChangeObserver<S
 
     private void init() {
         setAllCaps(false);
+        applyTapMode(Settings.get().getTapMode());
         if (!isInEditMode()) {
-            Settings.get().addTapModeObserver(this);
+            Settings.get().addTapModeObserver(this::applyTapMode);
         }
     }
 
-    @Override
-    public void onSettingChanged(SettingTapMode setting) {
+    private void applyTapMode(SettingTapMode tapMode) {
         String upText = getResources().getString(R.string.tap_button_label_main);
-        String allText = upText + "\n\n" + getResources().getString(setting.getTapButtonResId());
+        String allText = upText + "\n\n" + getResources().getString(tapMode.getTapButtonResId());
         int spanStart = upText.length() + 1;
 
         SpannableString buttonText = new SpannableString(allText);

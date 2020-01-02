@@ -55,7 +55,7 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
 
     private Mp3PlayerControl mp3PlayerControl;
 
-    private SettingChangeObserver<SettingUnit> unitUpdateForOldDataObserver;
+    private SettingChangeObserver<SettingUnit> unitUpdateObserver;
 
     private SettingChangeObserver<SettingRoundMode> roundModeUpdateObserver;
 
@@ -217,7 +217,6 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
         return true;
     }
 
-    // EventsListener
     @Override
     public void onNewMeasurementStarted() {
         Log.d(TAG, "onNewMeasurementStarted");
@@ -229,7 +228,7 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
     public void onMeasurementStopped(DataHolder resultData) {
         Log.d(TAG, "onMeasurementStopped");
         if (resultData != null && resultData.getDetails().getIntervalsCount() > 0) {
-            outputView.highlight();
+            outputView.setHighlighted(true);
             addUnitObserver();
         }
     }
@@ -247,9 +246,9 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
     @Override
     public void onRefresh() {
         Log.d(TAG, "onRefresh");
-        removeUnitObserver();
         outputView.refresh();
         setBpmSaveButtonEnabled(false);
+        removeUnitObserver();
     }
 
     @Override
@@ -268,22 +267,21 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
     private void removeRoundModeObserver() {
         if (roundModeUpdateObserver != null) {
             Settings.get().removeRoundModeObserver(roundModeUpdateObserver);
+            roundModeUpdateObserver = null;
         }
     }
 
     private void addUnitObserver() {
-        if (unitUpdateForOldDataObserver == null) {
-            unitUpdateForOldDataObserver = setting -> {
-                outputView.highlight();
-                outputView.setData(beatController.getData());
-            };
-            Settings.get().addUnitObserver(unitUpdateForOldDataObserver);
+        if (unitUpdateObserver == null) {
+            unitUpdateObserver = setting -> outputView.setData(beatController.getData());
+            Settings.get().addUnitObserver(unitUpdateObserver);
         }
     }
 
     private void removeUnitObserver() {
-        if (unitUpdateForOldDataObserver != null) {
-            Settings.get().removeUnitObserver(unitUpdateForOldDataObserver);
+        if (unitUpdateObserver != null) {
+            Settings.get().removeUnitObserver(unitUpdateObserver);
+            unitUpdateObserver = null;
         }
     }
 }

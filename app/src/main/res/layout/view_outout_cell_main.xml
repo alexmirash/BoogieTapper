@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/large_margin"
         android:textSize="@dimen/text_size_label"
+        android:textColor="@color/output_text_color"
         />
     <TextView
         android:id="@+id/output_value"
@@ -19,6 +20,7 @@
         android:fontFamily="@font/open_sans_semi_bold"
         android:gravity="end"
         android:textSize="@dimen/text_size_output"
+        android:textColor="@color/output_text_color"
         />
 </LinearLayout>
 

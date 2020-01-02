@@ -23,10 +23,12 @@ public class Settings {
     private SettingRoundMode roundMode;
     private boolean isAutoRefresh;
     private boolean isAddBpmToFileName;
+    private boolean isShowOutputDetails;
 
     private List<SettingChangeObserver<SettingTapMode>> tapModeObservers;
     private List<SettingChangeObserver<SettingUnit>> unitChangeObservers;
     private List<SettingChangeObserver<SettingRoundMode>> roundModeChangeObservers;
+    private List<SettingChangeObserver<Boolean>> showDetailsChangeObservers;
 
     public Settings() {
         loadFromPreferences();
@@ -38,6 +40,7 @@ public class Settings {
         roundMode = PreferencesManager.getRoundMode();
         isAutoRefresh = PreferencesManager.getAutoRefreshValue();
         isAddBpmToFileName = PreferencesManager.getAddBpmToFileNameValue();
+        isShowOutputDetails = PreferencesManager.getShowOutputDetails();
     }
 
     public SettingTapMode getTapMode() {
@@ -45,9 +48,11 @@ public class Settings {
     }
 
     public void setTapMode(SettingTapMode mode) {
-        tapMode = mode;
-        PreferencesManager.setTapMode(mode);
-        notifySettingChange(mode, tapModeObservers);
+        if (tapMode != mode) {
+            tapMode = mode;
+            PreferencesManager.setTapMode(mode);
+            notifySettingChange(mode, tapModeObservers);
+        }
     }
 
     public SettingUnit getUnit() {
@@ -55,9 +60,11 @@ public class Settings {
     }
 
     public void setUnit(SettingUnit value) {
-        unit = value;
-        PreferencesManager.setUnit(value);
-        notifySettingChange(value, unitChangeObservers);
+        if (unit != value) {
+            unit = value;
+            PreferencesManager.setUnit(value);
+            notifySettingChange(value, unitChangeObservers);
+        }
     }
 
     public SettingRoundMode getRoundMode() {
@@ -65,18 +72,32 @@ public class Settings {
     }
 
     public void setRoundMode(SettingRoundMode value) {
-        roundMode = value;
-        PreferencesManager.setRoundMode(value);
-        notifySettingChange(value, roundModeChangeObservers);
+        if (roundMode != value) {
+            roundMode = value;
+            PreferencesManager.setRoundMode(value);
+            notifySettingChange(value, roundModeChangeObservers);
+        }
     }
 
-    public boolean getIsAutoRefresh() {
+    public boolean isAutoRefresh() {
         return isAutoRefresh;
     }
 
-    public void setIsAutoRefresh(boolean autoRefresh) {
+    public void setAutoRefresh(boolean autoRefresh) {
         isAutoRefresh = autoRefresh;
         PreferencesManager.setAutoRefresh(autoRefresh);
+    }
+
+    public boolean isShowOutputDetails() {
+        return isShowOutputDetails;
+    }
+
+    public void setShowOutputDetails(boolean showOutputDetails) {
+        if (isShowOutputDetails != showOutputDetails) {
+            isShowOutputDetails = showOutputDetails;
+            PreferencesManager.setShowOutputDetails(showOutputDetails);
+            notifySettingChange(showOutputDetails, showDetailsChangeObservers);
+        }
     }
 
     public boolean isAddBpmToFileName() {
@@ -85,6 +106,7 @@ public class Settings {
 
     public void setAddBpmToFileName(boolean addBpmToFileName) {
         isAddBpmToFileName = addBpmToFileName;
+        PreferencesManager.setAddBpmToFileNameValue(addBpmToFileName);
     }
 
     public static Settings get() {
@@ -124,6 +146,19 @@ public class Settings {
         }
     }
 
+    public void addShowDetailsObserver(SettingChangeObserver<Boolean> observer) {
+        if (showDetailsChangeObservers == null) {
+            showDetailsChangeObservers = new ArrayList<>();
+        }
+        showDetailsChangeObservers.add(observer);
+    }
+
+    public void removeShowDetailsObserver(SettingChangeObserver<Boolean> observer) {
+        if (showDetailsChangeObservers != null) {
+            showDetailsChangeObservers.remove(observer);
+        }
+    }
+
     public void clearObservers() {
         if (tapModeObservers != null) {
             Log.d(TAG, "clear tap mode " + tapModeObservers.size());
@@ -136,9 +171,14 @@ public class Settings {
             unitChangeObservers = null;
         }
         if (roundModeChangeObservers != null) {
-            Log.d(TAG, "clear unit " + roundModeChangeObservers.size());
+            Log.d(TAG, "clear round mode " + roundModeChangeObservers.size());
             roundModeChangeObservers.clear();
             roundModeChangeObservers = null;
+        }
+        if (showDetailsChangeObservers != null) {
+            Log.d(TAG, "clear show details " + showDetailsChangeObservers.size());
+            showDetailsChangeObservers.clear();
+            showDetailsChangeObservers = null;
         }
     }
 

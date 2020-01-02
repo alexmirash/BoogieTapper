@@ -6,7 +6,8 @@ package com.alex.mirash.boogietapcounter.settings.options;
 
 public enum SettingUnit {
     BEAT(1),
-    FOUR(4);
+    FOUR(4),
+    EIGHT(8);
 
     SettingUnit(int beats) {
         this.beats = beats;

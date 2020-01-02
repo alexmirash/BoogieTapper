@@ -61,14 +61,14 @@ public class BeatController implements TapControlListener, BpmStrategyListener {
     @Override
     public void onTap() {
         strategy.onTap();
-        if (Settings.get().getIsAutoRefresh()) {
+        if (Settings.get().isAutoRefresh()) {
             idleHandler.updateHandler();
         }
     }
 
     @Override
     public void onBpmUpdate(DataHolder data) {
-        if (Settings.get().getIsAutoRefresh()) {
+        if (Settings.get().isAutoRefresh()) {
             idleHandler.setIdleTime((int) data.getDetails().getAverageTapInterval() + Const.AUTO_REFRESH_TIME);
         }
         if (listener != null) {

@@ -99,6 +99,14 @@ public class PreferencesManager {
         putBool(Const.KEY_ADD_BPM_TO_FILENAME, isAddBpm);
     }
 
+    public static boolean getShowOutputDetails() {
+        return getBool(Const.KEY_SHOW_OUTPUT_DETAILS, Const.IS_SHOW_OUTPUT_DETAILS_DEFAULT_VALUE);
+    }
+
+    public static void setShowOutputDetails(boolean isShowDetails) {
+        putBool(Const.KEY_SHOW_OUTPUT_DETAILS, isShowDetails);
+    }
+
     public static String getLastFilePath() {
         return getString(Const.KEY_LAST_FILE_PATH, null);
     }

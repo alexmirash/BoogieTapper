@@ -12,9 +12,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.BuildConfig;
 import com.alex.mirash.boogietapcounter.R;
+import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
-import com.alex.mirash.boogietapcounter.settings.Settings;
+
+import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
 
 /**
  * @author Mirash
@@ -41,17 +43,14 @@ public final class Utils {
         final int displayWidth = getDisplayDimensions().widthPixels;
         int drawerWidth = drawerLayout.getResources().getDimensionPixelSize(R.dimen.drawer_max_width);
         final int drawerMinSpace = drawerLayout.getResources().getDimensionPixelSize(R.dimen.drawer_min_space);
-        Log.d("Screen", "display: " + displayWidth + "; drawer:" + drawerWidth + "; minSpace: " + drawerMinSpace);
+        Log.d(TAG, "display: " + displayWidth + "; drawer:" + drawerWidth + "; minSpace: " + drawerMinSpace);
         if (displayWidth - drawerWidth < drawerMinSpace) {
-            drawerLayout.post(new Runnable() {
-                @Override
-                public void run() {
-                    ViewGroup.LayoutParams lp = navigationView.getLayoutParams();
-                    int width = displayWidth - drawerMinSpace;
-                    lp.width = width;
-                    navigationView.requestLayout();
-                    Log.d("Screen", "drawer width updated to: " + width);
-                }
+            drawerLayout.post(() -> {
+                ViewGroup.LayoutParams lp = navigationView.getLayoutParams();
+                int width = displayWidth - drawerMinSpace;
+                lp.width = width;
+                navigationView.requestLayout();
+                Log.d(TAG, "drawer width updated to: " + width);
             });
         }
     }

@@ -2,12 +2,12 @@ package com.alex.mirash.boogietapcounter.tapper.view.output;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 
 import com.alex.mirash.boogietapcounter.R;
-import com.alex.mirash.boogietapcounter.settings.SettingChangeObserver;
 import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
 import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
@@ -16,38 +16,40 @@ import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
  * @author Mirash
  */
 
-public class DataOutputView extends LinearLayout implements SettingChangeObserver<SettingUnit> {
+public class DataOutputView extends LinearLayout implements Highlightable {
     private OutputCellView tempView;
-    private OutputCellView bpmView;
+    private OutputCellView beatView;
     private OutputCellView tempIntervalView;
-    private OutputCellView bpmIntervalView;
+    private OutputCellView beatIntervalView;
+    private View detailsView;
 
     private String emptyString;
     private String measuringStartedEmptyString;
-
-    private boolean isHighlighted;
 
     public DataOutputView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setOrientation(VERTICAL);
         inflate(context, R.layout.view_data_output, this);
         tempView = findViewById(R.id.data_output_temp);
-        bpmView = findViewById(R.id.data_output_bpm);
-        tempIntervalView = findViewById(R.id.data_output_interval_temp);
-        bpmIntervalView = findViewById(R.id.data_output_interval_bpm);
+        beatView = findViewById(R.id.data_output_bpm);
+        detailsView = findViewById(R.id.data_output_details);
+        tempIntervalView = detailsView.findViewById(R.id.data_output_interval_temp);
+        beatIntervalView = detailsView.findViewById(R.id.data_output_interval_bpm);
 
         emptyString = getResources().getString(R.string.empty_value);
         measuringStartedEmptyString = getResources().getString(R.string.empty_measurement_started_value);
 
         tempView.setLabelText(getResources().getString(R.string.output_temp_label));
-        bpmView.setLabelText(getResources().getString(R.string.output_bpm_label));
-        bpmIntervalView.setLabelText(getResources().getString(R.string.output_beat_interval_label));
+        beatView.setLabelText(getResources().getString(R.string.output_bpm_label));
+        beatIntervalView.setLabelText(getResources().getString(R.string.output_beat_interval_label));
         tempIntervalView.setLabelText(getResources().getString(R.string.output_temp_interval_label));
 
         refresh();
-
+        applyUnit(Settings.get().getUnit());
+        applyShowDetails(Settings.get().isShowOutputDetails());
         if (!isInEditMode()) {
-            Settings.get().addUnitObserver(this);
+            Settings.get().addUnitObserver(this::applyUnit);
+            Settings.get().addShowDetailsObserver(this::applyShowDetails);
         }
     }
 
@@ -65,15 +67,11 @@ public class DataOutputView extends LinearLayout implements SettingChangeObserve
     }
 
     public void refresh(boolean isMeasurementStarted) {
-        if (isHighlighted) {
-            isHighlighted = false;
-            tempView.clearEffects();
-            bpmView.clearEffects();
-        }
+        setHighlighted(false);
         String emptyValue = isMeasurementStarted ? measuringStartedEmptyString : emptyString;
         tempView.setValueText(emptyValue);
-        bpmView.setValueText(emptyValue);
-        bpmIntervalView.setValueText(emptyValue);
+        beatView.setValueText(emptyValue);
+        beatIntervalView.setValueText(emptyValue);
         tempIntervalView.setValueText(emptyValue);
     }
 
@@ -82,41 +80,33 @@ public class DataOutputView extends LinearLayout implements SettingChangeObserve
     }
 
     public void setBeats(float beats) {
-        bpmView.setValue(beats);
+        beatView.setValue(beats);
     }
 
     public void setBeatsInterval(float interval) {
-        bpmIntervalView.setValue(interval);
+        beatIntervalView.setValue(interval);
     }
 
     public void setTempInterval(float interval) {
         tempIntervalView.setValue(interval);
     }
 
-    public void highlight() {
-        if (!isHighlighted) {
-            isHighlighted = true;
-            tempView.highlight();
-            if (tempView.getVisibility() != VISIBLE) {
-                bpmView.highlight();
-            }
+    private void applyUnit(SettingUnit unit) {
+        if (unit == SettingUnit.BEAT) {
+            beatView.setVisibility(GONE);
+            beatIntervalView.setVisibility(GONE);
+        } else {
+            beatView.setVisibility(VISIBLE);
+            beatIntervalView.setVisibility(VISIBLE);
         }
     }
 
+    private void applyShowDetails(Boolean showDetails) {
+        detailsView.setVisibility(showDetails != null && showDetails ? VISIBLE : GONE);
+    }
+
     @Override
-    public void onSettingChanged(SettingUnit setting) {
-        if (setting == SettingUnit.BEAT) {
-            tempView.setVisibility(GONE);
-            tempIntervalView.setVisibility(GONE);
-            if (isHighlighted) {
-                bpmView.highlight();
-            }
-        } else {
-            tempView.setVisibility(VISIBLE);
-            tempIntervalView.setVisibility(VISIBLE);
-            if (isHighlighted) {
-                bpmView.clearEffects();
-            }
-        }
+    public void setHighlighted(boolean highlighted) {
+        tempView.setHighlighted(highlighted);
     }
 }

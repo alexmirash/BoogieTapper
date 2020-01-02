@@ -2,10 +2,11 @@ package com.alex.mirash.boogietapcounter.tapper.view.output;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.tapper.tool.Utils;
@@ -14,7 +15,7 @@ import com.alex.mirash.boogietapcounter.tapper.tool.Utils;
  * @author Mirash
  */
 
-public class OutputCellView extends FrameLayout {
+public class OutputCellView extends FrameLayout implements Highlightable {
     protected TextView labelView;
     protected TextView valueView;
 
@@ -50,12 +51,10 @@ public class OutputCellView extends FrameLayout {
         labelView.setText(labelText);
     }
 
-    public void highlight() {
-        valueView.setPaintFlags(valueView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-    }
-
-    public void clearEffects() {
-        valueView.setPaintFlags(valueView.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+    @Override
+    public void setHighlighted(boolean highlighted) {
+        valueView.setTextColor(ContextCompat.getColor(getContext(),
+                highlighted ? R.color.colorAccent : R.color.output_text_color));
     }
 
     protected static class ValueFormat {
