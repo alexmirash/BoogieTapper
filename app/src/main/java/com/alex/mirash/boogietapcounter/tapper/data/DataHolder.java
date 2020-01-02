@@ -17,10 +17,6 @@ public class DataHolder {
         details = new ExtendedStats();
     }
 
-    public float getTemp() {
-        return bpm / Settings.get().getUnit().getBeats();
-    }
-
     public float getBpm() {
         return bpm;
     }
@@ -38,7 +34,7 @@ public class DataHolder {
         return details;
     }
 
-    public float getTempUnitsInterval() {
-        return getBeatsInterval() * Settings.get().getUnit().getBeats();
+    public float getPreferredUnitValue() {
+        return Settings.get().getUnit().fromBeats(bpm);
     }
 }

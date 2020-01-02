@@ -104,7 +104,7 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
         bpmSaveButton.setOnClickListener(v -> {
             DataHolder dataHolder = beatController.getData();
             if (dataHolder != null) {
-                mp3PlayerControl.saveBpm(beatController.getData().getTemp());
+                mp3PlayerControl.saveBpm(dataHolder.getPreferredUnitValue());
             }
         });
         mp3PlayerControl = new Mp3PlayerControl(findViewById(R.id.mp3_player));
@@ -152,7 +152,8 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
 
     private void updateBpmSaveButtonText(DataHolder data) {
         if (data != null) {
-            bpmSaveButton.setText(String.valueOf(Settings.get().getRoundMode().round(data.getTemp())));
+            bpmSaveButton.setText(String.valueOf(Settings.get()
+                    .getRoundMode().round(data.getPreferredUnitValue())));
         }
     }
 

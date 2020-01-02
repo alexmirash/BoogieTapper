@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
     <com.alex.mirash.boogietapcounter.tapper.view.output.OutputCellView
-        android:id="@+id/data_output_temp"
+        android:id="@+id/data_output_tact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
@@ -17,7 +17,7 @@
         android:orientation="vertical"
         >
         <com.alex.mirash.boogietapcounter.tapper.view.output.OutputCellSmallView
-            android:id="@+id/data_output_interval_temp"
+            android:id="@+id/data_output_interval_tact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />

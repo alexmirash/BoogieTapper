@@ -8,7 +8,6 @@ import androidx.annotation.RequiresApi;
 
 import com.alex.mirash.boogietapcounter.ToastUtils;
 import com.alex.mirash.boogietapcounter.mp3agic.ID3v2;
-import com.alex.mirash.boogietapcounter.mp3agic.ID3v22Tag;
 import com.alex.mirash.boogietapcounter.mp3agic.InvalidDataException;
 import com.alex.mirash.boogietapcounter.mp3agic.Mp3File;
 import com.alex.mirash.boogietapcounter.mp3agic.NotSupportedException;
@@ -38,10 +37,10 @@ public class FileHelper {
             ToastUtils.showToast("Fail: parent folder is null");
             return null;
         }
-        File editFolder = new File(folder.getPath(), Const.FOLDER_NAME);
+        File editFolder = new File(folder.getPath(), Const.APP_MODIFIED);
         if (!editFolder.exists()) {
             if (!editFolder.mkdirs()) {
-                ToastUtils.showToast("Fail: could not create <" + Const.FOLDER_NAME + "> folder");
+                ToastUtils.showToast("Fail: could not create <" + Const.APP_MODIFIED + "> folder");
                 return null;
             }
         }
@@ -50,9 +49,9 @@ public class FileHelper {
         }
         ID3v2 id3v2Tag = mp3file.getId3v2Tag();
         if (id3v2Tag == null) {
-            id3v2Tag = new ID3v22Tag();
+            id3v2Tag = Settings.get().getSettingID3v2Version().createId3v2Tag();
+            id3v2Tag.setComment(Const.APP_MODIFIED);
             mp3file.setId3v2Tag(id3v2Tag);
-            Log.d(TAG, "create id3v2Tag");
         }
         id3v2Tag.setBPM(bpm);
         String saveFileName = Settings.get().isAddBpmToFileName() ? "(" + bpm + ") " + baseMp3File.getName() : baseMp3File.getName();

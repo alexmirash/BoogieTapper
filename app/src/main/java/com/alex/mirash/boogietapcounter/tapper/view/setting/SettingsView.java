@@ -11,6 +11,7 @@ import android.widget.Spinner;
 
 import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.settings.Settings;
+import com.alex.mirash.boogietapcounter.settings.options.SettingID3v2Version;
 import com.alex.mirash.boogietapcounter.settings.options.SettingRoundMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
@@ -44,6 +45,13 @@ public class SettingsView extends LinearLayout {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                         Settings.get().setUnit(SettingUnit.getValue(position));
+                    }
+                });
+        initSettingSpinner(R.id.settings_id3v2v_item, R.id.settings_id3v2v_spinner,
+                settings.getSettingID3v2Version().ordinal(), new OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        Settings.get().setSettingID3v2Version(SettingID3v2Version.getValue(position));
                     }
                 });
         initSettingSpinner(R.id.settings_round_mode_item, R.id.settings_round_mode_spinner,

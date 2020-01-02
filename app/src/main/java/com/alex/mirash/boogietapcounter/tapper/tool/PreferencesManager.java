@@ -3,7 +3,10 @@ package com.alex.mirash.boogietapcounter.tapper.tool;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import androidx.annotation.NonNull;
+
 import com.alex.mirash.boogietapcounter.BoogieApp;
+import com.alex.mirash.boogietapcounter.settings.options.SettingID3v2Version;
 import com.alex.mirash.boogietapcounter.settings.options.SettingRoundMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
@@ -47,6 +50,7 @@ public class PreferencesManager {
         return getPreferences().getString(key, defaultValue);
     }
 
+    @NonNull
     public static SettingTapMode getTapMode() {
         int position = getInt(Const.KEY_TAP_MODE, -1);
         if (position == -1) {
@@ -55,10 +59,11 @@ public class PreferencesManager {
         return SettingTapMode.values()[position];
     }
 
-    public static void setTapMode(SettingTapMode tapMode) {
+    public static void setTapMode(@NonNull SettingTapMode tapMode) {
         putInt(Const.KEY_TAP_MODE, tapMode.ordinal());
     }
 
+    @NonNull
     public static SettingUnit getUnit() {
         int position = getInt(Const.KEY_TEMP_UNIT, -1);
         if (position == -1) {
@@ -67,10 +72,11 @@ public class PreferencesManager {
         return SettingUnit.getValue(position);
     }
 
-    public static void setUnit(SettingUnit unit) {
+    public static void setUnit(@NonNull SettingUnit unit) {
         putInt(Const.KEY_TEMP_UNIT, unit.ordinal());
     }
 
+    @NonNull
     public static SettingRoundMode getRoundMode() {
         int position = getInt(Const.KEY_ROUND_MODE, -1);
         if (position == -1) {
@@ -79,8 +85,21 @@ public class PreferencesManager {
         return SettingRoundMode.getValue(position);
     }
 
-    public static void setRoundMode(SettingRoundMode roundMode) {
+    public static void setRoundMode(@NonNull SettingRoundMode roundMode) {
         putInt(Const.KEY_ROUND_MODE, roundMode.ordinal());
+    }
+
+    @NonNull
+    public static SettingID3v2Version getID3v2Version() {
+        int position = getInt(Const.KEY_ID_3V2_VERSION, -1);
+        if (position == -1) {
+            return SettingID3v2Version.getDefaultValue();
+        }
+        return SettingID3v2Version.getValue(position);
+    }
+
+    public static void setID3v2Version(@NonNull SettingID3v2Version version) {
+        putInt(Const.KEY_ID_3V2_VERSION, version.ordinal());
     }
 
     public static boolean getAutoRefreshValue() {

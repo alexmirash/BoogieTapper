@@ -46,6 +46,23 @@
             />
     </LinearLayout>
     <include layout="@layout/view_delimiter" />
+    <!--ID3v2 version-->
+    <LinearLayout
+        android:id="@+id/settings_id3v2v_item"
+        style="@style/NavItemStyle"
+        >
+        <TextView
+            style="@style/NavLabelStyle"
+            android:text="@string/settings_id3v2v_label"
+            />
+        <Spinner
+            android:id="@+id/settings_id3v2v_spinner"
+            style="@style/NavSpinnerStyle"
+            android:entries="@array/id3v2tags"
+            />
+    </LinearLayout>
+    <include layout="@layout/view_delimiter" />
+    <!--filename-->
     <FrameLayout
         android:id="@+id/settings_bpm_filename_item"
         android:layout_width="match_parent"
@@ -67,6 +84,7 @@
             />
     </FrameLayout>
     <include layout="@layout/view_delimiter" />
+    <!--show details-->
     <FrameLayout
         android:id="@+id/settings_show_details_item"
         android:layout_width="match_parent"

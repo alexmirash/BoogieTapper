@@ -3,6 +3,7 @@ package com.alex.mirash.boogietapcounter.settings;
 import android.util.Log;
 
 import com.alex.mirash.boogietapcounter.BoogieApp;
+import com.alex.mirash.boogietapcounter.settings.options.SettingID3v2Version;
 import com.alex.mirash.boogietapcounter.settings.options.SettingRoundMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
@@ -21,6 +22,7 @@ public class Settings {
     private SettingTapMode tapMode;
     private SettingUnit unit;
     private SettingRoundMode roundMode;
+    private SettingID3v2Version settingID3v2Version;
     private boolean isAutoRefresh;
     private boolean isAddBpmToFileName;
     private boolean isShowOutputDetails;
@@ -38,6 +40,7 @@ public class Settings {
         tapMode = PreferencesManager.getTapMode();
         unit = PreferencesManager.getUnit();
         roundMode = PreferencesManager.getRoundMode();
+        settingID3v2Version = PreferencesManager.getID3v2Version();
         isAutoRefresh = PreferencesManager.getAutoRefreshValue();
         isAddBpmToFileName = PreferencesManager.getAddBpmToFileNameValue();
         isShowOutputDetails = PreferencesManager.getShowOutputDetails();
@@ -77,6 +80,15 @@ public class Settings {
             PreferencesManager.setRoundMode(value);
             notifySettingChange(value, roundModeChangeObservers);
         }
+    }
+
+    public SettingID3v2Version getSettingID3v2Version() {
+        return settingID3v2Version;
+    }
+
+    public void setSettingID3v2Version(SettingID3v2Version value) {
+        settingID3v2Version = value;
+        PreferencesManager.setID3v2Version(value);
     }
 
     public boolean isAutoRefresh() {

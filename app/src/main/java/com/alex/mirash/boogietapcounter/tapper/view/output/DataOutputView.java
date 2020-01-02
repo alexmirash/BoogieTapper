@@ -17,9 +17,9 @@ import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
  */
 
 public class DataOutputView extends LinearLayout implements Highlightable {
-    private OutputCellView tempView;
+    private OutputCellView tactView;
     private OutputCellView beatView;
-    private OutputCellView tempIntervalView;
+    private OutputCellView tactIntervalView;
     private OutputCellView beatIntervalView;
     private View detailsView;
 
@@ -30,35 +30,35 @@ public class DataOutputView extends LinearLayout implements Highlightable {
         super(context, attrs);
         setOrientation(VERTICAL);
         inflate(context, R.layout.view_data_output, this);
-        tempView = findViewById(R.id.data_output_temp);
+        tactView = findViewById(R.id.data_output_tact);
         beatView = findViewById(R.id.data_output_bpm);
         detailsView = findViewById(R.id.data_output_details);
-        tempIntervalView = detailsView.findViewById(R.id.data_output_interval_temp);
+        tactIntervalView = detailsView.findViewById(R.id.data_output_interval_tact);
         beatIntervalView = detailsView.findViewById(R.id.data_output_interval_bpm);
 
         emptyString = getResources().getString(R.string.empty_value);
         measuringStartedEmptyString = getResources().getString(R.string.empty_measurement_started_value);
 
-        tempView.setLabelText(getResources().getString(R.string.output_temp_label));
+        tactView.setLabelText(getResources().getString(R.string.output_tact_label));
         beatView.setLabelText(getResources().getString(R.string.output_bpm_label));
         beatIntervalView.setLabelText(getResources().getString(R.string.output_beat_interval_label));
-        tempIntervalView.setLabelText(getResources().getString(R.string.output_temp_interval_label));
+        tactIntervalView.setLabelText(getResources().getString(R.string.output_tact_interval_label));
 
         refresh();
-        applyUnit(Settings.get().getUnit());
         applyShowDetails(Settings.get().isShowOutputDetails());
         if (!isInEditMode()) {
-            Settings.get().addUnitObserver(this::applyUnit);
             Settings.get().addShowDetailsObserver(this::applyShowDetails);
         }
     }
 
     public void setData(@Nullable DataHolder data) {
         if (data != null) {
-            setBeats(data.getBpm());
-            setTemp(data.getTemp());
-            setBeatsInterval(data.getBeatsInterval());
-            setTempInterval(data.getTempUnitsInterval());
+            float beats = data.getBpm();
+            setBeats(beats);
+            setTact(SettingUnit.TACT.fromBeats(beats));
+            float beatInterval = data.getBeatsInterval();
+            setBeatsInterval(beatInterval);
+            setTactInterval(SettingUnit.TACT.getBeats() * beatInterval);
         }
     }
 
@@ -69,14 +69,14 @@ public class DataOutputView extends LinearLayout implements Highlightable {
     public void refresh(boolean isMeasurementStarted) {
         setHighlighted(false);
         String emptyValue = isMeasurementStarted ? measuringStartedEmptyString : emptyString;
-        tempView.setValueText(emptyValue);
+        tactView.setValueText(emptyValue);
         beatView.setValueText(emptyValue);
         beatIntervalView.setValueText(emptyValue);
-        tempIntervalView.setValueText(emptyValue);
+        tactIntervalView.setValueText(emptyValue);
     }
 
-    public void setTemp(float temp) {
-        tempView.setValue(temp);
+    public void setTact(float tact) {
+        tactView.setValue(tact);
     }
 
     public void setBeats(float beats) {
@@ -87,18 +87,8 @@ public class DataOutputView extends LinearLayout implements Highlightable {
         beatIntervalView.setValue(interval);
     }
 
-    public void setTempInterval(float interval) {
-        tempIntervalView.setValue(interval);
-    }
-
-    private void applyUnit(SettingUnit unit) {
-        if (unit == SettingUnit.BEAT) {
-            beatView.setVisibility(GONE);
-            beatIntervalView.setVisibility(GONE);
-        } else {
-            beatView.setVisibility(VISIBLE);
-            beatIntervalView.setVisibility(VISIBLE);
-        }
+    public void setTactInterval(float interval) {
+        tactIntervalView.setValue(interval);
     }
 
     private void applyShowDetails(Boolean showDetails) {
@@ -107,6 +97,6 @@ public class DataOutputView extends LinearLayout implements Highlightable {
 
     @Override
     public void setHighlighted(boolean highlighted) {
-        tempView.setHighlighted(highlighted);
+        tactView.setHighlighted(highlighted);
     }
 }
