@@ -86,6 +86,9 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
             }
         });
         toggle.syncState();
+
+        Utils.initEasterEgg(drawer.findViewById(R.id.drawer_image), drawer.findViewById(R.id.drawer_hbk_logo));
+
         navigationView = findViewById(R.id.navigation_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.addHeaderView(new SettingsView(this));

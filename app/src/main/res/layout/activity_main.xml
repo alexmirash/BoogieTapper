@@ -51,6 +51,7 @@
                 android:layout_marginBottom="@dimen/side_margin"
                 >
                 <ImageView
+                    android:id="@+id/drawer_hbk_logo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom|end"
@@ -58,6 +59,7 @@
                     android:src="@drawable/hbk_logo_small"
                     />
                 <ImageView
+                    android:id="@+id/drawer_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"

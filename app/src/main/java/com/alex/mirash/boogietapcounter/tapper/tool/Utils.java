@@ -6,15 +6,15 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.BuildConfig;
 import com.alex.mirash.boogietapcounter.R;
-import com.alex.mirash.boogietapcounter.settings.Settings;
-import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
-import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
+
+import java.util.Random;
 
 import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
 
@@ -23,12 +23,6 @@ import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
  */
 
 public final class Utils {
-    public static float getTempInUnits(long tapInterval) {
-        Settings settings = Settings.get();
-        SettingUnit unit = settings.getUnit();
-        SettingTapMode tapMode = settings.getTapMode();
-        return (Const.MILLIS_IN_MINUTE * tapMode.getBeats()) / (float) (tapInterval * unit.getBeats());
-    }
 
     public static float round(float value, int decimalPlaces) {
         double multiplier = Math.pow(10, decimalPlaces);
@@ -60,5 +54,13 @@ public final class Utils {
         DisplayMetrics metrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(metrics);
         return metrics;
+    }
+
+    public static void initEasterEgg(ImageView imageView, View button) {
+        button.setOnClickListener(v -> {
+            int[] images = new int[]{R.drawable.boogie_couple, R.drawable.bezugly,
+                    R.drawable.taras_1, R.drawable.taras_2, R.drawable.omg};
+            imageView.setImageResource(images[new Random().nextInt(images.length)]);
+        });
     }
 }
