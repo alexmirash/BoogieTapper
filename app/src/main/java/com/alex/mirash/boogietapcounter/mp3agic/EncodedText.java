@@ -245,6 +245,7 @@ public class EncodedText {
     }
 
     private static byte[] stringToBytes(String s, String characterSet) {
+        if (s == null) return null;
         try {
             return charBufferToBytes(CharBuffer.wrap(s), characterSet);
         } catch (CharacterCodingException e) {

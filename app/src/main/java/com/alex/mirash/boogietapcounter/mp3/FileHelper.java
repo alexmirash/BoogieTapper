@@ -89,44 +89,53 @@ public class FileHelper {
     @NonNull
     public static ID3v2 fromTag(@NonNull ID3v2 from) {
         ID3v2 to = Settings.get().getSettingID3v2Version().createId3v2Tag();
-        to.setComment(from.getComment());
-        to.setBPM(from.getBPM());
-        to.setAlbumArtist(from.getAlbumArtist());
-        to.setAlbum(from.getAlbum());
-        to.setAlbumImage(from.getAlbumImage(), from.getAlbumImageMimeType());
-        to.setArtistUrl(from.getArtistUrl());
-        to.setArtist(from.getArtist());
-        to.setOriginalArtist(from.getOriginalArtist());
-        to.setAudiofileUrl(from.getAudiofileUrl());
-        to.setAudioSourceUrl(from.getAudioSourceUrl());
-        to.setChapters(from.getChapters());
-        to.setChapterTOC(from.getChapterTOC());
-        to.setCommercialUrl(from.getCommercialUrl());
-        to.setItunesComment(from.getItunesComment());
-        to.setCompilation(from.isCompilation());
-        to.setComposer(from.getComposer());
-        to.setCopyright(from.getCopyright());
-        to.setCopyrightUrl(from.getCopyrightUrl());
-        to.setDate(from.getDate());
-        to.setEncoder(from.getEncoder());
-        to.setFooter(from.hasFooter());
-        to.setGenre(from.getGenre());
-        to.setGenreDescription(from.getGenreDescription());
-        to.setGrouping(from.getGrouping());
-        to.setKey(from.getKey());
-        to.setLyrics(from.getLyrics());
-        to.setYear(from.getYear());
-        to.setTrack(from.getTrack());
-        to.setTitle(from.getTitle());
-        to.setWmpRating(from.getWmpRating());
-        to.setUrl(from.getUrl());
-        to.setUnsynchronisation(from.hasUnsynchronisation());
-        to.setRadiostationUrl(from.getRadiostationUrl());
-        to.setPublisherUrl(from.getPublisherUrl());
-        to.setPublisher(from.getPublisher());
-        to.setPaymentUrl(from.getPaymentUrl());
-        to.setPartOfSet(from.getPartOfSet());
-        to.setPadding(from.getPadding());
+        try {
+            String str;
+            to.setComment(from.getComment());
+            to.setUnsynchronisation(from.hasUnsynchronisation());
+            to.setBPM(from.getBPM());
+            to.setAlbumArtist(from.getAlbumArtist());
+            to.setAlbum(from.getAlbum());
+            to.setAlbumImage(from.getAlbumImage(), from.getAlbumImageMimeType());
+            to.setArtistUrl(from.getArtistUrl());
+            to.setArtist(from.getArtist());
+            to.setOriginalArtist(from.getOriginalArtist());
+            to.setAudiofileUrl(from.getAudiofileUrl());
+            to.setAudioSourceUrl(from.getAudioSourceUrl());
+            to.setChapters(from.getChapters());
+            to.setChapterTOC(from.getChapterTOC());
+            to.setCommercialUrl(from.getCommercialUrl());
+            to.setItunesComment(from.getItunesComment());
+            to.setCompilation(from.isCompilation());
+            to.setComposer(from.getComposer());
+            to.setCopyright(from.getCopyright());
+            to.setCopyrightUrl(from.getCopyrightUrl());
+            to.setDate(from.getDate());
+            to.setEncoder(from.getEncoder());
+            to.setFooter(from.hasFooter());
+            to.setGenre(from.getGenre());
+            str = from.getGenreDescription();
+            if (str != null && str.length() > 0) {
+                to.setGenreDescription(str);
+            }
+            to.setGrouping(from.getGrouping());
+            to.setKey(from.getKey());
+            to.setLyrics(from.getLyrics());
+            to.setYear(from.getYear());
+            to.setTrack(from.getTrack());
+            to.setTitle(from.getTitle());
+            to.setWmpRating(from.getWmpRating());
+            to.setUrl(from.getUrl());
+            to.setRadiostationUrl(from.getRadiostationUrl());
+            to.setPublisherUrl(from.getPublisherUrl());
+            to.setPublisher(from.getPublisher());
+            to.setPaymentUrl(from.getPaymentUrl());
+            to.setPartOfSet(from.getPartOfSet());
+            to.setPadding(from.getPadding());
+        } catch (IllegalArgumentException e) {
+            Log.e(TAG, "tag convert exception: " + e);
+            ToastUtils.showLongToast("Tag version convert exception:\n" + e);
+        }
         return to;
     }
 }
