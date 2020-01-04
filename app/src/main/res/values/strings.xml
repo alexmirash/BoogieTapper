@@ -16,7 +16,7 @@
     </string-array>
     <string name="settings_round_mode_label">Округление</string>
     <string name="settings_id3v2v_label">Версия ID3v2</string>
-    <string name="settings_bpm_filename_label">Добавлять BPM в имя файла</string>
+    <string name="settings_bpm_filename_label">Добавлять (такт) в имя файла</string>
     <string name="settings_show_output_details_label">Показывать ненужную хрень</string>
     <string name="settings_save_option_label">Сохранение BPM</string>
     <string-array name="round_modes">

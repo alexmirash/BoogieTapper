@@ -14,7 +14,7 @@
             android:entries="@array/tap_modes"
             />
     </LinearLayout>
-    <!--unit-->
+    <!--valueUnit-->
     <LinearLayout
         android:id="@+id/settings_unit_item"
         style="@style/NavItemStyle"

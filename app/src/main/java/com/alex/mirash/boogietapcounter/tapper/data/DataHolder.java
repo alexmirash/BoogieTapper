@@ -3,6 +3,7 @@ package com.alex.mirash.boogietapcounter.tapper.data;
 import androidx.annotation.NonNull;
 
 import com.alex.mirash.boogietapcounter.settings.Settings;
+import com.alex.mirash.boogietapcounter.settings.unit.UnitValue;
 import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 
 /**
@@ -34,7 +35,7 @@ public class DataHolder {
         return details;
     }
 
-    public float getPreferredUnitValue() {
-        return Settings.get().getUnit().fromBeats(bpm);
+    public UnitValue getSelectedUnitValue() {
+        return Settings.get().getUnit().getUnitValue(bpm);
     }
 }

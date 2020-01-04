@@ -200,7 +200,7 @@ public class Settings {
             tapModeObservers = null;
         }
         if (unitChangeObservers != null) {
-            Log.d(TAG, "clear unit " + unitChangeObservers.size());
+            Log.d(TAG, "clear valueUnit " + unitChangeObservers.size());
             unitChangeObservers.clear();
             unitChangeObservers = null;
         }

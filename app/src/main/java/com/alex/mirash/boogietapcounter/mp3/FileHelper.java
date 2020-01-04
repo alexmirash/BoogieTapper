@@ -1,27 +1,16 @@
 package com.alex.mirash.boogietapcounter.mp3;
 
-import android.media.MediaScannerConnection;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 
-import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.ToastUtils;
 import com.alex.mirash.boogietapcounter.settings.Settings;
-import com.alex.mirash.boogietapcounter.settings.options.SettingSaveMode;
 import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.ID3v22Tag;
-import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
-import com.mpatric.mp3agic.NotSupportedException;
-import com.mpatric.mp3agic.UnsupportedTagException;
-
-import java.io.File;
-import java.io.IOException;
 
 import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
 
@@ -42,106 +31,10 @@ public class FileHelper {
         id3v2Tag.setBPM(bpm);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Nullable
-    public static File writeBpmTag(File baseMp3File, @Nullable Mp3File mp3file, int bpm) throws InvalidDataException, IOException, UnsupportedTagException, NotSupportedException {
-        Log.d(TAG, "writeBpmTag: " + mp3file + ", " + bpm);
-        if (baseMp3File == null) {
-            ToastUtils.showToast("Fail: File is null");
-            return null;
-        }
-        File folder = baseMp3File.getParentFile();
-        if (folder == null) {
-            ToastUtils.showToast("Fail: parent folder is null");
-            return null;
-        }
-        File editFolder = new File(folder.getPath(), Const.APP_MODIFIED);
-        if (!editFolder.exists()) {
-            if (!editFolder.mkdirs()) {
-                ToastUtils.showToast("Fail: could not create <" + Const.APP_MODIFIED + "> folder");
-                return null;
-            }
-        }
-        if (mp3file == null) {
-            mp3file = new Mp3File(baseMp3File);
-        }
-        ID3v2 id3v2Tag = mp3file.getId3v2Tag();
-        if (id3v2Tag == null) {
-            id3v2Tag = Settings.get().getId3v2Version().createId3v2Tag();
-            id3v2Tag.setComment(Const.APP_MODIFIED);
-            mp3file.setId3v2Tag(id3v2Tag);
-        } else if (id3v2Tag instanceof ID3v22Tag) {
-            id3v2Tag = fromTag(id3v2Tag);
-            mp3file.setId3v2Tag(id3v2Tag);
-        }
-        id3v2Tag.setBPM(bpm);
-        String saveFileName = Settings.get().isAddBpmToFileName() ? "(" + bpm + ") " + baseMp3File.getName() : baseMp3File.getName();
-        File saveFile = new File(editFolder.getPath(), saveFileName);
-        mp3file.save(saveFile.getPath());
-        return saveFile;
+    @NonNull
+    public static String getModifiedName(String name, int value) {
+        return "(" + value + ") " + name;
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Nullable
-    public static File writeBpmTag2(File baseMp3File, Mp3File mp3file, int bpm, @NonNull ISaveStrategy saveMode) throws InvalidDataException, IOException, UnsupportedTagException, NotSupportedException {
-        Log.d(TAG, "writeBpmTag: " + mp3file + ", " + bpm);
-        if (baseMp3File == null) {
-            ToastUtils.showToast("Fail: File is null");
-            return null;
-        }
-        File folder = baseMp3File.getParentFile();
-        if (folder == null) {
-            ToastUtils.showToast("Fail: parent folder is null");
-            return null;
-        }
-        if (saveMode == SettingSaveMode.COPY) {
-            folder = new File(folder.getPath(), Const.APP_MODIFIED);
-            if (!folder.exists()) {
-                if (!folder.mkdirs()) {
-                    ToastUtils.showToast("Fail: could not create <" + Const.APP_MODIFIED + "> folder");
-                    return null;
-                }
-            }
-            mp3file = new Mp3File(baseMp3File);
-            ID3v2 id3v2Tag = mp3file.getId3v2Tag();
-            if (id3v2Tag == null) {
-                id3v2Tag = Settings.get().getId3v2Version().createId3v2Tag();
-                id3v2Tag.setComment(Const.APP_MODIFIED);
-                mp3file.setId3v2Tag(id3v2Tag);
-            } else if (id3v2Tag instanceof ID3v22Tag) {
-                id3v2Tag = fromTag(id3v2Tag);
-                mp3file.setId3v2Tag(id3v2Tag);
-            }
-            id3v2Tag.setBPM(bpm);
-            String saveFileName = Settings.get().isAddBpmToFileName() ? "(" + bpm + ") " + baseMp3File.getName() : baseMp3File.getName();
-            File saveFile = new File(folder.getPath(), saveFileName);
-            mp3file.save(saveFile.getPath());
-            return saveFile;
-        } else {
-            if (mp3file == null) {
-                mp3file = new Mp3File(baseMp3File);
-            }
-            ID3v2 id3v2Tag = mp3file.getId3v2Tag();
-            if (id3v2Tag == null) {
-                id3v2Tag = Settings.get().getId3v2Version().createId3v2Tag();
-                id3v2Tag.setComment(Const.APP_MODIFIED);
-                mp3file.setId3v2Tag(id3v2Tag);
-            } else if (id3v2Tag instanceof ID3v22Tag) {
-                id3v2Tag = fromTag(id3v2Tag);
-                mp3file.setId3v2Tag(id3v2Tag);
-            }
-            id3v2Tag.setBPM(bpm);
-            String saveFileName = "temp_" + baseMp3File.getName();
-            File saveFile = new File(folder.getPath(), saveFileName);
-            mp3file.save(saveFile.getPath());
-            boolean isMoved = saveFile.renameTo(baseMp3File);
-            saveFile = new File(saveFile.getPath());
-            Log.d(TAG, "isMoved = " + isMoved + ": " + saveFile.getPath() + ", " + saveFile.exists());
-            MediaScannerConnection.scanFile(BoogieApp.getInstance(), new String[]{folder.getPath()}, null, null);
-            return saveFile;
-        }
-    }
-
 
     public static int getBpm(Mp3File mp3file) {
         if (mp3file != null) {

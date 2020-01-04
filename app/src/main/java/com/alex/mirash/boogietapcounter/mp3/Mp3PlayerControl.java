@@ -18,6 +18,7 @@ import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.ToastUtils;
 import com.alex.mirash.boogietapcounter.settings.Settings;
 import com.alex.mirash.boogietapcounter.settings.options.SettingSaveMode;
+import com.alex.mirash.boogietapcounter.settings.unit.UnitValue;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
@@ -214,12 +215,11 @@ public class Mp3PlayerControl {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void saveBpm(float bpm) {
-        int roundBpm = Settings.get().getRoundMode().round(bpm);
-        Log.d(TAG, "saveBpm: " + bpm + " -> " + roundBpm);
+    public void saveBpm(@NonNull UnitValue unitValue) {
+        Log.d(TAG, "saveBpm: " + unitValue);
         SettingSaveMode saveMode = Settings.get().getSaveMode();
         File baseFile = files.get(currentPosition);
-        File resultFile = saveMode.saveBpm(baseFile, mp3Files.get(currentPosition), roundBpm);
+        File resultFile = saveMode.saveBpm(baseFile, mp3Files.get(currentPosition), unitValue);
         if (resultFile != null && resultFile.exists()) {
             if (saveMode == SettingSaveMode.REWRITE) {
                 files.set(currentPosition, resultFile);
@@ -229,6 +229,7 @@ public class Mp3PlayerControl {
                 } catch (IOException | UnsupportedTagException | InvalidDataException ignored) {
                     mp3File = null;
                 }
+                playerView.setTitle(resultFile.getName());
                 if (mp3File != null) {
                     mp3Files.setValueAt(currentPosition, mp3File);
                     updateSongTagInfo(mp3File);

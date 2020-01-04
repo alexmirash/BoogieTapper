@@ -72,14 +72,18 @@ public class PlayerView extends LinearLayout {
     @SuppressLint("SetTextI18n")
     public void setSongInfo(@Nullable SongInfo songInfo) {
         if (songInfo == null) {
-            titleTextView.setText("");
+            setTitle("");
             positionTextView.setText("");
             durationTextView.setText("");
         } else {
-            titleTextView.setText(songInfo.getTitle());
+            setTitle(songInfo.getTitle());
             positionTextView.setText((songInfo.getPosition() + 1) + "/" + songInfo.getTotalCount());
             durationTextView.setText(PlayerUtils.millisToTimeString(songInfo.getDuration()));
         }
+    }
+
+    public void setTitle(String title) {
+        titleTextView.setText(title);
     }
 
     public void setSongBpm(int bpm) {

@@ -9,6 +9,7 @@ import com.alex.mirash.boogietapcounter.ToastUtils;
 import com.alex.mirash.boogietapcounter.mp3.FileHelper;
 import com.alex.mirash.boogietapcounter.mp3.ISaveStrategy;
 import com.alex.mirash.boogietapcounter.settings.Settings;
+import com.alex.mirash.boogietapcounter.settings.unit.UnitValue;
 import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
@@ -18,6 +19,7 @@ import com.mpatric.mp3agic.UnsupportedTagException;
 import java.io.File;
 import java.io.IOException;
 
+import static com.alex.mirash.boogietapcounter.settings.options.SettingUnit.TACT;
 import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
 
 /**
@@ -27,7 +29,7 @@ import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
 public enum SettingSaveMode implements ISaveStrategy {
     COPY {
         @Override
-        public File saveBpm(@NonNull File baseMp3File, @Nullable Mp3File mp3file, int bpm) {
+        public File saveBpm(@NonNull File baseMp3File, @Nullable Mp3File mp3file, @NonNull UnitValue unitValue) {
             File folder = baseMp3File.getParentFile();
             if (folder == null) {
                 ToastUtils.showToast("Fail: parent folder is null");
@@ -47,8 +49,10 @@ public enum SettingSaveMode implements ISaveStrategy {
                 ToastUtils.showToast("BPM save failed");
                 return null;
             }
-            FileHelper.addBpmToMp3File(mp3file, bpm);
-            String saveFileName = Settings.get().isAddBpmToFileName() ? "(" + bpm + ") " + baseMp3File.getName() : baseMp3File.getName();
+            FileHelper.addBpmToMp3File(mp3file, unitValue.getRoundValue());
+            String saveFileName = Settings.get().isAddBpmToFileName()
+                    ? FileHelper.getModifiedName(baseMp3File.getName(), unitValue.getRoundValue(TACT))
+                    : baseMp3File.getName();
             File saveFile = new File(folder.getPath(), saveFileName);
             try {
                 mp3file.save(saveFile.getPath());
@@ -62,7 +66,7 @@ public enum SettingSaveMode implements ISaveStrategy {
     },
     REWRITE {
         @Override
-        public File saveBpm(@NonNull File baseMp3File, @Nullable Mp3File mp3file, int bpm) {
+        public File saveBpm(@NonNull File baseMp3File, @Nullable Mp3File mp3file, @NonNull UnitValue unitValue) {
             File folder = baseMp3File.getParentFile();
             if (folder == null) {
                 ToastUtils.showToast("Fail: parent folder is null");
@@ -77,8 +81,9 @@ public enum SettingSaveMode implements ISaveStrategy {
                     return null;
                 }
             }
-            FileHelper.addBpmToMp3File(mp3file, bpm);
-            String saveFileName = "temp_" + baseMp3File.getName();
+            FileHelper.addBpmToMp3File(mp3file, unitValue.getRoundValue());
+            String saveFileName = FileHelper.getModifiedName(
+                    baseMp3File.getName(), unitValue.getRoundValue(TACT));
             File saveFile = new File(folder.getPath(), saveFileName);
             try {
                 mp3file.save(saveFile.getPath());
@@ -87,10 +92,15 @@ public enum SettingSaveMode implements ISaveStrategy {
                 ToastUtils.showToast("BPM save failed");
                 return null;
             }
-            String path = baseMp3File.getPath();
-            boolean isMoved = saveFile.renameTo(baseMp3File);
-            saveFile = new File(path);
-            Log.d(TAG, "isMoved = " + isMoved + ": " + saveFile.getPath() + ", " + saveFile.exists());
+            if (Settings.get().isAddBpmToFileName()) {
+                boolean isDeleted = baseMp3File.delete();
+                Log.d(TAG, "isDeleted = " + isDeleted + ": " + saveFile.getPath() + ", " + saveFile.exists());
+            } else {
+                String path = baseMp3File.getPath();
+                boolean isMoved = saveFile.renameTo(baseMp3File);
+                saveFile = new File(path);
+                Log.d(TAG, "isMoved = " + isMoved + ": " + saveFile.getPath() + ", " + saveFile.exists());
+            }
             return saveFile;
         }
     };

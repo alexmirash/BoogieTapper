@@ -100,7 +100,7 @@ public class MainActivity extends BasePermissionsActivity implements EventsListe
             DataHolder dataHolder = beatController.getData();
             if (dataHolder != null) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    mp3PlayerControl.saveBpm(dataHolder.getPreferredUnitValue());
+                    mp3PlayerControl.saveBpm(dataHolder.getSelectedUnitValue());
                 } else {
                     ToastUtils.showLongToast("=( Sorry, but this action requires API >= " + Build.VERSION_CODES.O);
                 }
@@ -151,8 +151,7 @@ public class MainActivity extends BasePermissionsActivity implements EventsListe
 
     private void updateBpmSaveButtonText(DataHolder data) {
         if (data != null) {
-            bpmSaveButton.setText(String.valueOf(Settings.get()
-                    .getRoundMode().round(data.getPreferredUnitValue())));
+            bpmSaveButton.setText(String.valueOf(data.getSelectedUnitValue().getRoundValue()));
         }
     }
 
