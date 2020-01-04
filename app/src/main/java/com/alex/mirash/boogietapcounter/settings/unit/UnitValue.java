@@ -33,10 +33,7 @@ public abstract class UnitValue {
     }
 
     public float getValue(@NonNull SettingUnit unit) {
-        if (valueUnit == unit) {
-            return value;
-        }
-        return (valueUnit.getBeats() * value) / unit.getBeats();
+        return valueUnit == unit ? value : (valueUnit.getBeats() * value) / unit.getBeats();
     }
 
     @Override

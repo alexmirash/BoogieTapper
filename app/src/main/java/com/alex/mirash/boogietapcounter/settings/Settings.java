@@ -49,9 +49,7 @@ public class Settings {
         saveMode = PreferencesManager.getSaveMode();
         isAutoRefresh = PreferencesManager.getAutoRefreshValue();
         isAddBpmToFileName = PreferencesManager.getAddBpmToFileNameValue();
-
-        isShowOutputDetails = Const.IS_SHOW_OUTPUT_DETAILS_DEFAULT_VALUE;
-        PreferencesManager.remove(Const.KEY_SHOW_OUTPUT_DETAILS);
+        isShowOutputDetails = PreferencesManager.getShowOutputDetails();
     }
 
     @NonNull
