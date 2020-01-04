@@ -97,7 +97,7 @@ public class PlayerView extends LinearLayout {
     }
 
     public void setSongBpm(int bpm) {
-        bpmTextView.setText(bpm < 0 ? "" : "bpm: " + bpm);
+        bpmTextView.setText(bpm < 0 ? "" : "bpm " + bpm);
     }
 
     public void setID3v2Version(String version) {
