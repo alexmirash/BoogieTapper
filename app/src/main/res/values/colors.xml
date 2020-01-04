@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#441e0f</color>
     <color name="colorAccent">#FBBB11</color>
 
+    <color name="colorDisabled">#D6D6D6</color>
     <color name="white">#ffffff</color>
     <color name="content_background_gradient_color">#edfffa</color>
     <color name="output_text_color">#757575</color>

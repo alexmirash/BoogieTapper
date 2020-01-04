@@ -6,11 +6,11 @@ import androidx.annotation.NonNull;
 
 import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.settings.options.SettingID3v2Version;
+import com.alex.mirash.boogietapcounter.settings.options.SettingPlayNextMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingRoundMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingSaveMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
-import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 import com.alex.mirash.boogietapcounter.tapper.tool.PreferencesManager;
 
 import java.util.ArrayList;
@@ -28,6 +28,7 @@ public class Settings {
     private SettingRoundMode roundMode;
     private SettingID3v2Version id3v2Version;
     private SettingSaveMode saveMode;
+    private SettingPlayNextMode playNextMode;
     private boolean isAutoRefresh;
     private boolean isAddBpmToFileName;
     private boolean isShowOutputDetails;
@@ -35,6 +36,7 @@ public class Settings {
     private List<SettingChangeObserver<SettingTapMode>> tapModeObservers;
     private List<SettingChangeObserver<SettingUnit>> unitChangeObservers;
     private List<SettingChangeObserver<SettingRoundMode>> roundModeChangeObservers;
+    private List<SettingChangeObserver<SettingPlayNextMode>> playNextModeChangeObservers;
     private List<SettingChangeObserver<Boolean>> showDetailsChangeObservers;
 
     public Settings() {
@@ -47,6 +49,7 @@ public class Settings {
         roundMode = PreferencesManager.getRoundMode();
         id3v2Version = PreferencesManager.getID3v2Version();
         saveMode = PreferencesManager.getSaveMode();
+        playNextMode = PreferencesManager.getPlayNextMode();
         isAutoRefresh = PreferencesManager.getAutoRefreshValue();
         isAddBpmToFileName = PreferencesManager.getAddBpmToFileNameValue();
         isShowOutputDetails = PreferencesManager.getShowOutputDetails();
@@ -89,6 +92,23 @@ public class Settings {
             PreferencesManager.setRoundMode(value);
             notifySettingChange(value, roundModeChangeObservers);
         }
+    }
+
+    @NonNull
+    public SettingPlayNextMode getPlayNextMode() {
+        return playNextMode;
+    }
+
+    public void setPlayNextMode(@NonNull SettingPlayNextMode value) {
+        if (playNextMode != value) {
+            playNextMode = value;
+            PreferencesManager.setPlayNextMode(value);
+            notifySettingChange(value, playNextModeChangeObservers);
+        }
+    }
+
+    public void changePlayNextMode() {
+        setPlayNextMode(playNextMode.next());
     }
 
     @NonNull
@@ -147,7 +167,7 @@ public class Settings {
 
     public void addUnitObserver(SettingChangeObserver<SettingUnit> observer) {
         if (unitChangeObservers == null) {
-            unitChangeObservers = new ArrayList<>();
+            unitChangeObservers = new ArrayList<>(2);
         }
         unitChangeObservers.add(observer);
     }
@@ -160,14 +180,14 @@ public class Settings {
 
     public void addTapModeObserver(SettingChangeObserver<SettingTapMode> observer) {
         if (tapModeObservers == null) {
-            tapModeObservers = new ArrayList<>();
+            tapModeObservers = new ArrayList<>(2);
         }
         tapModeObservers.add(observer);
     }
 
     public void addRoundModeObserver(SettingChangeObserver<SettingRoundMode> observer) {
         if (roundModeChangeObservers == null) {
-            roundModeChangeObservers = new ArrayList<>();
+            roundModeChangeObservers = new ArrayList<>(2);
         }
         roundModeChangeObservers.add(observer);
     }
@@ -175,6 +195,19 @@ public class Settings {
     public void removeRoundModeObserver(SettingChangeObserver<SettingRoundMode> observer) {
         if (roundModeChangeObservers != null) {
             roundModeChangeObservers.remove(observer);
+        }
+    }
+
+    public void addPlayNextModeObserver(SettingChangeObserver<SettingPlayNextMode> observer) {
+        if (playNextModeChangeObservers == null) {
+            playNextModeChangeObservers = new ArrayList<>(2);
+        }
+        playNextModeChangeObservers.add(observer);
+    }
+
+    public void removePlayNextModeObserver(SettingChangeObserver<SettingPlayNextMode> observer) {
+        if (playNextModeChangeObservers != null) {
+            playNextModeChangeObservers.remove(observer);
         }
     }
 
@@ -206,6 +239,11 @@ public class Settings {
             Log.d(TAG, "clear round mode " + roundModeChangeObservers.size());
             roundModeChangeObservers.clear();
             roundModeChangeObservers = null;
+        }
+        if (playNextModeChangeObservers != null) {
+            Log.d(TAG, "clear play next mode " + playNextModeChangeObservers.size());
+            playNextModeChangeObservers.clear();
+            playNextModeChangeObservers = null;
         }
         if (showDetailsChangeObservers != null) {
             Log.d(TAG, "clear show details " + showDetailsChangeObservers.size());

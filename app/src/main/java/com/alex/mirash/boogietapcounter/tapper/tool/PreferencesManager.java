@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 
 import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.settings.options.SettingID3v2Version;
+import com.alex.mirash.boogietapcounter.settings.options.SettingPlayNextMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingRoundMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingSaveMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
@@ -114,6 +115,19 @@ public class PreferencesManager {
 
     public static void setSaveMode(@NonNull SettingSaveMode value) {
         putInt(Const.KEY_SAVE_MODE, value.ordinal());
+    }
+
+    @NonNull
+    public static SettingPlayNextMode getPlayNextMode() {
+        int position = getInt(Const.KEY_PLAY_NEXT_MODE, -1);
+        if (position == -1) {
+            return SettingPlayNextMode.getDefaultValue();
+        }
+        return SettingPlayNextMode.getValue(position);
+    }
+
+    public static void setPlayNextMode(@NonNull SettingPlayNextMode value) {
+        putInt(Const.KEY_PLAY_NEXT_MODE, value.ordinal());
     }
 
     public static boolean getAutoRefreshValue() {

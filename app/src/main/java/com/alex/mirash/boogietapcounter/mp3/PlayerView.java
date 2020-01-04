@@ -3,6 +3,7 @@ package com.alex.mirash.boogietapcounter.mp3;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -12,7 +13,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.alex.mirash.boogietapcounter.R;
+import com.alex.mirash.boogietapcounter.settings.Settings;
+import com.alex.mirash.boogietapcounter.settings.options.SettingPlayNextMode;
 import com.google.android.material.button.MaterialButton;
+
+import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
 
 /**
  * @author Mirash
@@ -21,6 +26,7 @@ public class PlayerView extends LinearLayout {
     private View prevButton;
     private View nextButton;
     private MaterialButton playPauseButton;
+    private MaterialButton playNextModeButton;
     private TextView titleTextView;
     private TextView positionTextView;
     private TextView bpmTextView;
@@ -47,6 +53,7 @@ public class PlayerView extends LinearLayout {
         prevButton = findViewById(R.id.player_button_previous);
         nextButton = findViewById(R.id.player_button_next);
         playPauseButton = findViewById(R.id.player_button_play_pause);
+        playNextModeButton = findViewById(R.id.player_button_play_next_mode);
         titleTextView = findViewById(R.id.player_song_name);
         titleTextView.setSelected(true);
         positionTextView = findViewById(R.id.player_song_position);
@@ -55,6 +62,9 @@ public class PlayerView extends LinearLayout {
         seekBar = findViewById(R.id.player_progress_bar);
         timeProgressTextView = findViewById(R.id.player_song_progress_time);
         durationTextView = findViewById(R.id.player_song_duration);
+        playNextModeButton.setOnClickListener(v -> Settings.get().changePlayNextMode());
+        applyPlayNextMode(Settings.get().getPlayNextMode());
+        Settings.get().addPlayNextModeObserver(this::applyPlayNextMode);
     }
 
     public void setPreviousButtonClickListener(OnClickListener onClickListener) {
@@ -87,14 +97,14 @@ public class PlayerView extends LinearLayout {
     }
 
     public void setSongBpm(int bpm) {
-        bpmTextView.setText(bpm < 0 ? "" : String.valueOf(bpm));
+        bpmTextView.setText(bpm < 0 ? "" : "bpm: " + bpm);
     }
 
     public void setID3v2Version(String version) {
         if (version == null) {
             id3v2TextView.setText("");
         } else {
-            id3v2TextView.setText("(v" + version + ")");
+            id3v2TextView.setText("tag v" + version + "");
         }
     }
 
@@ -117,5 +127,10 @@ public class PlayerView extends LinearLayout {
         if (changed) {
             timeProgressTextView.setText(timeHolder.toString());
         }
+    }
+
+    public void applyPlayNextMode(SettingPlayNextMode playNextMode) {
+        Log.d(TAG, "applyPlayNextMode: " + playNextMode);
+        playNextMode.updateButton(playNextModeButton);
     }
 }

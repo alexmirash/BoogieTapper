@@ -17,6 +17,7 @@ import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.ToastUtils;
 import com.alex.mirash.boogietapcounter.settings.Settings;
+import com.alex.mirash.boogietapcounter.settings.options.SettingPlayNextMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingSaveMode;
 import com.alex.mirash.boogietapcounter.settings.unit.UnitValue;
 import com.mpatric.mp3agic.InvalidDataException;
@@ -113,7 +114,22 @@ public class Mp3PlayerControl {
                     mediaPlayer.setOnCompletionListener(mp -> {
                         Log.d(TAG, "onComplete");
                         stopUpdateSongProgress();
-                        playNextFile();
+                        playerView.setPlaying(false);
+                        SettingPlayNextMode playNextMode = Settings.get().getPlayNextMode();
+                        switch (playNextMode) {
+                            case NEXT_FILE:
+                                playNextFile();
+                                break;
+                            case REPEAT:
+                                mediaPlayer.seekTo(0);
+                                applyPlayerViewProgress();
+                                start();
+                                break;
+                            case NONE:
+                                mediaPlayer.seekTo(0);
+                                applyPlayerViewProgress();
+                                break;
+                        }
                     });
                     mediaPlayer.setOnErrorListener((mp, what, extra) -> {
                         Log.e(TAG, "onError: " + what + ", " + extra);
@@ -158,15 +174,19 @@ public class Mp3PlayerControl {
             updateTimeTask = new Runnable() {
                 @Override
                 public void run() {
-                    long currentDuration = mediaPlayer.getCurrentPosition();
-                    float progress = PlayerUtils.getProgress(currentDuration, mediaPlayer.getDuration());
-                    playerView.setProgressTime(currentDuration);
-                    playerView.setProgress(progress);
+                    applyPlayerViewProgress();
                     handler.postDelayed(this, SONG_PROGRESS_UPDATE_INTERVAL);
                 }
             };
             handler.postDelayed(updateTimeTask, SONG_PROGRESS_UPDATE_INTERVAL);
         }
+    }
+
+    private void applyPlayerViewProgress() {
+        long currentDuration = mediaPlayer.getCurrentPosition();
+        float progress = PlayerUtils.getProgress(currentDuration, mediaPlayer.getDuration());
+        playerView.setProgressTime(currentDuration);
+        playerView.setProgress(progress);
     }
 
     private void stopUpdateSongProgress() {

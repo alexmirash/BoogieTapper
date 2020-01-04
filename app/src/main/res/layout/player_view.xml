@@ -32,16 +32,6 @@
             android:layout_height="0dp"
             />
         <TextView
-            android:id="@+id/player_id3v2_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            />
-        <Space
-            android:layout_width="@dimen/minor_margin"
-            android:layout_height="0dp"
-            />
-        <TextView
             android:id="@+id/player_song_bpm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -77,23 +67,48 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/player_button_previous"
-            style="@style/PlayerIconButton"
-            android:layout_gravity="start"
-            app:icon="@drawable/ic_navigate_before_black_24dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            >
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/player_button_previous"
+                style="@style/PlayerIconButton"
+                app:icon="@drawable/ic_navigate_before_black_24dp"
+                />
+            <Space
+                android:layout_width="@dimen/small_margin"
+                android:layout_height="0dp"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/player_button_play_pause"
+                style="@style/PlayerIconButton"
+                />
+            <Space
+                android:layout_width="@dimen/small_margin"
+                android:layout_height="0dp"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/player_button_next"
+                style="@style/PlayerIconButton"
+                app:icon="@drawable/ic_navigate_next_black_24dp"
+                />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/player_id3v2_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|bottom"
+            android:textColor="@color/colorAccent"
             />
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/player_button_next"
+            android:id="@+id/player_button_play_next_mode"
             style="@style/PlayerIconButton"
             android:layout_gravity="end"
-            app:icon="@drawable/ic_navigate_next_black_24dp"
-            />
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/player_button_play_pause"
-            style="@style/PlayerIconButton"
-            android:layout_gravity="center"
-            app:icon="@drawable/ic_play_circle_outline_black_24dp"
+            app:icon="@drawable/ic_repeat_black_24dp"
+            app:iconTint="@null"
             />
     </FrameLayout>
 </merge>
