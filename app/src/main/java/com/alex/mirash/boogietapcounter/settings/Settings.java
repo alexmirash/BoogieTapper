@@ -2,11 +2,15 @@ package com.alex.mirash.boogietapcounter.settings;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.settings.options.SettingID3v2Version;
 import com.alex.mirash.boogietapcounter.settings.options.SettingRoundMode;
+import com.alex.mirash.boogietapcounter.settings.options.SettingSaveMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
+import com.alex.mirash.boogietapcounter.tapper.tool.Const;
 import com.alex.mirash.boogietapcounter.tapper.tool.PreferencesManager;
 
 import java.util.ArrayList;
@@ -22,7 +26,8 @@ public class Settings {
     private SettingTapMode tapMode;
     private SettingUnit unit;
     private SettingRoundMode roundMode;
-    private SettingID3v2Version settingID3v2Version;
+    private SettingID3v2Version id3v2Version;
+    private SettingSaveMode saveMode;
     private boolean isAutoRefresh;
     private boolean isAddBpmToFileName;
     private boolean isShowOutputDetails;
@@ -40,17 +45,21 @@ public class Settings {
         tapMode = PreferencesManager.getTapMode();
         unit = PreferencesManager.getUnit();
         roundMode = PreferencesManager.getRoundMode();
-        settingID3v2Version = PreferencesManager.getID3v2Version();
+        id3v2Version = PreferencesManager.getID3v2Version();
+        saveMode = PreferencesManager.getSaveMode();
         isAutoRefresh = PreferencesManager.getAutoRefreshValue();
         isAddBpmToFileName = PreferencesManager.getAddBpmToFileNameValue();
-        isShowOutputDetails = PreferencesManager.getShowOutputDetails();
+
+        isShowOutputDetails = Const.IS_SHOW_OUTPUT_DETAILS_DEFAULT_VALUE;
+        PreferencesManager.remove(Const.KEY_SHOW_OUTPUT_DETAILS);
     }
 
+    @NonNull
     public SettingTapMode getTapMode() {
         return tapMode;
     }
 
-    public void setTapMode(SettingTapMode mode) {
+    public void setTapMode(@NonNull SettingTapMode mode) {
         if (tapMode != mode) {
             tapMode = mode;
             PreferencesManager.setTapMode(mode);
@@ -58,11 +67,12 @@ public class Settings {
         }
     }
 
+    @NonNull
     public SettingUnit getUnit() {
         return unit;
     }
 
-    public void setUnit(SettingUnit value) {
+    public void setUnit(@NonNull SettingUnit value) {
         if (unit != value) {
             unit = value;
             PreferencesManager.setUnit(value);
@@ -70,11 +80,12 @@ public class Settings {
         }
     }
 
+    @NonNull
     public SettingRoundMode getRoundMode() {
         return roundMode;
     }
 
-    public void setRoundMode(SettingRoundMode value) {
+    public void setRoundMode(@NonNull SettingRoundMode value) {
         if (roundMode != value) {
             roundMode = value;
             PreferencesManager.setRoundMode(value);
@@ -82,13 +93,24 @@ public class Settings {
         }
     }
 
-    public SettingID3v2Version getSettingID3v2Version() {
-        return settingID3v2Version;
+    @NonNull
+    public SettingID3v2Version getId3v2Version() {
+        return id3v2Version;
     }
 
-    public void setSettingID3v2Version(SettingID3v2Version value) {
-        settingID3v2Version = value;
+    public void setId3v2Version(@NonNull SettingID3v2Version value) {
+        id3v2Version = value;
         PreferencesManager.setID3v2Version(value);
+    }
+
+    @NonNull
+    public SettingSaveMode getSaveMode() {
+        return saveMode;
+    }
+
+    public void setSaveMode(@NonNull SettingSaveMode value) {
+        saveMode = value;
+        PreferencesManager.setSaveMode(value);
     }
 
     public boolean isAutoRefresh() {

@@ -3,7 +3,7 @@ package com.alex.mirash.boogietapcounter;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -41,29 +41,24 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import static com.alex.mirash.boogietapcounter.tapper.tool.Const.TAG;
 
-public class MainActivity extends BasePermissionsActivity implements NavigationView.OnNavigationItemSelectedListener, EventsListener, Mp3PlayerCallback {
-
+public class MainActivity extends BasePermissionsActivity implements EventsListener, Mp3PlayerCallback {
     private static final float DRAWER_PARALLAX_RATIO = 0.25f;
 
     private BeatController beatController;
     private View contentContainerView;
     private DataOutputView outputView;
     private SaveButton bpmSaveButton;
-
+    private View refreshView;
     private DrawerLayout drawer;
 
     private Animation refreshAnimation;
-    private NavigationView navigationView;
-
     private Mp3PlayerControl mp3PlayerControl;
 
     private SettingChangeObserver<SettingUnit> unitUpdateObserver;
-
     private SettingChangeObserver<SettingRoundMode> roundModeUpdateObserver;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -96,8 +91,7 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
         versionTextView.setText(Utils.getAppVersion());
         Utils.initEasterEgg(drawer.findViewById(R.id.drawer_image), drawer.findViewById(R.id.drawer_hbk_logo));
 
-        navigationView = findViewById(R.id.navigation_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
         navigationView.addHeaderView(new SettingsView(this));
 
         initTapElements();
@@ -105,7 +99,11 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
         bpmSaveButton.setOnClickListener(v -> {
             DataHolder dataHolder = beatController.getData();
             if (dataHolder != null) {
-                mp3PlayerControl.saveBpm(dataHolder.getPreferredUnitValue());
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    mp3PlayerControl.saveBpm(dataHolder.getPreferredUnitValue());
+                } else {
+                    ToastUtils.showLongToast("=( Sorry, but this action requires API >= " + Build.VERSION_CODES.O);
+                }
             }
         });
         mp3PlayerControl = new Mp3PlayerControl(findViewById(R.id.mp3_player));
@@ -170,8 +168,6 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem item = menu.findItem(R.id.action_refresh);
-        item.getIcon().setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
         return true;
     }
 
@@ -179,12 +175,17 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            View refreshView = findViewById(R.id.action_refresh);
+            if (refreshView == null) {
+                refreshView = findViewById(R.id.action_refresh);
+            }
             if (refreshView != null) {
                 refreshView.startAnimation(refreshAnimation);
             }
             beatController.refresh();
             return true;
+        } else if (id == R.id.action_file_open) {
+            performTaskOnPermissionsGranted(result -> showFilePicker(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
         }
         return super.onOptionsItemSelected(item);
     }
@@ -230,7 +231,9 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
             return;
         }
         PreferencesManager.setLastFilePath(folder.getPath());
-        mp3PlayerControl.initialize(Collections.singletonList(file));
+        List<File> mp3Files = new ArrayList<>(1);
+        mp3Files.add(file);
+        mp3PlayerControl.initialize(mp3Files);
         bpmSaveButton.setVisibility(View.VISIBLE);
     }
 
@@ -270,17 +273,6 @@ public class MainActivity extends BasePermissionsActivity implements NavigationV
             button.setBackgroundTintList(ColorStateList.valueOf(
                     ContextCompat.getColor(this, R.color.colorPrimary)));
         }
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-        if (id == R.id.nav_menu_pick_file) {
-            performTaskOnPermissionsGranted(result -> showFilePicker(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
-        }
-        return true;
     }
 
     @Override

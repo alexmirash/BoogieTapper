@@ -62,6 +62,22 @@
             />
     </LinearLayout>
     <include layout="@layout/view_delimiter" />
+    <!-- save option -->
+    <LinearLayout
+        android:id="@+id/settings_save_option_item"
+        style="@style/NavItemStyle"
+        >
+        <TextView
+            style="@style/NavLabelStyle"
+            android:text="@string/settings_save_option_label"
+            />
+        <Spinner
+            android:id="@+id/settings_save_option_spinner"
+            style="@style/NavSpinnerStyle"
+            android:entries="@array/save_options"
+            />
+    </LinearLayout>
+    <include layout="@layout/view_delimiter" />
     <!--filename-->
     <FrameLayout
         android:id="@+id/settings_bpm_filename_item"

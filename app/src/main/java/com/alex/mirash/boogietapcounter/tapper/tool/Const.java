@@ -15,6 +15,7 @@ public final class Const {
     public static final String KEY_ADD_BPM_TO_FILENAME = "add_filename_bpm";
     public static final String KEY_SHOW_OUTPUT_DETAILS = "show_output_details";
     public static final String KEY_ID_3V2_VERSION = "id3v2v";
+    public static final String KEY_SAVE_MODE = "save_mode";
     public static final String KEY_LAST_FILE_PATH = "last_file_path";
     public static final String APP_MODIFIED = "TaПрас_modified";
     public static final long SEC_IN_MINUTE = TimeUnit.MINUTES.toSeconds(1);

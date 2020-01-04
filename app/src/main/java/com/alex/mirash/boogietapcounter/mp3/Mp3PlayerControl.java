@@ -11,14 +11,15 @@ import android.view.View;
 import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.R;
 import com.alex.mirash.boogietapcounter.ToastUtils;
 import com.alex.mirash.boogietapcounter.settings.Settings;
+import com.alex.mirash.boogietapcounter.settings.options.SettingSaveMode;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
-import com.mpatric.mp3agic.NotSupportedException;
 import com.mpatric.mp3agic.UnsupportedTagException;
 
 import java.io.File;
@@ -135,15 +136,20 @@ public class Mp3PlayerControl {
                     return;
                 }
                 start();
-                playerView.setSongInfo(new SongInfo(file.getName(), position, files.size(),
-                        mediaPlayer.getDuration()));
-                playerView.setSongBpm(FileHelper.getBpm(mp3File));
-                playerView.setID3v2Version(FileHelper.getID3v2Version(mp3File));
+                playerView.setSongInfo(new SongInfo(file.getName(), position, files.size(), mediaPlayer.getDuration()));
+                if (mp3File != null) {
+                    updateSongTagInfo(mp3File);
+                }
                 if (callback != null) {
                     callback.onFilePlayStart();
                 }
             }
         }
+    }
+
+    private void updateSongTagInfo(Mp3File mp3File) {
+        playerView.setSongBpm(FileHelper.getBpm(mp3File));
+        playerView.setID3v2Version(FileHelper.getID3v2Version(mp3File));
     }
 
     private void startUpdateSongProgress() {
@@ -207,19 +213,31 @@ public class Mp3PlayerControl {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void saveBpm(float bpm) {
         int roundBpm = Settings.get().getRoundMode().round(bpm);
         Log.d(TAG, "saveBpm: " + bpm + " -> " + roundBpm);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            try {
-                File result = FileHelper.writeBpmTag(files.get(currentPosition), null, roundBpm);
-                if (result != null && result.exists()) {
-                    ToastUtils.showLongToast(String.format(BoogieApp.getInstance().getString(R.string.save_success_message), result.getPath()));
+        SettingSaveMode saveMode = Settings.get().getSaveMode();
+        File baseFile = files.get(currentPosition);
+        File resultFile = saveMode.saveBpm(baseFile, mp3Files.get(currentPosition), roundBpm);
+        if (resultFile != null && resultFile.exists()) {
+            if (saveMode == SettingSaveMode.REWRITE) {
+                files.set(currentPosition, resultFile);
+                Mp3File mp3File;
+                try {
+                    mp3File = new Mp3File(resultFile);
+                } catch (IOException | UnsupportedTagException | InvalidDataException ignored) {
+                    mp3File = null;
                 }
-            } catch (InvalidDataException | IOException | UnsupportedTagException | NotSupportedException e) {
-                Log.e(TAG, "saveBpm Failed: " + e);
-                ToastUtils.showToast("BPM save failed");
+                if (mp3File != null) {
+                    mp3Files.setValueAt(currentPosition, mp3File);
+                    updateSongTagInfo(mp3File);
+                }
             }
+            ToastUtils.showLongToast(String.format(BoogieApp.getInstance().getString(R.string.save_success_message), resultFile.getPath()));
+        } else {
+            Log.e(TAG, "saveBpm failed");
+            ToastUtils.showToast("BPM save failed");
         }
     }
 

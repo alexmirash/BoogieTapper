@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import com.alex.mirash.boogietapcounter.BoogieApp;
 import com.alex.mirash.boogietapcounter.settings.options.SettingID3v2Version;
 import com.alex.mirash.boogietapcounter.settings.options.SettingRoundMode;
+import com.alex.mirash.boogietapcounter.settings.options.SettingSaveMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingTapMode;
 import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
 
@@ -102,6 +103,19 @@ public class PreferencesManager {
         putInt(Const.KEY_ID_3V2_VERSION, version.ordinal());
     }
 
+    @NonNull
+    public static SettingSaveMode getSaveMode() {
+        int position = getInt(Const.KEY_SAVE_MODE, -1);
+        if (position == -1) {
+            return SettingSaveMode.getDefaultValue();
+        }
+        return SettingSaveMode.getValue(position);
+    }
+
+    public static void setSaveMode(@NonNull SettingSaveMode value) {
+        putInt(Const.KEY_SAVE_MODE, value.ordinal());
+    }
+
     public static boolean getAutoRefreshValue() {
         return getBool(Const.KEY_AUTO_REFRESH, Const.AUTO_REFRESH_DEFAULT_VALUE);
     }
@@ -124,6 +138,10 @@ public class PreferencesManager {
 
     public static void setShowOutputDetails(boolean isShowDetails) {
         putBool(Const.KEY_SHOW_OUTPUT_DETAILS, isShowDetails);
+    }
+
+    public static void remove(String key) {
+        getPreferences().edit().remove(key).apply();
     }
 
     public static String getLastFilePath() {
