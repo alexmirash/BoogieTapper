@@ -58,8 +58,8 @@ public class OutputCellView extends FrameLayout implements Highlightable {
     }
 
     protected static class ValueFormat {
-        private int precision;
-        private String strFormat;
+        private final int precision;
+        private final String strFormat;
 
         public ValueFormat(int precision) {
             this.precision = precision;

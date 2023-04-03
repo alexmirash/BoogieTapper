@@ -17,14 +17,14 @@ import com.alex.mirash.boogietapcounter.tapper.data.DataHolder;
  */
 
 public class DataOutputView extends LinearLayout implements Highlightable {
-    private OutputCellView tactView;
-    private OutputCellView beatView;
-    private OutputCellView tactIntervalView;
-    private OutputCellView beatIntervalView;
-    private View detailsView;
+    private final OutputCellView tactView;
+    private final OutputCellView beatView;
+    private final OutputCellView tactIntervalView;
+    private final OutputCellView beatIntervalView;
+    private final View detailsView;
 
-    private String emptyString;
-    private String measuringStartedEmptyString;
+    private final String emptyString;
+    private final String measuringStartedEmptyString;
 
     public DataOutputView(Context context, AttributeSet attrs) {
         super(context, attrs);

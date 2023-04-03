@@ -34,7 +34,7 @@ public enum SettingUnit {
         return beats;
     }
 
-    private int beats;
+    private final int beats;
 
     @NonNull
     public abstract UnitValue getUnitValue(float bpm);

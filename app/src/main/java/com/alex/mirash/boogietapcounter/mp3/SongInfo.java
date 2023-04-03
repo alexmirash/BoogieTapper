@@ -4,10 +4,10 @@ package com.alex.mirash.boogietapcounter.mp3;
  * @author Mirash
  */
 public class SongInfo {
-    private String title;
-    private int position;
-    private int totalCount;
-    private long duration;
+    private final String title;
+    private final int position;
+    private final int totalCount;
+    private final long duration;
 
     public SongInfo(String title, int position, int totalCount, long duration) {
         if (title != null && title.endsWith(".mp3")) {

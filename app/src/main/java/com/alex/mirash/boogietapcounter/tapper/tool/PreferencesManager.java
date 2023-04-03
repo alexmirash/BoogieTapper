@@ -18,7 +18,7 @@ import com.alex.mirash.boogietapcounter.settings.options.SettingUnit;
  */
 
 public class PreferencesManager {
-    private SharedPreferences preferences;
+    private final SharedPreferences preferences;
 
     private static SharedPreferences getPreferences() {
         return BoogieApp.getInstance().getPreferences().preferences;

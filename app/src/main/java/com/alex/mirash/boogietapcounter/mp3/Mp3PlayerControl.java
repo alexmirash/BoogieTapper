@@ -36,7 +36,7 @@ import static com.alex.mirash.boogietapcounter.tapper.tool.Const.SONG_PROGRESS_U
 public class Mp3PlayerControl {
     public static final String TAG = "mp3Control";
 
-    private PlayerView playerView;
+    private final PlayerView playerView;
     private MediaPlayer mediaPlayer;
     private List<File> files;
     private SparseArray<Mp3File> mp3Files;

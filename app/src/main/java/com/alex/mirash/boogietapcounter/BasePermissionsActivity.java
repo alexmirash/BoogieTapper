@@ -22,8 +22,8 @@ public abstract class BasePermissionsActivity extends AppCompatActivity {
     private static final String TAG = "PermissionsCheck";
     private int requestCode;
 
-    private SparseArray<ResultCallback> callbacks = new SparseArray<>();
-    private Queue<PermissionRequest> pendingRequests = new LinkedList<>();
+    private final SparseArray<ResultCallback> callbacks = new SparseArray<>();
+    private final Queue<PermissionRequest> pendingRequests = new LinkedList<>();
 
     @Override
     protected void onDestroy() {
@@ -34,6 +34,7 @@ public abstract class BasePermissionsActivity extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.d(TAG, "onRequestPermissionsResult requestCode = " + requestCode);
         ResultCallback callback = callbacks.get(requestCode);
         if (callback != null) {
@@ -92,7 +93,7 @@ public abstract class BasePermissionsActivity extends AppCompatActivity {
             }
         } else {
             int requestCode = getPermissionRequestCode();
-            callbacks.put(requestCode, callback == null ? (ResultCallback) value -> {
+            callbacks.put(requestCode, callback == null ? value -> {
             } : callback);
             ActivityCompat.requestPermissions(this, requestPermissions.toArray(new String[0]), requestCode);
         }

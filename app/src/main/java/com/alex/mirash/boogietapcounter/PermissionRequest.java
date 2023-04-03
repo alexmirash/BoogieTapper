@@ -4,8 +4,8 @@ package com.alex.mirash.boogietapcounter;
  * @author Mirash
  */
 public class PermissionRequest {
-    private String[] permissions;
-    private ResultCallback callback;
+    private final String[] permissions;
+    private final ResultCallback callback;
 
     public PermissionRequest(ResultCallback callback, String... permissions) {
         this.callback = callback;

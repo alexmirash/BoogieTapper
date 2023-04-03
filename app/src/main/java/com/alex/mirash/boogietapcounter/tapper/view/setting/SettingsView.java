@@ -94,7 +94,7 @@ public class SettingsView extends LinearLayout {
         itemView.setOnClickListener(v -> checkBox.setChecked(!checkBox.isChecked()));
     }
 
-    private abstract class OnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+    private abstract static class OnItemSelectedListener implements AdapterView.OnItemSelectedListener {
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
         }
