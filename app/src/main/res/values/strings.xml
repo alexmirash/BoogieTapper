@@ -1,24 +1,24 @@
 <resources>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="settings_tap_mode_label">Тапать каждый</string>
-    <string name="select_file_title">Выбери папку или файл</string>
+    <string name="settings_tap_mode_label">Тапати кожний</string>
+    <string name="select_file_title">Обрати теку чи файл</string>
     <string-array name="tap_modes">
-        <item>бит</item>
-        <item>2й счёт</item>
-        <item>4й счёт</item>
-        <item>8й счёт</item>
+        <item>біт</item>
+        <item>2й рахунок</item>
+        <item>4й рахунок</item>
+        <item>8й рахунок</item>
     </string-array>
-    <string name="settings_unit_label">Еденицы темпа</string>
+    <string name="settings_unit_label">Одиниці темпу</string>
     <string-array name="temp_units">
-        <item>биты</item>
-        <item>такты (4 бита)</item>
+        <item>біти</item>
+        <item>такти (4 біти)</item>
     </string-array>
-    <string name="settings_round_mode_label">Округление</string>
-    <string name="settings_id3v2v_label">Версия ID3v2</string>
-    <string name="settings_bpm_filename_label">Добавлять (такт) в имя файла</string>
-    <string name="settings_show_output_details_label">Показывать ненужную хрень</string>
-    <string name="settings_save_option_label">Сохранение BPM</string>
+    <string name="settings_round_mode_label">Округлення</string>
+    <string name="settings_id3v2v_label">Версія ID3v2</string>
+    <string name="settings_bpm_filename_label">Додавати (такт) до імені файлу</string>
+    <string name="settings_show_output_details_label">Показувати якусь муру</string>
+    <string name="settings_save_option_label">Збереження BPM</string>
     <string-array name="round_modes">
         <item>round</item>
         <item>ceil</item>
@@ -29,20 +29,20 @@
         <item>ID3v24</item>
     </string-array>
     <string-array name="save_options">
-        <item>Копия файла</item>
-        <item>Тот же файл</item>
+        <item>Копія файлу</item>
+        <item>Той же файл</item>
     </string-array>
-    <string name="output_bpm_label">Биты:</string>
-    <string name="output_tact_label">Такты:</string>
-    <string name="output_beat_interval_label">Интервал (биты), сек:</string>
-    <string name="output_tact_interval_label">Интервал (такты), сек:</string>
-    <string name="tap_button_label_main">ТАПНИ МЕНЯ</string>
-    <string name="tap_button_label_bottom_beat">(каждый счёт)</string>
-    <string name="tap_button_label_bottom_second_beat">(каждый 2й счёт)</string>
-    <string name="tap_button_label_bottom_four_beat">(каждый 4й счёт)</string>
-    <string name="tap_button_label_bottom_eight_beat">(каждую восьмёрку)</string>
+    <string name="output_bpm_label">Біти:</string>
+    <string name="output_tact_label">Такти:</string>
+    <string name="output_beat_interval_label">Інтервал (біты), сек:</string>
+    <string name="output_tact_interval_label">Інтервал (такти), сек:</string>
+    <string name="tap_button_label_main">ТАПНИ МЕНЕ</string>
+    <string name="tap_button_label_bottom_beat">(кожний рахунок)</string>
+    <string name="tap_button_label_bottom_second_beat">(кожний 2й рахунок)</string>
+    <string name="tap_button_label_bottom_four_beat">(кожний 4й рахунок)</string>
+    <string name="tap_button_label_bottom_eight_beat">(кожну вісімку)</string>
     <string name="empty_measurement_started_value">--</string>
     <string name="empty_value">\u0020</string>
-    <string name="save_success_message">Сохранено успешно в:\n%s</string>
+    <string name="save_success_message">Збережено до:\n%s</string>
 
 </resources>

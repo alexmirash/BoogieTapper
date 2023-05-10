@@ -236,6 +236,7 @@ public class MainActivity extends BasePermissionsActivity implements EventsListe
         bpmSaveButton.setVisibility(View.VISIBLE);
     }
 
+    //this functionality won't work on Android 13+, work with Files like that is not available anymore
     private void showFilePicker() {
         String lastPath = PreferencesManager.getLastFilePath();
         DialogProperties properties = new DialogProperties();
